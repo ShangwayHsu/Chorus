@@ -1,0 +1,64 @@
+.incomplete {
+  background: #EF5350;
+  color: white;
+}
+
+.complete {
+  background: #2196F3;
+  color: white;
+}
+.mdl-layout__content {
+  background: #EEEEEE;
+}
+.my-chores-btn {
+  padding: 20px;
+  width: 300px;
+  margin:0,auto;
+  text-align: left;
+}
+
+.center-my-chores {
+  padding: 20px;
+  text-align: center;
+}
+
+.chore-item {
+  background-color: #CFD8DC;
+  border: none;
+  color: #263238;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 30px;
+}
+
+.add-chore-btn {
+  padding: 0px;
+  margin: 0px;
+}
+.mdl-layout__content {
+  text-align: center;
+  display: block;
+}
+.mdl-grid{
+  justify-content: center;
+}
+
+.mdl-cell {
+  background-color: #ECEFF1;
+}
+
+.chore-list ul {
+  /*  padding-left: 70px;
+  padding-bottom: 20px; */
+  display:inline-block;
+}
+
+.home-title {
+
+  color: #455A64;
+}
