@@ -50,15 +50,13 @@
                     </tr>
                   </thead>
                   <tbody>
+                    
+                    {{#each housemates}}
                     <tr>
-                      <td class="mdl-data-table__cell--non-numeric">Jennifer Feng</td>
+                      <td class="mdl-data-table__cell--non-numeric">{{name}}</td>
                     </tr>
-                    <tr>
-                      <td class="mdl-data-table__cell--non-numeric">Shangway Hsu</td>
-                    </tr>
-                    <tr>
-                      <td class="mdl-data-table__cell--non-numeric">Sugath Madurawe</td>
-                    </tr>
+                    {{/each}}
+
                   </tbody>
                 </table>
               </div>
