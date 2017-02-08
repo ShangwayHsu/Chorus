@@ -33,6 +33,48 @@
       <div class="main-content">
 
         <h1> Add New Chore </h1>
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--6-col demo-card-square mdl-card mdl-shadow--2dp add-chore-form">
+            <form action="#">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label chore-entry">
+                <input class="mdl-textfield__input" type="text" id="chore-name">
+                <label class="mdl-textfield__label" for="chore-name">Chore Name</label>
+              </div>
+
+              <div>
+                <h6 class="assign-to"> Assign To:</h6>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp chore-entry">
+                  <thead>
+                    <tr>
+                      <th class="mdl-data-table__cell--non-numeric">All Housemates</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">Jennifer Feng</td>
+                    </tr>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">Shangway Hsu</td>
+                    </tr>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">Sugath Madurawe</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="mdl-textfield mdl-js-textfield chore-entry">
+                <textarea class="mdl-textfield__input" type="text" rows= "5" id="chore-description" ></textarea>
+                <label class="mdl-textfield__label" for="chore-description">Description...</label>
+              </div>
+            </form>
+            <div class="center-btn">
+            <button class="done mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--red-400">
+              Done
+            </button>
+          </div>
+          </div>
+        </div>
 
 
 

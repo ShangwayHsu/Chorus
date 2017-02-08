@@ -22,7 +22,7 @@
   text-align: left;
 }
 
-.center-my-chores {
+.center-btn {
   padding: 20px;
   text-align: center;
 }
@@ -66,4 +66,24 @@
 .home-title {
 
   color: #455A64;
+}
+.assign-to {
+  margin:auto;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.chore-entry {
+  margin:auto;
+  margin-bottom: 30px;
+}
+.add-chore-form {
+  padding: 20px;
+  text-align: center;
+  display: block;
+}
+
+.done {
+  text-align: center;
+  margin: auto;
+  width: 40%;
 }
