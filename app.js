@@ -11,6 +11,10 @@ var index = require('./routes/index');
 var addChore = require('./routes/addChore');
 var viewChores = require('./routes/viewChores');
 var choreDetails = require('./routes/choreDetails');
+var switchGroups = require('./routes/switchGroups');
+var editMembers = require('./routes/editMembers');
+var editProfile = require('./routes/editProfile');
+var login = require('./routes/login');
 
 // Example route
 // var user = require('./routes/user');
@@ -42,6 +46,11 @@ app.get('/', index.view);
 app.get('/add-chore', addChore.view);
 app.get('/view-chores', viewChores.view);
 app.get('/chore/:name', choreDetails.view);
+app.get('/switch-groups', switchGroups.view);
+app.get('/edit-members', editMembers.view);
+app.get('/edit-profile', editProfile.view);
+app.get('/login', login.view);
+
 
 // Example route
 // app.get('/users', user.list);
