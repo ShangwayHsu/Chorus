@@ -3,6 +3,11 @@
   color: white;
 }
 
+.mdl-layout-title {
+  color: white;
+  text-decoration: none;
+}
+
 .complete {
   background: #2196F3;
   color: white;
