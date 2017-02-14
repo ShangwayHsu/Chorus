@@ -11,7 +11,13 @@ var choresSchema = mongoose.Schema({
     type: String,
     default: "No description..."
   },
-  assignedTo:{
+  assignedTo:[{
+    user_id:{
+      type: Number,
+      required: true
+    }
+  }],
+  group_id: {
     type: Number,
     required: true
   }
@@ -20,7 +26,7 @@ var choresSchema = mongoose.Schema({
 var Chores = module.exports = mongoose.model('Chores', choresSchema);
 
 // get chore
-module.exports.getChores = function(callback) {
+module.exports.getAllChores = function(callback) {
   Chores.find(callback);
 }
 
