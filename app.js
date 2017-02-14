@@ -9,61 +9,20 @@ var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var mongoose = require('mongoose');
 app.use(bodyParser.json());
 
 // Decalre models
-Chores = require('./models/chores');
-Groups = require('./models/groups');
-Users = require('./models/users');
+Chore = require('./models/chore');
+HousingGroup = require('./models/housingGroup');
+User = require('./models/user');
 
 // Connect to mongoose
 mongoose.connect('mongodb://localhost/chorus');
 var db = mongoose.connetion;
 
-//-----------  API routes -----------
 
-// GET chores
-app.get('/api/chores', function(req, res){
-  Chores.getAllChores(function(err, chores) {
-    if (err) {
-      throw err;
-    }
-    res.json(chores);
-  });
-});
-
-// ADD chores
-app.post('/api/chores', function(req, res){
-  var chore = req.body;
-  Chores.addChore(chore, function(err, chores) {
-    if (err) {
-      throw err;
-    }
-    res.json(chore);
-  })
-});
-
-// GET groups
-app.get('/api/groups', function(req, res){
-  Groups.getAllGroups(function(err, groups) {
-    if (err) {
-      throw err;
-    }
-    res.json(groups);
-  });
-});
-
-// ADD groups
-app.post('/api/groups', function(req, res){
-  var group = req.body;
-  Groups.addGroup(group, function(err, groups) {
-    if (err) {
-      throw err;
-    }
-    res.json(group);
-  })
-});
 
 //----------- View routes -----------
 var index = require('./routes/index');
@@ -86,8 +45,8 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-app.use(express.cookieParser('Intro HCI secret key'));
-app.use(express.session());
+app.use(express.cookieParser());
+app.use(express.session({secret:"ulfj39dk02ijgu3of", resave:false, saveUninitialized:true}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -105,6 +64,105 @@ app.get('/switch-groups', switchGroups.view);
 app.get('/edit-members', editMembers.view);
 app.get('/edit-profile', editProfile.view);
 app.get('/login', login.view);
+
+//-----------  API routes -----------
+
+// home page if user is here.
+app.get('/dashboard', function(req, res) {
+  if (!req.session.user) {
+    return res.status(401).send("No user logged in!");
+  }
+  var currUser = req.session.user;
+  return res.status(200).send("Thank you for returning, " + currUser.name);
+});
+
+// login
+app.post('/login', function(req, res, next) {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  User.findOne({username: username, password: password}, function(err, user) {
+    if (err) {
+
+      console.log(err);
+      return res.status(500).send();
+    }
+
+    if (!user) {
+      return res.status(404).send("Incorrect user or password ");
+    }
+
+    // save user in session
+    req.session.user = user;
+    return res.status(200).send("Welcome " + user.name);
+  })
+});
+
+// Register User
+app.post('/register', function(req, res){
+  var username = req.body.username;
+  var password = req.body.password;
+  var name = req.body.name;
+  var email = req.body.email;
+
+  var newuser = new User()
+  newuser.username = username;
+  newuser.password = password;
+  newuser.name = name;
+  newuser.email = email;
+
+  // User mongoose save method to save to db
+  newuser.save(function(err, savedUser) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send();
+    }
+    return res.status(200).send();
+  })
+});
+
+// GET chores
+app.get('/api/chores', function(req, res){
+  Chore.getAllChores(function(err, chores) {
+    if (err) {
+      throw err;
+    }
+    res.json(chores);
+  });
+});
+
+// ADD chores
+app.post('/api/chores', function(req, res){
+  var chore = req.body;
+  Chore.addChore(chore, function(err, chores) {
+    if (err) {
+      throw err;
+    }
+    res.json(chore);
+  })
+});
+
+// GET groups
+app.get('/api/groups', function(req, res){
+  Groups.getAllGroups(function(err, groups) {
+    if (err) {
+      throw err;
+    }
+    res.json(groups);
+  });
+});
+
+// ADD groups
+app.post('/api/groups', function(req, res){
+  var group = req.body;
+  HousingGroup.addGroup(group, function(err, groups) {
+    if (err) {
+      throw err;
+    }
+    res.json(group);
+  })
+});
+
 
 //----------- Serve -----------
 http.createServer(app).listen(app.get('port'), function(){

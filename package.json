@@ -2,21 +2,20 @@
   "name": "Chorus",
   "version": "0.0.1",
   "author": "we love sugath <3",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/IntroHCI/lab4"
   },
   "license": "",
-
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
+    "body-parser": "*",
     "express": "3.x",
+    "express-session": "^1.15.1",
     "express3-handlebars": "*",
-    "body-parser":"*",
     "mongodb": "*",
     "mongoose": "*"
   },

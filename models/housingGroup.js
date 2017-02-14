@@ -9,24 +9,24 @@ var groupsSchema = mongoose.Schema({
   },
   members:[{
     user_id: {
-      type: Number
+      type: String
     }
   }],
   chores:[{
     chore_id: {
-      type: Number
+      type: String
     }
   }]
 });
 
-var Groups = module.exports = mongoose.model('Groups', groupsSchema);
+var HousingGroup = module.exports = mongoose.model('HousingGroup', groupsSchema);
 
 // get chore
 module.exports.getAllGroups= function(callback) {
-  Groups.find(callback);
+  HousingGroup.find(callback);
 }
 
 // add chore
 module.exports.addGroup = function(group, callback) {
-  Groups.create(group, callback);
+  HousingGroup.create(group, callback);
 }

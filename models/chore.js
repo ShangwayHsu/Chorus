@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 // chores schema
 
-var choresSchema = mongoose.Schema({
+var choreSchema = mongoose.Schema({
   name:{
     type: String,
     required: true
@@ -13,24 +13,24 @@ var choresSchema = mongoose.Schema({
   },
   assignedTo:[{
     user_id:{
-      type: Number,
+      type: String,
       required: true
     }
   }],
   group_id: {
-    type: Number,
+    type: String,
     required: true
   }
 });
 
-var Chores = module.exports = mongoose.model('Chores', choresSchema);
+var Chore = module.exports = mongoose.model('Chore', choreSchema);
 
 // get chore
 module.exports.getAllChores = function(callback) {
-  Chores.find(callback);
+  Chore.find(callback);
 }
 
 // add chore
 module.exports.addChore = function(chore, callback) {
-  Chores.create(chore, callback);
+  Chore.create(chore, callback);
 }
