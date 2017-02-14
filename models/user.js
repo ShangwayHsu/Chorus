@@ -26,6 +26,10 @@ var userSchema = mongoose.Schema({
   in_groups:[{
     group_id: {
       type: String
+    },
+    defaultGroup: {
+      type: Boolean,
+      default: false
     }
   }]
 });
@@ -33,8 +37,14 @@ var userSchema = mongoose.Schema({
 var User = module.exports = mongoose.model('User', userSchema);
 
 // get user
-module.exports.getAllUsers= function(callback) {
+module.exports.getAllUsers = function(callback) {
   User.find(callback);
+}
+
+// get default user group
+module.exports.getCurrGroup = function(userId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.find({_id: currId}, {in_groups: {$elemMatch: {defaultGroup: true}}}, callback)
 }
 
 // add user

@@ -53,12 +53,12 @@
             <div class="mdl-card__actions mdl-card--border">
               <ul class="mdl-list">
 
-                {{#each incompleted-chores}}
+                {{#each uncompleted-chores}}
                 <li class="show-info mdl-list__item">
-                  <span class="mdl-list__item-primary-content">
+                  <span id={{chore_id}} class="mdl-list__item-primary-content">
                     <i class="material-icons mdl-list__item-icon">navigate_next</i>
                     <a type="button" class="mdl-chip">
-                      <span class="mdl-chip__text">{{name}}</span>
+                      <span id={{chore_id}} class="mdl-chip__text">{{chore_name}}</span>
                     </a>
                   </span>
                 </li>
@@ -86,10 +86,10 @@
 
                 {{#each completed-chores}}
                 <li class="show-info mdl-list__item">
-                  <span class="mdl-list__item-primary-content">
+                  <span id={{chore_id}} class="mdl-list__item-primary-content">
                     <i class="material-icons mdl-list__item-icon">check_circle</i>
                     <a type="button" class="mdl-chip">
-                      <span class="mdl-chip__text">{{name}}</span>
+                      <span id={{chore_id}} class="mdl-chip__text">{{chore_name}}</span>
                     </a>
                   </span>
                 </li>
@@ -109,13 +109,19 @@
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script>
     $('.show-info').click(function (e) {
-        var choreName = $(e.target).text();
-        var description = "this is the description of out chore....";
-        showChore({
-            title: choreName,
-            text: description,
-            people: ['Jennifer Feng', 'Sugath Madurawe']
+        var choreId = e.target.id;
+        $.get('http://localhost:3000/api/chores/' + choreId, function(chore) {
+          chore = chore[0]
+          var choreName = chore.name;
+          var description = chore.description;
+          var assignedPeople = chore.assignedTo;
+          showChore({
+              title: choreName,
+              text: description,
+              people: assignedPeople
+          })
         })
+
     });
 
     $('#show-my-chores').click(function (e) {

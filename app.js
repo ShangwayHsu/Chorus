@@ -11,6 +11,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
+var ObjectID = require('mongodb').ObjectID;
 app.use(bodyParser.json());
 
 // Decalre models
@@ -72,21 +73,30 @@ app.get('/dashboard', function(req, res) {
   if (!req.session.user) {
     return res.status(401).send("No user logged in!");
   }
+
+  // get the current user
   var currUser = req.session.user;
-  res.render('index', {
-    'incompleted-chores': [
-      {'name': 'Clean Kitchen'},
-      {'name': 'Clean Dishes'},
-      {'name': 'Vacuum Carpet'},
-      {'name': 'Take Out Trash'}
-    ],
-    'completed-chores': [
-      {'name': 'Buy Toiletry'},
-      {'name': 'Refill Soap'},
-      {'name': 'Sweep Floor'}
-    ]
+  var userId = currUser['_id'];
+  // get which group user in
+  var currGroup =
+  User.getCurrGroup(userId, function(err, chores) {
+    if (err) { throw err; }
+    currGroup = chores[0].in_groups[0].group_id;
+    console.log(currGroup);
+
+    HousingGroup.getGroupById(String(currGroup), function(err, group) {
+      if (err) { throw err; }
+      var uncompletedChoreList = group[0].uncompletedChores;
+      var completedChoreList = group[0].completedChores;
+
+      // render index with chore lists
+      res.render('index', {
+        'uncompleted-chores': uncompletedChoreList,
+        'completed-chores': completedChoreList
+      });
+    });
   });
-  //return res.status(200).send("Thank you for returning, " + currUser.name);
+
 });
 
 // login
@@ -135,12 +145,16 @@ app.post('/register', function(req, res){
 });
 
 // GET chores
-app.get('/api/chores', function(req, res){
-  Chore.getAllChores(function(err, chores) {
+app.get('/api/chores/:id', function(req, res){
+
+  var choreId = req.params.id 
+
+  Chore.getChoreById(choreId, function(err, chore) {
     if (err) {
       throw err;
     }
-    res.json(chores);
+
+    res.json(chore);
   });
 });
 
@@ -157,7 +171,7 @@ app.post('/api/chores', function(req, res){
 
 // GET groups
 app.get('/api/groups', function(req, res){
-  Groups.getAllGroups(function(err, groups) {
+  HousingGroup.getAllGroups(function(err, groups) {
     if (err) {
       throw err;
     }

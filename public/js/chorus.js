@@ -50,7 +50,7 @@ function showChore(options) {
         $('<p>' + "Assigned To:" + '</p>').appendTo(content);
         var assignedPeople = '<div class="assigned-people">';
         for (var i = 0; i < options.people.length; i++) {
-          assignedPeople += '<div class="assigned-person mdl-chip"><span class="mdl-chip__text">' + options.people[i] + '</span></div>';
+          assignedPeople += '<div class="assigned-person mdl-chip"><span class="mdl-chip__text">' + options.people[i].name + '</span></div>';
         }
         assignedPeople += '</div>';
         $(assignedPeople).appendTo(content);
