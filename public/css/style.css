@@ -88,7 +88,15 @@
   width: 40%;
 }
 
+.todo-table-title {
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
 
+.chore-check {
+  padding-left: 20px;
+}
 
 /*
   Modal CSS
@@ -122,7 +130,7 @@
     min-height: 25px;
     margin: 10% auto;
     z-index: 99999;
-    padding: 16px 16px 16px 16px;
+    padding: 16px 16px 30px 30px;
 }
 
 .dialog-button-bar {

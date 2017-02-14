@@ -73,7 +73,20 @@ app.get('/dashboard', function(req, res) {
     return res.status(401).send("No user logged in!");
   }
   var currUser = req.session.user;
-  return res.status(200).send("Thank you for returning, " + currUser.name);
+  res.render('index', {
+    'incompleted-chores': [
+      {'name': 'Clean Kitchen'},
+      {'name': 'Clean Dishes'},
+      {'name': 'Vacuum Carpet'},
+      {'name': 'Take Out Trash'}
+    ],
+    'completed-chores': [
+      {'name': 'Buy Toiletry'},
+      {'name': 'Refill Soap'},
+      {'name': 'Sweep Floor'}
+    ]
+  });
+  //return res.status(200).send("Thank you for returning, " + currUser.name);
 });
 
 // login

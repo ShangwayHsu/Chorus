@@ -38,7 +38,7 @@
         <h3 class="home-title"> Week 1/3 - 1/9 </h3>
         <!-- My Chores button -->
         <div class="center-btn">
-          <a href="/view-chores" class="my-chores-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--lime-600">
+          <a id="show-my-chores" class="my-chores-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--lime-600">
             View My Chores
           </a>
         </div>
@@ -116,6 +116,13 @@
             text: description,
             people: ['Jennifer Feng', 'Sugath Madurawe']
         })
+    });
+
+    $('#show-my-chores').click(function (e) {
+        var chores = ['Clean Kitchen', 'Buy Toiletry', "Refill Soap"];
+        showMyChores({
+            chores: chores
+        });
     });
     </script>
     </html>
