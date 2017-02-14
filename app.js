@@ -5,8 +5,41 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var handlebars = require('express3-handlebars')
+var handlebars = require('express3-handlebars');
+var app = express();
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
+app.use(bodyParser.json());
+// Decalre models
+Chores = require('./models/chores');
+
+// Connect to mongoose
+mongoose.connect('mongodb://localhost/chorus');
+var db = mongoose.connetion;
+
+// API routes
+
+app.get('/api/chores', function(req, res){
+  Chores.getChores(function(err, chores) {
+    if (err) {
+      throw err;
+    }
+    res.json(chores);
+  });
+});
+
+app.post('/api/chores', function(req, res){
+  var chore = req.body;
+  Chores.addChore(chore, function(err, chores) {
+    if (err) {
+      throw err;
+    }
+    res.json(chore);
+  })
+});
+
+// Front end routes
 var index = require('./routes/index');
 var addChore = require('./routes/addChore');
 var viewChores = require('./routes/viewChores');
@@ -16,10 +49,6 @@ var editMembers = require('./routes/editMembers');
 var editProfile = require('./routes/editProfile');
 var login = require('./routes/login');
 
-// Example route
-// var user = require('./routes/user');
-
-var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
