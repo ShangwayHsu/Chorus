@@ -4,6 +4,8 @@
   <title>Chorus - Home</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
 </head>
 <body>
 
@@ -31,28 +33,43 @@
     <main class="mdl-layout__content">
       <!-- PAGE CONTENT STARTS HERE -->
       <div class="main-content">
+        <dialog class="mdl-dialog">
+          <h4 class="mdl-dialog__title">Error</h4>
+          <div class="mdl-dialog__content">
+            <p id="error-message">
 
+            </p>
+          </div>
+          <div class="mdl-dialog__actions">
+            <button id="close-dialog" type="button" class="mdl-button mdl-js-button">Ok</button>
+          </div>
+        </dialog>
         <h1> Add New Chore </h1>
         <div class="mdl-grid">
           <div class="mdl-cell mdl-cell--6-col demo-card-square mdl-card mdl-shadow--2dp add-chore-form">
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label chore-entry">
-                <input class="mdl-textfield__input" type="text" id="chore-name">
+                <input class="mdl-textfield__input" type="text" id="chore-name"/>
                 <label class="mdl-textfield__label" for="chore-name">Chore Name</label>
               </div>
 
               <div>
                 <h6 class="assign-to"> Assign To:</h6>
-                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp chore-entry">
+                <table class="mdl-data-table mdl-shadow--2dp chore-entry">
                   <thead>
                     <tr>
-                      <th class="mdl-data-table__cell--non-numeric">All Housemates</th>
+                      <th class="mdl-data-table__cell--non-numeric">Housemates</th>
                     </tr>
                   </thead>
                   <tbody>
 
                     {{#each housemates}}
                     <tr>
+                      <td>
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for={{user_id}}>
+                          <input type="checkbox" id={{user_id}} class="mdl-checkbox__input" value="{{name}}"/>
+                        </label>
+                      </td>
                       <td class="mdl-data-table__cell--non-numeric">{{name}}</td>
                     </tr>
                     {{/each}}
@@ -67,10 +84,10 @@
               </div>
             </form>
             <div class="center-btn">
-            <button class="done mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--red-400">
-              Done
-            </button>
-          </div>
+              <button id="done-add-chore" value={{groupId}} class="done mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--red-400">
+                Done
+              </button>
+            </div>
           </div>
         </div>
 
@@ -84,4 +101,61 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script>
+$('#close-dialog').click(function(e){
+  var dialog = document.querySelector('dialog');
+  dialog.close();
+});
+$("#done-add-chore").click(function (e) {
+  var assignedToList = [];
+  var choreName = $('#chore-name').val();
+  var choreDescription = $('#chore-description').val();
+  var groupId = $("#done-add-chore").val()
+
+  // collect users checked
+  $( ".mdl-checkbox__input" ).each(function( index ) {
+    if ($(this).is(':checked')) {
+      assignedToList.push({user_id: $(this).attr('id'), name: $(this).val()});
+    }
+  });
+
+  if (assignedToList.length == 0) {
+    var dialog = document.querySelector('dialog');
+    $("#error-message").html('Please assign chore to a housemate.');
+    dialog.showModal();
+    return;
+  } else if (choreName.length < 5) {
+    var dialog = document.querySelector('dialog');
+    $("#error-message").html('Chore name needs to be longer than 5 characters!');
+    dialog.showModal();
+    return;
+  }
+
+  xhr = new XMLHttpRequest();
+  var url = "http://localhost:3000/api/chores";
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var json = JSON.parse(xhr.responseText);
+      console.log(json)
+    }
+  }
+  var data = JSON.stringify({ "name" : choreName,
+  "description" : choreDescription,
+  "assignedTo" : assignedToList,
+  "group_id": groupId });
+  xhr.send(data);
+
+  console.log(choreName);
+  console.log(choreDescription);
+  console.log(JSON.stringify(assignedToList));
+  console.log(groupId);
+});
+
+
+
+
+
+</script>
 </html>

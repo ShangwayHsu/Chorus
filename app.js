@@ -67,7 +67,27 @@ app.get('/edit-profile', editProfile.view);
 app.get('/login', login.view);
 
 //-----------  API routes -----------
+// GET chores
+app.get('/api/test', function(req, res){
+  var currUser = req.session.user;
 
+  User.getCurrGroup(currUser._id, function(err, userGroup) {
+    if (err) { throw err; }
+    groupId = userGroup[0].in_groups[0].group_id;
+    HousingGroup.getMembers(groupId, function(err, members) {
+      if (err) {
+        throw err;
+      }
+      members = members[0]
+      console.log(members.members);
+
+  });
+
+
+
+    res.json(userGroup);
+  });
+});
 // home page if user is here.
 app.get('/dashboard', function(req, res) {
   if (!req.session.user) {
@@ -79,15 +99,26 @@ app.get('/dashboard', function(req, res) {
   var userId = currUser['_id'];
   // get which group user in
   var currGroup =
-  User.getCurrGroup(userId, function(err, chores) {
+  User.getCurrGroup(userId, function(err, userGroup) {
     if (err) { throw err; }
-    currGroup = chores[0].in_groups[0].group_id;
+    currGroup = userGroup[0].in_groups[0].group_id;
     console.log(currGroup);
 
     HousingGroup.getGroupById(String(currGroup), function(err, group) {
       if (err) { throw err; }
-      var uncompletedChoreList = group[0].uncompletedChores;
-      var completedChoreList = group[0].completedChores;
+      var allChoresList = group[0].chores;
+      var uncompletedChoreList = [];
+      var completedChoreList = [];
+
+      for (var i = 0; i < allChoresList.length; i++) {
+        if (allChoresList[i].completed) {
+          completedChoreList.push(allChoresList[i]);
+        } else {
+          uncompletedChoreList.push(allChoresList[i]);
+        }
+      }
+      console.log(allChoresList);
+      console.log(completedChoreList);
 
       // render index with chore lists
       res.render('index', {
@@ -160,21 +191,40 @@ app.get('/api/chores/:id', function(req, res){
 
 // ADD chores
 app.post('/api/chores', function(req, res){
+
   var chore = req.body;
-  Chore.addChore(chore, function(err, chores) {
+
+  // add chore to chores
+  Chore.addChore(chore, function(err, chore) {
     if (err) {
       throw err;
     }
     res.json(chore);
-  })
+    var assignedToList = chore.assignedTo;
+
+    // add chore to group
+    HousingGroup.addChore(chore.id, chore.name, chore.group_id, function(err, group) {
+      if (err) {throw err;}
+    });
+
+    // add chore to EACH user assigned to
+    for (var i = 0; i < assignedToList.length; i++){
+      var userId = assignedToList[i].user_id;
+
+      User.addChore(chore.id, chore.name, userId, function(err, group) {
+        if (err) {throw err;}
+      });
+    }
+
+  });
+
+
 });
 
 // GET groups
 app.get('/api/groups', function(req, res){
   HousingGroup.getAllGroups(function(err, groups) {
-    if (err) {
-      throw err;
-    }
+    if (err) {throw err;}
     res.json(groups);
   });
 });

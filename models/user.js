@@ -21,6 +21,9 @@ var userSchema = mongoose.Schema({
   chores:[{
     chore_id: {
       type: String
+    },
+    chore_name: {
+      type: String
     }
   }],
   in_groups:[{
@@ -50,4 +53,11 @@ module.exports.getCurrGroup = function(userId, callback) {
 // add user
 module.exports.addUser = function(group, callback) {
   User.create(group, callback);
+}
+
+// add chore
+module.exports.addChore = function(choreId, choreName, userId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  var newChore = {chore_id: choreId, chore_name: choreName};
+  User.update({_id: currId}, {$push: {chores: newChore}},callback);
 }
