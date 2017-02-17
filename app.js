@@ -130,7 +130,7 @@ app.get('/dashboard', function(req, res) {
           uncompletedChoreList.push(allChoresList[i]);
         }
       }
-
+      console.log(allChoresList);
       // render index with chore lists
       res.render('index', {
         'uncompleted-chores': uncompletedChoreList,

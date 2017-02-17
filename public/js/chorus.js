@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+
+
   $("#logout").click(function(e) {
     $.post('/logout');
     window.location.href = "/";
@@ -17,7 +19,7 @@ $(document).ready(function() {
         text: description,
         people: assignedPeople
       })
-    })
+    });
 
   });
 
