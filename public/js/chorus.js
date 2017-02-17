@@ -127,10 +127,14 @@ function showMyChores(options) {
 
     var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
 
-    var doneButton = $('<button class="bruh-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white" id="my-chores-done">' + "Done" + '</button>');
+    var doneButton = $('<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--green-500 mdl-color-text--white" id="my-chores-done">' + "Done" + '</a>');
 
     doneButton.appendTo(buttonBar);
     buttonBar.appendTo(content);
+
+    $('#my-chores-done').click(function(e) {
+      hideDialog(dialog);
+    });
 
     if (options.cancelable) {
         dialog.click(function () {
