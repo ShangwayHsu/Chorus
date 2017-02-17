@@ -172,9 +172,14 @@ app.post('/login', function(req, res, next) {
   })
 });
 
+// logout
+app.post('/logout', function(req, res, next) {
+  delete req.session.user;
+});
+
 // Register User
 app.post('/register', function(req, res){
-  console.log("we out here fam");
+
   var username = req.body.username;
   var password = req.body.password;
   var name = req.body.name;

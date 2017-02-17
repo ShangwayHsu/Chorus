@@ -28,7 +28,7 @@
         <a class="mdl-navigation__link" href="/switch-groups">Switch Groups</a>
         <a class="mdl-navigation__link" href="/edit-members">Edit Members</a>
         <a class="mdl-navigation__link" href="/edit-profile">Edit Profile</a>
-        <a class="mdl-navigation__link" href="/login">Sign Out</a>
+        <a id="logout" class="mdl-navigation__link">Sign Out</a>
       </nav>
     </div>
     <main class="mdl-layout__content">
@@ -108,6 +108,12 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script>
+
+    $("#logout").click(function(e) {
+      $.post('/logout');
+      window.location.href = "/";
+    });
+
     $('.show-info').click(function (e) {
         var choreId = e.target.id;
         $.get('/api/chores/chore=' + choreId, function(chore) {
