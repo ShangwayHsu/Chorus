@@ -36,9 +36,7 @@
         <dialog class="mdl-dialog">
           <h4 class="mdl-dialog__title">Error</h4>
           <div class="mdl-dialog__content">
-            <p id="error-message">
-
-            </p>
+            <p id="error-message"> </p>
           </div>
           <div class="mdl-dialog__actions">
             <button id="close-dialog" type="button" class="mdl-button mdl-js-button">Ok</button>
@@ -90,9 +88,6 @@
             </div>
           </div>
         </div>
-
-
-
       </div>
     </main>
   </div>
@@ -130,27 +125,16 @@ $("#done-add-chore").click(function (e) {
     dialog.showModal();
     return;
   }
+  var url = "/api/chores";
+  var data = { "name" : choreName,
+               "description" : choreDescription,
+               "assignedTo" : assignedToList,
+               "group_id": groupId };
+  $.post(url, data);
 
-  xhr = new XMLHttpRequest();
-  var url = "http://localhost:3000/api/chores";
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/json");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var json = JSON.parse(xhr.responseText);
-      console.log(json)
-    }
-  }
-  var data = JSON.stringify({ "name" : choreName,
-  "description" : choreDescription,
-  "assignedTo" : assignedToList,
-  "group_id": groupId });
-  xhr.send(data);
+  // redirect back to homepage
+  window.location.href = "/dashboard";
 
-  console.log(choreName);
-  console.log(choreDescription);
-  console.log(JSON.stringify(assignedToList));
-  console.log(groupId);
 });
 
 

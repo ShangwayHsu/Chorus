@@ -116,7 +116,7 @@ function showMyChores(options) {
         myChores += '<tbody>';
         for (var i = 0; i < options.chores.length; i++) {
           myChores += '<tr>';
-          var checkboxes = '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-'+ i +' "> <input type="checkbox" id="checkbox-' + i + '" class="mdl-checkbox__input"> <span class="mdl-checkbox__label chore-check">'+ options.chores[i] +'</span> </label>';
+          var checkboxes = '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-'+ i +' "> <input type="checkbox" id="checkbox-' + i + '" class="mdl-checkbox__input"> <span class="mdl-checkbox__label chore-check">'+ options.chores[i].chore_name +'</span> </label>';
           myChores +='<td class="mdl-data-table__cell--non-numeric">' + checkboxes +'</td>';
           myChores += '</tr>';
         }

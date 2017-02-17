@@ -24,6 +24,9 @@ var userSchema = mongoose.Schema({
     },
     chore_name: {
       type: String
+    },
+    group_id: {
+      type: String
     }
   }],
   in_groups:[{
@@ -47,7 +50,13 @@ module.exports.getAllUsers = function(callback) {
 // get default user group
 module.exports.getCurrGroup = function(userId, callback) {
   var currId = mongoose.Types.ObjectId(userId);
-  User.find({_id: currId}, {in_groups: {$elemMatch: {defaultGroup: true}}}, callback)
+  User.find({_id: currId}, {in_groups: {$elemMatch: {defaultGroup: true}}}, callback);
+}
+
+// get all chores of user
+module.exports.getAllChoresByGroup = function(userId, groupId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.find({_id: currId}, callback);
 }
 
 // add user
@@ -56,8 +65,8 @@ module.exports.addUser = function(group, callback) {
 }
 
 // add chore
-module.exports.addChore = function(choreId, choreName, userId, callback) {
+module.exports.addChore = function(choreId, choreName, userId, groupId, callback) {
   var currId = mongoose.Types.ObjectId(userId);
-  var newChore = {chore_id: choreId, chore_name: choreName};
+  var newChore = {chore_id: choreId, chore_name: choreName, group_id: groupId};
   User.update({_id: currId}, {$push: {chores: newChore}},callback);
 }

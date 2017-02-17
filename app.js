@@ -20,10 +20,26 @@ HousingGroup = require('./models/housingGroup');
 User = require('./models/user');
 
 // Connect to mongoose
-mongoose.connect('mongodb://localhost/chorus');
-var db = mongoose.connetion;
-
-
+var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
+var dbURI = 'mongodb://chorus:welovesugath@ds161495.mlab.com:61495/chorus'
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() { console.log("Connected to MLab!"); });
+mongoose.connection.on('connecting', function () {
+  console.info('MongoDB: Trying: ' + dbURI); });
+mongoose.connection.on('connected', function () {
+  console.info('MongoDB: Successfully connected to: ' + dbURI); });
+mongoose.connection.on('error',function (err) {
+  console.error('MongoDB: ERROR connecting to: ' + dbURI + ' - ' + err); });
+mongoose.connection.on('close',function (err) {
+  console.error('MongoDB: Connection Closed'); });
+mongoose.connection.on('reconnected', function () {
+  console.warn('MongoDB: Database link was reconnected'); });
+mongoose.connection.on('disconnected', function () {
+  console.error('MongoDB: The connection was ended on: ' + dbURI ); });
+mongoose.connect(dbURI);
+//mongoose.createConnection(mongoUrl);
 
 //----------- View routes -----------
 var index = require('./routes/index');
@@ -57,7 +73,6 @@ if ('development' == app.get('env')) {
 }
 
 //----------- Add routes here -----------
-app.get('/', index.view);
 app.get('/add-chore', addChore.view);
 app.get('/view-chores', viewChores.view);
 app.get('/chore/:name', choreDetails.view);
@@ -82,29 +97,36 @@ app.get('/api/test', function(req, res){
       console.log(members.members);
 
   });
-
-
-
     res.json(userGroup);
   });
 });
+
+app.get('/', function(req, res) {
+  if (!req.session.user) {
+    return res.redirect('/login')
+  } else {
+    res.redirect('/dashboard')
+  }
+})
+
 // home page if user is here.
 app.get('/dashboard', function(req, res) {
   if (!req.session.user) {
-    return res.status(401).send("No user logged in!");
+    return res.redirect('/login')
   }
 
   // get the current user
   var currUser = req.session.user;
-  var userId = currUser['_id'];
+  var userId = currUser._id;
+
   // get which group user in
   var currGroup =
   User.getCurrGroup(userId, function(err, userGroup) {
     if (err) { throw err; }
-    currGroup = userGroup[0].in_groups[0].group_id;
-    console.log(currGroup);
+    // get curent group id
+    groupId = userGroup[0].in_groups[0].group_id;
 
-    HousingGroup.getGroupById(String(currGroup), function(err, group) {
+    HousingGroup.getGroupById(groupId, function(err, group) {
       if (err) { throw err; }
       var allChoresList = group[0].chores;
       var uncompletedChoreList = [];
@@ -117,17 +139,17 @@ app.get('/dashboard', function(req, res) {
           uncompletedChoreList.push(allChoresList[i]);
         }
       }
-      console.log(allChoresList);
-      console.log(completedChoreList);
 
       // render index with chore lists
       res.render('index', {
         'uncompleted-chores': uncompletedChoreList,
-        'completed-chores': completedChoreList
+        'completed-chores': completedChoreList,
+        'curr-user-id': userId,
+        'curr-group-id': groupId
+
       });
     });
   });
-
 });
 
 // login
@@ -137,7 +159,6 @@ app.post('/login', function(req, res, next) {
 
   User.findOne({username: username, password: password}, function(err, user) {
     if (err) {
-
       console.log(err);
       return res.status(500).send();
     }
@@ -145,7 +166,6 @@ app.post('/login', function(req, res, next) {
     if (!user) {
       return res.status(404).send("Incorrect user or password ");
     }
-
     // save user in session
     req.session.user = user;
     return res.status(200).send("Welcome " + user.name);
@@ -154,6 +174,7 @@ app.post('/login', function(req, res, next) {
 
 // Register User
 app.post('/register', function(req, res){
+  console.log("we out here fam");
   var username = req.body.username;
   var password = req.body.password;
   var name = req.body.name;
@@ -175,9 +196,22 @@ app.post('/register', function(req, res){
   })
 });
 
-// GET chores
-app.get('/api/chores/:id', function(req, res){
+// GET all chores of user
+app.get('/api/chores/user=:userId&group=:groupId', function(req, res){
+  var userId = req.params.userId;
+  var groupId = req.params.groupId;
 
+  User.getAllChoresByGroup(userId, groupId, function(err, chores) {
+    if (err) {
+      throw err;
+    }
+
+    res.json(chores);
+  });
+});
+
+// GET chores
+app.get('/api/chores/chore=:id', function(req, res){
   var choreId = req.params.id 
 
   Chore.getChoreById(choreId, function(err, chore) {
@@ -191,7 +225,6 @@ app.get('/api/chores/:id', function(req, res){
 
 // ADD chores
 app.post('/api/chores', function(req, res){
-
   var chore = req.body;
 
   // add chore to chores
@@ -201,9 +234,10 @@ app.post('/api/chores', function(req, res){
     }
     res.json(chore);
     var assignedToList = chore.assignedTo;
+    var groupId = chore.group_id;
 
     // add chore to group
-    HousingGroup.addChore(chore.id, chore.name, chore.group_id, function(err, group) {
+    HousingGroup.addChore(chore.id, chore.name, groupId, function(err, group) {
       if (err) {throw err;}
     });
 
@@ -211,14 +245,11 @@ app.post('/api/chores', function(req, res){
     for (var i = 0; i < assignedToList.length; i++){
       var userId = assignedToList[i].user_id;
 
-      User.addChore(chore.id, chore.name, userId, function(err, group) {
+      User.addChore(chore.id, chore.name, userId, groupId, function(err, group) {
         if (err) {throw err;}
       });
     }
-
   });
-
-
 });
 
 // GET groups

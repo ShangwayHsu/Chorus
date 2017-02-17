@@ -42,5 +42,7 @@ module.exports.getChoreById = function(choreId, callback) {
 
 // add chore
 module.exports.addChore = function(chore, callback) {
+  // add chore to chore list
   Chore.create(chore, callback);
+
 }

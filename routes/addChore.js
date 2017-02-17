@@ -6,7 +6,7 @@ User = require('../models/user');
 
 exports.view = function(req, res){
   if (!req.session.user) {
-    return res.status(401).send("No user logged in!");
+    return res.redirect('/login')
   }
 
   var currUser = req.session.user;
