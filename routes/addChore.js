@@ -10,7 +10,6 @@ exports.view = function(req, res){
   }
 
   var currUser = req.session.user;
-
   User.getCurrGroup(currUser._id, function(err, userGroup) {
     if (err) { throw err; }
     groupId = userGroup[0].in_groups[0].group_id;
@@ -18,9 +17,8 @@ exports.view = function(req, res){
       if (err) {
         throw err;
       }
-
       members = members[0].members;
-      console.log(members)
+
       // render page
       res.render('addChore', {
         'housemates': members,

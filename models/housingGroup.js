@@ -48,7 +48,6 @@ module.exports.getGroupById= function(groupId, callback) {
 module.exports.getMembers = function(groupId, callback) {
   var currId = mongoose.Types.ObjectId(groupId);
   HousingGroup.find({"_id": currId}, {members: 1}, callback);
-
 }
 
 // add chore to group
@@ -62,4 +61,10 @@ module.exports.addChore = function(choreId, choreName, groupId, callback) {
 // add group
 module.exports.addGroup = function(group, callback) {
   HousingGroup.create(group, callback);
+}
+
+// update if chore completed/uncompleted
+module.exports.updateChoreComplete = function(groupId, choreId, completed, callback) {
+  var currId = mongoose.Types.ObjectId(groupId);
+  HousingGroup.update({"_id": currId, 'chores.chore_id': choreId}, {$set: {"chores.$.completed": completed}}, callback);
 }

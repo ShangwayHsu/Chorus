@@ -20,37 +20,30 @@ HousingGroup = require('./models/housingGroup');
 User = require('./models/user');
 
 // Connect to mongoose
-var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
 var dbURI = 'mongodb://chorus:welovesugath@ds161495.mlab.com:61495/chorus'
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() { console.log("Connected to MLab!"); });
-mongoose.connection.on('connecting', function () {
+db.on('connecting', function () {
   console.info('MongoDB: Trying: ' + dbURI); });
-mongoose.connection.on('connected', function () {
+db.on('connected', function () {
   console.info('MongoDB: Successfully connected to: ' + dbURI); });
-mongoose.connection.on('error',function (err) {
+db.on('error',function (err) {
   console.error('MongoDB: ERROR connecting to: ' + dbURI + ' - ' + err); });
-mongoose.connection.on('close',function (err) {
+db.on('close',function (err) {
   console.error('MongoDB: Connection Closed'); });
-mongoose.connection.on('reconnected', function () {
+db.on('reconnected', function () {
   console.warn('MongoDB: Database link was reconnected'); });
-mongoose.connection.on('disconnected', function () {
+db.on('disconnected', function () {
   console.error('MongoDB: The connection was ended on: ' + dbURI ); });
 mongoose.connect(dbURI);
-//mongoose.createConnection(mongoUrl);
 
 //----------- View routes -----------
-var index = require('./routes/index');
 var addChore = require('./routes/addChore');
-var viewChores = require('./routes/viewChores');
-var choreDetails = require('./routes/choreDetails');
 var switchGroups = require('./routes/switchGroups');
 var editMembers = require('./routes/editMembers');
 var editProfile = require('./routes/editProfile');
 var login = require('./routes/login');
-
 
 //----------- All environments -----------
 app.set('port', process.env.PORT || 3000);
@@ -74,8 +67,6 @@ if ('development' == app.get('env')) {
 
 //----------- Add routes here -----------
 app.get('/add-chore', addChore.view);
-app.get('/view-chores', viewChores.view);
-app.get('/chore/:name', choreDetails.view);
 app.get('/switch-groups', switchGroups.view);
 app.get('/edit-members', editMembers.view);
 app.get('/edit-profile', editProfile.view);
@@ -109,7 +100,7 @@ app.get('/', function(req, res) {
   }
 })
 
-// home page if user is here.
+// Home page
 app.get('/dashboard', function(req, res) {
   if (!req.session.user) {
     return res.redirect('/login')
@@ -211,7 +202,6 @@ app.get('/api/chores/user=:userId&group=:groupId', function(req, res){
     if (err) {
       throw err;
     }
-
     res.json(chores);
   });
 });
@@ -266,18 +256,38 @@ app.get('/api/groups', function(req, res){
   });
 });
 
-// ADD groups
+// POST groups
 app.post('/api/groups', function(req, res){
   var group = req.body;
   HousingGroup.addGroup(group, function(err, groups) {
-    if (err) {
-      throw err;
-    }
+    if (err) { throw err; }
     res.json(group);
   })
 });
 
+// PUT chore completed
+app.put('/api/groups/group=:groupId&chore=:choreId', function(req, res) {
+  var choreId = req.params.choreId;
+  var groupId = req.params.groupId;
+  var completed = req.body.completed;
 
+  HousingGroup.updateChoreComplete(groupId, choreId, completed, function(err, group) {
+    if (err) { throw err; }
+    res.json(group);
+  });
+});
+
+// PUT chore completed
+app.put('/api/users/user=:userId&chore=:choreId', function(req, res) {
+  var choreId = req.params.choreId;
+  var userId = req.params.userId;
+  var completed = req.body.completed;
+
+  User.updateChoreComplete(userId, choreId, completed, function(err, user) {
+    if (err) { throw err; }
+    res.json(user);
+  });
+});
 //----------- Serve -----------
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

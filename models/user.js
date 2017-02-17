@@ -27,6 +27,10 @@ var userSchema = mongoose.Schema({
     },
     group_id: {
       type: String
+    },
+    completed: {
+      type: Boolean,
+      default: false
     }
   }],
   in_groups:[{
@@ -69,4 +73,10 @@ module.exports.addChore = function(choreId, choreName, userId, groupId, callback
   var currId = mongoose.Types.ObjectId(userId);
   var newChore = {chore_id: choreId, chore_name: choreName, group_id: groupId};
   User.update({_id: currId}, {$push: {chores: newChore}},callback);
+}
+
+// update if chore completed/uncompleted
+module.exports.updateChoreComplete = function(userId, choreId, completed, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.update({"_id": currId, 'chores.chore_id': choreId}, {$set: {"chores.$.completed": completed}}, callback);
 }
