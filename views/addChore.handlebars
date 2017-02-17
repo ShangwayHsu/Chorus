@@ -5,6 +5,7 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="/js/chorus.js" type"text/javascript"></script>
 
 </head>
 <body>
@@ -22,12 +23,13 @@
       </div>
     </header>
     <div class="mdl-layout__drawer">
-      <span class="mdl-layout-title">Chorus</span>
+      <span class="mdl-layout-title mdl-color-text--grey-500">Chorus</span>
       <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="/">Home</a>
         <a class="mdl-navigation__link" href="/switch-groups">Switch Groups</a>
         <a class="mdl-navigation__link" href="/edit-members">Edit Members</a>
         <a class="mdl-navigation__link" href="/edit-profile">Edit Profile</a>
-        <a class="mdl-navigation__link" href="/login">Sign Out</a>
+        <a id="logout" class="mdl-navigation__link">Sign Out</a>
       </nav>
     </div>
     <main class="mdl-layout__content">
