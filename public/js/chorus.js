@@ -1,3 +1,61 @@
+$(document).ready(function() {
+
+  $("#logout").click(function(e) {
+    $.post('/logout');
+    window.location.href = "/";
+  });
+
+  $('.show-info').click(function (e) {
+      var choreId = e.target.id;
+      $.get('/api/chores/chore=' + choreId, function(chore) {
+        chore = chore[0]
+        var choreName = chore.name;
+        var description = chore.description;
+        var assignedPeople = chore.assignedTo;
+        showChore({
+            title: choreName,
+            text: description,
+            people: assignedPeople
+        })
+      })
+
+  });
+
+  $('#show-my-chores').click(function (e) {
+    // Curr user id stored in hidden div
+    var userId = $('.currUserId').attr('id');
+    var groupId = $('.currGroupId').attr('id');
+    $.get('/api/chores/user=' + userId + '&group=' + groupId, function(data) {
+      var chores = data[0].chores;
+      showMyChores({
+          chores: chores
+      });
+    });
+  });
+
+  function login() {
+    var username = $('#username').val();
+    var password = $('#password').val();
+    $.post('/login', {username: username, password: password}, function(data, err) {
+      console.log(data);
+      window.location.href = "/dashboard";
+    })
+    .fail(function(err) {
+      console.log(err.responseText);
+    });
+  }
+
+  $(document).keypress(function(e) {
+    if(e.which == 13) {
+      login();
+    }
+  });
+
+  $("#login-btn").click(function(e) {
+      login();
+  });
+
+});
 //
 // MDL modal js
 //
