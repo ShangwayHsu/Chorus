@@ -81,6 +81,66 @@ function hideLoading() {
   }, 400);
 }
 
+function showFormError(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    text: null,
+    people: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
+
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+
+  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+  if (options.title != null) {
+    $('<h3>' + options.title + '</h3>').appendTo(content);
+  }
+
+    $('<p>' + options.text + '</p>').appendTo(content);
+
+  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+
+  var okButton = $('<button id="error-done" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Ok" + '</button>');
+
+  okButton.appendTo(buttonBar);
+  buttonBar.appendTo(content);
+  $("#error-done").click(function(e) {
+    hideDialog(dialog);
+  });
+  componentHandler.upgradeDom();
+  if (options.cancelable) {
+    dialog.click(function () {
+      hideDialog(dialog);
+    });
+    $(document).bind("keyup.dialog", function (e) {
+      if (e.which == 27)
+      hideDialog(dialog);
+    });
+    content.click(function (e) {
+      e.stopPropagation();
+    });
+  }
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
+}
+
+
 function showChore(options) {
   options = $.extend({
     id: 'orrsDiag',
