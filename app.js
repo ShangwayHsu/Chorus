@@ -173,8 +173,9 @@ app.post('/login', function(req, res, next) {
 });
 
 // logout
-app.post('/logout', function(req, res, next) {
-  delete req.session.user;
+app.post('/logout', function(req, res) {
+  req.session.destroy();
+  console.log("logging out");
 });
 
 // Register User
