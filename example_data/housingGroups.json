@@ -1,0 +1,56 @@
+{
+	"_id": {
+		"$oid": "58a66f33f54f846f792610fe"
+	},
+	"name": "SD-APT",
+	"chores": [
+		{
+			"completed": false,
+			"_id": {
+				"$oid": "58a67423f54f846f79261104"
+			},
+			"chore_name": "Clean Dishes",
+			"chore_id": "58a67423f54f846f79261102"
+		},
+		{
+			"completed": false,
+			"_id": {
+				"$oid": "58a68b399e172880c9c52a9c"
+			},
+			"chore_name": "Take Out Trash",
+			"chore_id": "58a68b399e172880c9c52a99"
+		},
+		{
+			"completed": false,
+			"_id": {
+				"$oid": "58a68c099e172880c9c52aa3"
+			},
+			"chore_name": "Recycle Boxes",
+			"chore_id": "58a68c099e172880c9c52a9f"
+		}
+	],
+	"members": [
+		{
+			"user_id": "58a66ea4f54f846f792610fd",
+			"name": "Jennifer Feng",
+			"_id": {
+				"$oid": "58a66f33f54f846f79261101"
+			}
+		},
+		{
+			"user_id": "58a66c27f54f846f792610fb",
+			"name": "Sugath Madurawe",
+			"_id": {
+				"$oid": "58a66f33f54f846f79261100"
+			}
+		},
+		{
+			"user_id": "58a65b5a01bef16030d39f55",
+			"name": "Shangway Hsu",
+			"_id": {
+				"$oid": "58a66f33f54f846f792610ff"
+			}
+		}
+	],
+	"__v": 0
+}
