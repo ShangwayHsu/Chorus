@@ -65,6 +65,7 @@ $(document).ready(function() {
     // Curr user id stored in hidden div
     var userId = $('.currUserId').attr('id');
     var groupId = $('.currGroupId').attr('id');
+
     $.get('/api/chores/user=' + userId + '&group=' + groupId, function(data) {
       var chores = data[0].chores;
       showMyChores({
@@ -425,7 +426,9 @@ function showChore(options) {
     options.onLoaded();
   }, 1);
 }
-
+//
+// Show my chores
+//
 function showMyChores(options, groupId) {
   options = $.extend({
     id: 'orrsDiag',
@@ -455,8 +458,14 @@ function showMyChores(options, groupId) {
   if (options.chores != null) {
     var myChores = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color--green-500 mdl-color-text--white "><td><h5 class="todo-table-title">Todo</h5></td></tr></thead>';
     myChores += '<tbody>';
+    var choreCount = 0;
     for (var i = 0; i < options.chores.length; i++) {
+      if (options.chores[i].group_id !== options.groupId) {
+        continue;
+      }
+      choreCount += 1;
       var currChore = options.chores[i].chore_id;
+
       var isChecked = options.chores[i].completed;
       var checked = "";
       var choreName = options.chores[i].chore_name;
@@ -466,6 +475,12 @@ function showMyChores(options, groupId) {
       myChores += '<tr>';
       var checkboxes = '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="'+ currChore +' "> <input type="checkbox" id="' + currChore + '" class="chore-check mdl-checkbox__input"' +  checked + '> <span class="mdl-checkbox__label chore-check">'+ choreName +'</span> </label>';
       myChores +='<td class="mdl-data-table__cell--non-numeric">' + checkboxes +'</td>';
+      myChores += '</tr>';
+    }
+
+    if (choreCount == 0) {
+      myChores += '<tr>';
+      myChores +='<td class="mdl-data-table__cell--non-numeric">' + 'No Chores' +'</td>';
       myChores += '</tr>';
     }
     myChores += '</tbody>';
