@@ -1,15 +1,42 @@
 $(document).ready(function() {
+  $("#create-group-btn").click(function(e) {
+    var userId = $('.currUserId').attr('id');
+    var userName = $('.currUserName').attr('id');
+
+    showCreateGroup({
+      title: "Create Group",
+      userId: userId,
+      userName: userName
+    });
+  });
+
+  $("#join-group-btn").click(function(e) {
+    var userId = $('.currUserId').attr('id');
+    var userName = $('.currUserName').attr('id');
+
+    showJoinGroup({
+      title: "Enter Group ID",
+      userId: userId,
+      userName: userName
+    });
+  });
 
   $("#my-group").click(function(e) {
     var userId = $('.currUserId').attr('id');
     var groupId = $('.currGroupId').attr('id');
-    showMyGroup({
-      title: "Group Details",
-      groupName: "SD-APT",
-      groupId: groupId,
-      userId: userId,
-      people: ["shangway","jenn","suggy"]
-    });
+    var groupName = $('.currGroupName').attr('id');
+
+    $.get('/api/groups/group=' + groupId, function(group) {
+      var groupMembers = group[0].members;
+      showMyGroup({
+        title: "Group Details",
+        groupName: groupName,
+        groupId: groupId,
+        userId: userId,
+        people: groupMembers
+      });
+    })
+
   });
 
 
@@ -75,6 +102,173 @@ $(document).ready(function() {
 // MDL modal js
 //
 
+//
+// Create group
+//
+function showCreateGroup(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    userId: null,
+    userName: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
+
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+
+  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+  $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
+  $('<form action="#"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <input class="mdl-textfield__input" type="text" id="groupName"> <label class="mdl-textfield__label" for="groupName">Group Name</label> </div> </form>').appendTo(content);
+
+  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+  var createButton = $('<a id="create-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--green-400 mdl-color-text--white" style="margin:10px;">' + "Create" + '</a>');
+  var cancelButton = $('<a id="cancel-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised" style="margin:10px;">' + "Cancel" + '</a>');
+  createButton.appendTo(buttonBar);
+  cancelButton.appendTo(buttonBar);
+  buttonBar.appendTo(content);
+
+  // remove from group
+  $('#create-btn').click(function(e) {
+    // get group name
+    var groupName = $('#groupName').val();
+    console.log(groupName);
+    // create group
+    $.post('/api/groups/new', {
+      name: groupName,
+      members: [{user_id: options.userId, name: options.userName}]
+    }, function(group) {
+      console.log(group);
+      var groupId = group._id;
+      //add group to user
+      var uri = '/api/users/user=' + options.userId + '&group=' + groupId + '&groupName=' + groupName;
+      $.post(uri, function(data) {
+        console.log("Added group to user");
+        // go to dashboard
+        window.location.href = "/";
+      });
+
+    });
+
+  });
+
+  $('#cancel-btn').click(function(e) {
+    hideDialog(dialog);
+  });
+
+  dialog.click(function () {
+    hideDialog(dialog);
+  });
+  $(document).bind("keyup.dialog", function (e) {
+    if (e.which == 27)
+    hideDialog(dialog);
+  });
+  content.click(function (e) {
+    e.stopPropagation();
+  });
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
+}
+
+//
+// Join Group
+//
+function showJoinGroup(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    userId: null,
+    userName: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
+
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+
+  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+  $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
+  $('<form action="#"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <input class="mdl-textfield__input" type="text" id="groupId"> <label class="mdl-textfield__label" for="groupID">Group ID</label> </div> </form>').appendTo(content);
+
+  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+  var joinButton = $('<a id="join-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--blue-400 mdl-color-text--white" style="margin:10px;">' + "Join" + '</a>');
+  var cancelButton = $('<a id="cancel-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised" style="margin:10px;">' + "Cancel" + '</a>');
+  joinButton.appendTo(buttonBar);
+  cancelButton.appendTo(buttonBar);
+  buttonBar.appendTo(content);
+
+  // remove from group
+  $('#join-btn').click(function(e) {
+    // get groupId from input
+    var groupId = $('#groupId').val();
+    console.log(groupId);
+    // get group name
+    $.get('/api/groups/group=' + groupId, function(group) {
+
+      var groupName = group[0].name;
+
+      //add group to user
+      $.ajax({url: '/api/users/user=' + options.userId + '&group=' + groupId + '&groupName=' + groupName,
+      type: 'POST'});
+
+      //add user to group
+      $.ajax({url: '/api/groups/group=' + groupId +'&user=' + options.userId + '&userName=' + options.userName,
+      type: 'POST'});
+
+      // go to dashboard
+      window.location.href = "/";
+    }).fail(function() {console.log("Invalid Group ID");});
+
+  });
+
+  $('#cancel-btn').click(function(e) {
+    hideDialog(dialog);
+  });
+
+  dialog.click(function () {
+    hideDialog(dialog);
+  });
+  $(document).bind("keyup.dialog", function (e) {
+    if (e.which == 27)
+    hideDialog(dialog);
+  });
+  content.click(function (e) {
+    e.stopPropagation();
+  });
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
+}
+
+//
+// Show my group
+//
 function showMyGroup(options) {
   options = $.extend({
     id: 'orrsDiag',
@@ -82,6 +276,7 @@ function showMyGroup(options) {
     groupName: null,
     groupId: null,
     userId: null,
+    people: null,
     cancelable: true,
     contentStyle: null,
     onLoaded: false,
@@ -103,7 +298,15 @@ function showMyGroup(options) {
 
   $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
   $("<div class='details-card mdl-shadow--2dp'><h4>" + options.groupName +"</h4><h6>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
-
+  var detailsContent = dialog.find('.details-card');
+  // members in group
+  $('<p>' + "Group Members:" + '</p>').appendTo(detailsContent);
+  var members = '<div class="assigned-people">';
+  for (var i = 0; i < options.people.length; i++) {
+    members += '<div class="assigned-person mdl-chip"><span class="mdl-chip__text">' + options.people[i].name + '</span></div>';
+  }
+  members += '</div>';
+  $(members).appendTo(detailsContent);
   var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
   var leaveButton = $('<a id="leave-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--red-500 mdl-color-text--white">' + "Leave Group" + '</a>');
   leaveButton.appendTo(buttonBar);
@@ -113,11 +316,11 @@ function showMyGroup(options) {
   $('#leave-btn').click(function(e) {
     //remove group from user
     $.ajax({url: '/api/users/user=' + options.userId,
-      type: 'DELETE'});
+    type: 'DELETE'});
     //remove from group
     $.ajax({url: '/api/groups/group=' + options.groupId +'&user=' + options.userId,
-      type: 'DELETE'});
-      window.location.href = "/";
+    type: 'DELETE'});
+    window.location.href = "/";
   });
 
 
@@ -137,16 +340,6 @@ function showMyGroup(options) {
     options.onLoaded();
   }, 1);
 }
-
-
-
-
-
-
-
-
-
-
 
 function showLoading() {
   // remove existing loaders

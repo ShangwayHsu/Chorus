@@ -64,8 +64,8 @@ module.exports.addChore = function(choreId, choreName, groupId, callback) {
   HousingGroup.update({_id: currId}, {$push: {chores: newChore}},callback);
 }
 
-// add chore to group
-module.exports.addGroupMember = function(groupId, userId, userName, callback) {
+// add Member to group
+module.exports.addMember = function(groupId, userId, userName, callback) {
   var currId = mongoose.Types.ObjectId(groupId);
   var newMember = {user_id: userId, name: userName};
   HousingGroup.update({_id: currId}, {$push: {members: newMember}},callback);
