@@ -50,12 +50,25 @@ module.exports.getMembers = function(groupId, callback) {
   HousingGroup.find({"_id": currId}, {members: 1}, callback);
 }
 
+// delete members
+module.exports.deleteMember = function(groupId, userId, callback) {
+  var currId = mongoose.Types.ObjectId(groupId);
+  HousingGroup.findOneAndUpdate({"_id": currId}, {$pull:{members: {user_id: userId}}}, callback);
+}
+
 // add chore to group
 module.exports.addChore = function(choreId, choreName, groupId, callback) {
   var currId = mongoose.Types.ObjectId(groupId);
   console.log(groupId);
   var newChore = {chore_id: choreId, chore_name: choreName, completed: false};
   HousingGroup.update({_id: currId}, {$push: {chores: newChore}},callback);
+}
+
+// add chore to group
+module.exports.addGroupMember = function(groupId, userId, userName, callback) {
+  var currId = mongoose.Types.ObjectId(groupId);
+  var newMember = {user_id: userId, name: userName};
+  HousingGroup.update({_id: currId}, {$push: {members: newMember}},callback);
 }
 
 // add group

@@ -46,6 +46,19 @@
    font-size: 35px;
  }
 
+ .find-group-text {
+   padding: 5px;
+   color: #4682b4;
+   font-size: 60px;
+   line-height: 60px;
+   font-family: "helvetica";
+   padding-bottom: 5%;
+ }
+
+ .or-text {
+   color: #4682b4;
+ }
+
  .demo-card-event > .everything_else > .mdl-card__title > .mdl-card__title-text {
    font-family: "helvetica";
    color: #4682b4;

@@ -1,10 +1,13 @@
 $(document).ready(function() {
 
   $("#my-group").click(function(e) {
+    var userId = $('.currUserId').attr('id');
+    var groupId = $('.currGroupId').attr('id');
     showMyGroup({
       title: "Group Details",
       groupName: "SD-APT",
-      groupId: "8afj999ssjx0a9sdfe",
+      groupId: groupId,
+      userId: userId,
       people: ["shangway","jenn","suggy"]
     });
   });
@@ -78,6 +81,7 @@ function showMyGroup(options) {
     title: null,
     groupName: null,
     groupId: null,
+    userId: null,
     cancelable: true,
     contentStyle: null,
     onLoaded: false,
@@ -101,10 +105,21 @@ function showMyGroup(options) {
   $("<div class='details-card mdl-shadow--2dp'><h4>" + options.groupName +"</h4><h6>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
 
   var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
-  var leaveButton = $('<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--red-500 mdl-color-text--white">' + "Leave Group" + '</a>');
-
+  var leaveButton = $('<a id="leave-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--red-500 mdl-color-text--white">' + "Leave Group" + '</a>');
   leaveButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
+
+  // remove from group
+  $('#leave-btn').click(function(e) {
+    //remove group from user
+    $.ajax({url: '/api/users/user=' + options.userId,
+      type: 'DELETE'});
+    //remove from group
+    $.ajax({url: '/api/groups/group=' + options.groupId +'&user=' + options.userId,
+      type: 'DELETE'});
+      window.location.href = "/";
+  });
+
 
   dialog.click(function () {
     window.location.href = "/";

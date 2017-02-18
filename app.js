@@ -44,6 +44,7 @@ var switchGroups = require('./routes/switchGroups');
 var editMembers = require('./routes/editMembers');
 var editProfile = require('./routes/editProfile');
 var login = require('./routes/login');
+var findGroup = require('./routes/findGroup');
 
 //----------- All environments -----------
 app.set('port', process.env.PORT || 3000);
@@ -71,6 +72,7 @@ app.get('/switch-groups', switchGroups.view);
 app.get('/edit-members', editMembers.view);
 app.get('/edit-profile', editProfile.view);
 app.get('/login', login.view);
+app.get('/findGroup', findGroup.view);
 
 //-----------  API routes -----------
 // GET chores
@@ -79,7 +81,7 @@ app.get('/api/test', function(req, res){
 
   User.getCurrGroup(currUser._id, function(err, userGroup) {
     if (err) { throw err; }
-    groupId = userGroup[0].in_groups[0].group_id;
+    groupId = userGroup[0].in_group.group_id;
     HousingGroup.getMembers(groupId, function(err, members) {
       if (err) {
         throw err;
@@ -103,7 +105,7 @@ app.get('/', function(req, res) {
 // Home page
 app.get('/dashboard', function(req, res) {
   if (!req.session.user) {
-    return res.redirect('/login')
+    return res.redirect('/login');
   }
 
   // get the current user
@@ -111,12 +113,16 @@ app.get('/dashboard', function(req, res) {
   var userId = currUser._id;
 
   // get which group user in
-  var currGroup =
+
   User.getCurrGroup(userId, function(err, userGroup) {
     if (err) { throw err; }
     // get curent group id
-    groupId = userGroup[0].in_groups[0].group_id;
-
+    var groupId = userGroup[0].in_group.group_id;
+    console.log(groupId);
+    if (typeof groupId == 'undefined' || groupId == "") {
+      return res.redirect('/findGroup');
+      return;
+    }
     HousingGroup.getGroupById(groupId, function(err, group) {
       if (err) { throw err; }
       var allChoresList = group[0].chores;
@@ -256,6 +262,24 @@ app.get('/api/groups', function(req, res){
   });
 });
 
+// Add groups
+app.post('/api/groups', function(req, res){
+  var group = req.body;
+  HousingGroup.addGroup(function(err, groups) {
+    if (err) {throw err;}
+    res.json(groups);
+  });
+});
+
+// POST new member to group
+app.post('/api/groups/group=:groupId&user=:userId', function(req, res){
+  var groupId = req.params.groupId;
+  var userId = req.params.userId;
+  HousingGroup.addGroupMember(groupId, userId, function(err, groups) {
+    if (err) { throw err; }
+    res.json(group);
+  })
+});
 // POST groups
 app.post('/api/groups', function(req, res){
   var group = req.body;
@@ -288,6 +312,38 @@ app.put('/api/users/user=:userId&chore=:choreId', function(req, res) {
     res.json(user);
   });
 });
+
+// delete group from user
+app.delete('/api/users/user=:userId', function(req, res) {
+  var userId = req.params.userId;
+  User.deleteGroup(userId, function(err, user) {
+    if (err) { throw err; }
+    res.json(user);
+  });
+});
+
+// add group to user
+app.post('/api/users/user=:userId&group=:groupId&groupName:=groupName', function(req, res) {
+  var userId = req.params.userId;
+  var groupId = req.params.userId;
+  var groupId = req.params.groupName;
+  User.addGroup(userId, groupId, function(err, user) {
+    if (err) { throw err; }
+    res.json(user);
+  });
+});
+
+// delete user from group
+app.delete('/api/groups/group=:groupId&user=:userId', function(req, res) {
+  var userId = req.params.userId;
+  var groupId = req.params.groupId;
+  HousingGroup.deleteMember(groupId, userId, function(err, user) {
+    if (err) { throw err; }
+    res.json(user);
+  });
+});
+
+
 //----------- Serve -----------
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

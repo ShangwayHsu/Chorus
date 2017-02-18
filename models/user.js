@@ -33,15 +33,16 @@ var userSchema = mongoose.Schema({
       default: false
     }
   }],
-  in_groups:[{
+  in_group:{
     group_id: {
-      type: String
+      type: String,
+      default: ""
     },
-    defaultGroup: {
-      type: Boolean,
-      default: false
+    group_name: {
+      type: String,
+      default: ""
     }
-  }]
+  }
 });
 
 var User = module.exports = mongoose.model('User', userSchema);
@@ -54,13 +55,19 @@ module.exports.getAllUsers = function(callback) {
 // get default user group
 module.exports.getCurrGroup = function(userId, callback) {
   var currId = mongoose.Types.ObjectId(userId);
-  User.find({_id: currId}, {in_groups: {$elemMatch: {defaultGroup: true}}}, callback);
+  User.find({_id: currId}, callback);
 }
 
 // get all chores of user
 module.exports.getAllChoresByGroup = function(userId, groupId, callback) {
   var currId = mongoose.Types.ObjectId(userId);
   User.find({_id: currId}, callback);
+}
+
+// "delete" currGroup
+module.exports.deleteGroup = function(userId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.update({"_id": currId}, {$unset: {"in_group": 1}}, callback);
 }
 
 // add user
@@ -79,4 +86,10 @@ module.exports.addChore = function(choreId, choreName, userId, groupId, callback
 module.exports.updateChoreComplete = function(userId, choreId, completed, callback) {
   var currId = mongoose.Types.ObjectId(userId);
   User.update({"_id": currId, 'chores.chore_id': choreId}, {$set: {"chores.$.completed": completed}}, callback);
+}
+
+// update group
+module.exports.addGroup = function(userId, groupId, groupName, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.update({"_id": currId}, {$set: {"in_group": {group_name: groupName, group_id: groupId}}}, callback);
 }
