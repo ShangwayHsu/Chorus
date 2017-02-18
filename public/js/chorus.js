@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+  $("#my-group").click(function(e) {
+    showMyGroup({
+      title: "Group Details",
+      groupName: "SD-APT",
+      groupId: "8afj999ssjx0a9sdfe",
+      people: ["shangway","jenn","suggy"]
+    });
+  });
 
 
   $("#logout").click(function(e) {
@@ -63,30 +71,13 @@ $(document).ready(function() {
 //
 // MDL modal js
 //
-function showLoading() {
-  // remove existing loaders
-  $('.loading-container').remove();
-  $('<div id="orrsLoader" class="loading-container"><div><div class="mdl-spinner mdl-js-spinner is-active"></div></div></div>').appendTo("body");
 
-  componentHandler.upgradeElements($('.mdl-spinner').get());
-  setTimeout(function () {
-    $('#orrsLoader').css({opacity: 1});
-  }, 1);
-}
-
-function hideLoading() {
-  $('#orrsLoader').css({opacity: 0});
-  setTimeout(function () {
-    $('#orrsLoader').remove();
-  }, 400);
-}
-
-function showFormError(options) {
+function showMyGroup(options) {
   options = $.extend({
     id: 'orrsDiag',
     title: null,
-    text: null,
-    people: null,
+    groupName: null,
+    groupId: null,
     cancelable: true,
     contentStyle: null,
     onLoaded: false,
@@ -105,34 +96,26 @@ function showFormError(options) {
   if (options.contentStyle != null) content.css(options.contentStyle);
 
   // Putting content to modal
-  if (options.title != null) {
-    $('<h3>' + options.title + '</h3>').appendTo(content);
-  }
 
-    $('<p>' + options.text + '</p>').appendTo(content);
+  $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
+  $("<div class='details-card mdl-shadow--2dp'><h4>" + options.groupName +"</h4><h6>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
 
   var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+  var leaveButton = $('<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--red-500 mdl-color-text--white">' + "Leave Group" + '</a>');
 
-  var okButton = $('<button id="error-done" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Ok" + '</button>');
-
-  okButton.appendTo(buttonBar);
+  leaveButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
-  $("#error-done").click(function(e) {
-    hideDialog(dialog);
+
+  dialog.click(function () {
+    window.location.href = "/";
   });
-  componentHandler.upgradeDom();
-  if (options.cancelable) {
-    dialog.click(function () {
-      hideDialog(dialog);
-    });
-    $(document).bind("keyup.dialog", function (e) {
-      if (e.which == 27)
-      hideDialog(dialog);
-    });
-    content.click(function (e) {
-      e.stopPropagation();
-    });
-  }
+  $(document).bind("keyup.dialog", function (e) {
+    if (e.which == 27)
+    window.location.href = "/";
+  });
+  content.click(function (e) {
+    e.stopPropagation();
+  });
   setTimeout(function () {
     dialog.css({opacity: 1});
     if (options.onLoaded)
@@ -140,6 +123,33 @@ function showFormError(options) {
   }, 1);
 }
 
+
+
+
+
+
+
+
+
+
+
+function showLoading() {
+  // remove existing loaders
+  $('.loading-container').remove();
+  $('<div id="orrsLoader" class="loading-container"><div><div class="mdl-spinner mdl-js-spinner is-active"></div></div></div>').appendTo("body");
+
+  componentHandler.upgradeElements($('.mdl-spinner').get());
+  setTimeout(function () {
+    $('#orrsLoader').css({opacity: 1});
+  }, 1);
+}
+
+function hideLoading() {
+  $('#orrsLoader').css({opacity: 0});
+  setTimeout(function () {
+    $('#orrsLoader').remove();
+  }, 400);
+}
 
 function showChore(options) {
   options = $.extend({
@@ -278,37 +288,37 @@ function showMyChores(options, groupId) {
       data: JSON.stringify({'completed': checked}),
       contentType: 'application/json'});
 
-    // PUT to users: jquery doesnt have $.put method
-    $.ajax({url: usersUri,
-      type: 'PUT',
-      data: JSON.stringify({'completed': checked}),
-      contentType: 'application/json'});
+      // PUT to users: jquery doesnt have $.put method
+      $.ajax({url: usersUri,
+        type: 'PUT',
+        data: JSON.stringify({'completed': checked}),
+        contentType: 'application/json'});
 
-    });
-    $('#my-chores-done').click(function(e) {
-      window.location.href = "/";
-    });
-    dialog.click(function () {
-      window.location.href = "/";
-    });
-    $(document).bind("keyup.dialog", function (e) {
-      if (e.which == 27)
-      window.location.href = "/";
-    });
-    content.click(function (e) {
-      e.stopPropagation();
-    });
-    setTimeout(function () {
-      dialog.css({opacity: 1});
-      if (options.onLoaded)
-      options.onLoaded();
-    }, 1);
-  }
+      });
+      $('#my-chores-done').click(function(e) {
+        window.location.href = "/";
+      });
+      dialog.click(function () {
+        window.location.href = "/";
+      });
+      $(document).bind("keyup.dialog", function (e) {
+        if (e.which == 27)
+        window.location.href = "/";
+      });
+      content.click(function (e) {
+        e.stopPropagation();
+      });
+      setTimeout(function () {
+        dialog.css({opacity: 1});
+        if (options.onLoaded)
+        options.onLoaded();
+      }, 1);
+    }
 
-  function hideDialog(dialog) {
-    $(document).unbind("keyup.dialog");
-    dialog.css({opacity: 0});
-    setTimeout(function () {
-      dialog.remove();
-    }, 400);
-  }
+    function hideDialog(dialog) {
+      $(document).unbind("keyup.dialog");
+      dialog.css({opacity: 0});
+      setTimeout(function () {
+        dialog.remove();
+      }, 400);
+    }
