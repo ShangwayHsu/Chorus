@@ -12,7 +12,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
-var nodemailer = require('nodemailer');
+//var nodemailer = require('nodemailer');
 //var router = express.Router();
 app.use(bodyParser.json());
 
@@ -77,7 +77,7 @@ app.get('/login', login.view);
 app.get('/findGroup', findGroup.view);
 
 //----------- Email route -----------
-app.post('/bruhh', sendBruhNotification);
+/*app.post('/bruhh', sendBruhNotification);
 function sendBruhNotification(req, res) {
     // Not the movie transporter!
     var transporter = nodemailer.createTransport({
@@ -105,6 +105,7 @@ function sendBruhNotification(req, res) {
     };
 });
 }
+*/
 
 //-----------  API routes -----------
 // GET chores
