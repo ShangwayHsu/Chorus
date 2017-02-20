@@ -1,7 +1,7 @@
 $(document).ready(function() {
   $("#create-group-btn").click(function(e) {
-    var userId = $('.currUserId').attr('id');
-    var userName = $('.currUserName').attr('id');
+    var userId = $('.currUserId').text();
+    var userName = $('.currUserName').text();
 
     showCreateGroup({
       title: "Create Group",
@@ -11,8 +11,10 @@ $(document).ready(function() {
   });
 
   $("#join-group-btn").click(function(e) {
-    var userId = $('.currUserId').attr('id');
-    var userName = $('.currUserName').attr('id');
+    var userId = $('.currUserId').text();
+    var userName = $('.currUserName').text();
+    console.log(userName);
+    console.log('here');
 
     showJoinGroup({
       title: "Enter Group ID",
@@ -22,9 +24,9 @@ $(document).ready(function() {
   });
 
   $("#my-group").click(function(e) {
-    var userId = $('.currUserId').attr('id');
-    var groupId = $('.currGroupId').attr('id');
-    var groupName = $('.currGroupName').attr('id');
+    var userId = $('.currUserId').text();
+    var groupId = $('.currGroupId').text();
+    var groupName = $('.currGroupName').text();
 
     $.get('/api/groups/group=' + groupId, function(group) {
       var groupMembers = group[0].members;
@@ -63,8 +65,8 @@ $(document).ready(function() {
 
   $('#show-my-chores').click(function (e) {
     // Curr user id stored in hidden div
-    var userId = $('.currUserId').attr('id');
-    var groupId = $('.currGroupId').attr('id');
+    var userId = $('.currUserId').text();
+    var groupId = $('.currGroupId').text();
 
     $.get('/api/chores/user=' + userId + '&group=' + groupId, function(data) {
       var chores = data[0].chores;
@@ -233,11 +235,13 @@ function showJoinGroup(options) {
       var groupName = group[0].name;
 
       //add group to user
+      groupName = groupName.replace(' ', '+')
       $.ajax({url: '/api/users/user=' + options.userId + '&group=' + groupId + '&groupName=' + groupName,
       type: 'POST'});
 
       //add user to group
-      $.ajax({url: '/api/groups/group=' + groupId +'&user=' + options.userId + '&userName=' + options.userName,
+      var userName = options.userName.replace(" ", "+")
+      $.ajax({url: '/api/groups/group=' + groupId +'&user=' + options.userId + '&userName=' + userName,
       type: 'POST'});
 
       // go to dashboard
@@ -407,6 +411,22 @@ function showChore(options) {
   bruhButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
 
+  // send notification
+  $('#bruhButton').click(function(e) {
+
+    for (var i = 0; i < options.people.length; i++) {
+      var currId = options.people[i].user_id;
+      $.get('/api/users/user=' + currId, function(data) {
+        var emailAddress = data[0].email;
+        var emailOptions = {choreName: options.title, email: emailAddress};
+
+        //send email
+        $.post('/bruhh', emailOptions, function(data) {
+            console.log('Email sent!');
+        });
+      });
+    }
+  });
   componentHandler.upgradeDom();
   if (options.cancelable) {
     dialog.click(function () {

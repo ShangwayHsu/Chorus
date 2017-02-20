@@ -52,6 +52,12 @@ module.exports.getAllUsers = function(callback) {
   User.find(callback);
 }
 
+// get user by id
+module.exports.getUserById = function(userId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.find({"_id": currId}, callback);
+}
+
 // get default user group
 module.exports.getCurrGroup = function(userId, callback) {
   var currId = mongoose.Types.ObjectId(userId);

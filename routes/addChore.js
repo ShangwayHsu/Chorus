@@ -10,9 +10,12 @@ exports.view = function(req, res){
   }
 
   var currUser = req.session.user;
+  var userId = currUser._id;
   User.getCurrGroup(currUser._id, function(err, userGroup) {
     if (err) { throw err; }
-    groupId = userGroup[0].in_groups[0].group_id;
+    console.log(userGroup);
+    var groupId = userGroup[0].in_group.group_id;
+    var groupName = userGroup[0].in_group.group_name;
     HousingGroup.getMembers(groupId, function(err, members) {
       if (err) {
         throw err;
@@ -22,7 +25,10 @@ exports.view = function(req, res){
       // render page
       res.render('addChore', {
         'housemates': members,
-        'groupId': groupId
+        'groupId': groupId,
+        'curr-user-id': userId,
+        'curr-group-id': groupId,
+        'curr-group-name': groupName
       });
     });
   });

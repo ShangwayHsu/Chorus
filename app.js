@@ -12,6 +12,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
+var nodemailer = require('nodemailer');
+var router = express.Router();
 app.use(bodyParser.json());
 
 // Decalre models
@@ -73,6 +75,36 @@ app.get('/edit-members', editMembers.view);
 app.get('/edit-profile', editProfile.view);
 app.get('/login', login.view);
 app.get('/findGroup', findGroup.view);
+
+//----------- Email route -----------
+app.post('/bruhh', sendBruhNotification);
+function sendBruhNotification(req, res) {
+    // Not the movie transporter!
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'chorus.reminder@gmail.com', // email id
+            pass: 'welovesugath' // password
+        }
+    });
+
+    var emailBody = 'This is a reminder to do your chore: ' + req.body.choreName + '\n\n-- Chorus';
+    var mailOptions = {
+        from: 'chorus.reminder.com>', // sender address
+        to: req.body.email, // list of receivers
+        subject: 'Chore Reminder!', // Subject line
+        text: emailBody
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+        console.log(error);
+        res.json({yo: 'error'});
+    }else{
+        console.log('Message sent: ' + info.response);
+        res.json({yo: info.response});
+    };
+});
+}
 
 //-----------  API routes -----------
 // GET chores
@@ -201,6 +233,19 @@ app.post('/register', function(req, res){
   })
 });
 
+// GET user by id
+app.get('/api/users/user=:id', function(req, res){
+  var userId = req.params.id 
+  User.getUserById(userId, function(err, user) {
+    if (err) {
+      throw err;
+    }
+
+    res.json(user);
+  });
+});
+
+
 // GET all chores of user
 app.get('/api/chores/user=:userId&group=:groupId', function(req, res){
   var userId = req.params.userId;
@@ -288,6 +333,8 @@ app.post('/api/groups/group=:groupId&user=:userId&userName=:userName', function(
   var groupId = req.params.groupId;
   var userId = req.params.userId;
   var userName = req.params.userName;
+  console.log(userName);
+  userName = userName.replace('+', ' ');
   console.log("wrong ehre");
   HousingGroup.addMember(groupId, userId, userName, function(err, groups) {
     if (err) { throw err; }
@@ -343,6 +390,7 @@ app.post('/api/users/user=:userId&group=:groupId&groupName=:groupName', function
   var userId = req.params.userId;
   var groupId = req.params.groupId;
   var groupName = req.params.groupName;
+  groupName = groupName.replace('+', ' ');
   User.addGroup(userId, groupId, groupName, function(err, user) {
     if (err) { throw err; }
     res.json(user);
