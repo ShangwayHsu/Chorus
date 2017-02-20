@@ -90,14 +90,26 @@ $(document).ready(function() {
     });
   }
 
-  $(document).keypress(function(e) {
-    if(e.which == 13) {
+  $("#login-btn").click(function(e) {
+    login();
+  });
+
+  $('#password').keypress(function (e) {
+    var key = e.which;
+    if(key == 13)  // the enter key code
+    {
       login();
+      return false;
     }
   });
 
-  $("#login-btn").click(function(e) {
-    login();
+  $('#username').keypress(function (e) {
+    var key = e.which;
+    if(key == 13)  // the enter key code
+    {
+      login();
+      return false;
+    }
   });
 
 });
