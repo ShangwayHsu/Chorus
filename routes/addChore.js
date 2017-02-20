@@ -12,7 +12,7 @@ exports.view = function(req, res){
   var currUser = req.session.user;
   User.getCurrGroup(currUser._id, function(err, userGroup) {
     if (err) { throw err; }
-    groupId = userGroup[0].in_groups[0].group_id;
+    groupId = userGroup[0].in_group.group_id;
     HousingGroup.getMembers(groupId, function(err, members) {
       if (err) {
         throw err;
