@@ -13,7 +13,7 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
 var nodemailer = require('nodemailer');
-var router = express.Router();
+//var router = express.Router();
 app.use(bodyParser.json());
 
 // Decalre models
