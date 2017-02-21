@@ -13,35 +13,49 @@
   <div class="demo-card-event mdl-card mdl-shadow--2dp">
     <div class ="everything_else">
       <div class="mdl-card__title">
-        <h1 class="title-text chorus-login">Chorus</h1>
+        <h1 class="title-text chorus-login2">Chorus</h1>
       </div>
 
-      <div class="login-text">Login</div>
+      <div class="register-text">Register</div>
+      <!-- Full Name text field -->
+      <form class="login-input" action="#">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <label class="mdl-textfield__label" for="r-fullName">Full Name</label>
+          <input class="mdl-textfield__input" type="text" id="r-fullName">
+        </div>
+      </form>
       <!-- user name text field -->
       <form class="login-input" action="#">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <label class="mdl-textfield__label" for="username">Username</label>
-          <input class="mdl-textfield__input" type="text" id="username">
+          <label class="mdl-textfield__label" for="r-username">Username</label>
+          <input class="mdl-textfield__input" type="text" id="r-username">
         </div>
       </form>
 
       <!-- password text field -->
       <form class="login-input" action="#">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <label class="mdl-textfield__label" for="password">Password</label>
-          <input class="mdl-textfield__input" type="password" id="password">
+          <label class="mdl-textfield__label" for="r-password">Password</label>
+          <input class="mdl-textfield__input" type="password" id="r-password">
+        </div>
+      </form>
+      <!-- email text field -->
+      <form class="login-input" action="#">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <label class="mdl-textfield__label" for="r-email">Email</label>
+          <input class="mdl-textfield__input" type="text" id="r-email">
         </div>
       </form>
       <div class= "login">
         <!-- Log-in button -->
-        <button type=submit id="login-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
-          Log in
+        <button type=submit id="register-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+          Register
         </button>
       </div>
       <div class= "register">
         <!-- Log-in button -->
-        <a href="/register" class="mdl-button mdl-js-button mdl-button--accent">
-          Register Now
+        <a href="/" class="mdl-button mdl-js-button mdl-button--accent">
+          Cancel
         </a>
       </div>
     </div>
