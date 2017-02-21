@@ -12,8 +12,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
-var postmark = require("postmark")(process.env.POSTMARK_API_TOKEN)
-//var nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer');
 //var router = express.Router();
 app.use(bodyParser.json());
 
@@ -80,20 +79,31 @@ app.get('/findGroup', findGroup.view);
 //----------- Email route -----------
 app.post('/bruhh', sendBruhNotification);
 function sendBruhNotification(req, res) {
-  var emailBody = 'This is a reminder to do your chore: ' + req.body.choreName + '\n\n-- Chorus';
-  postmark.send({
-      "From": "chorus.reminder@gmail.com",
-      "To": req.body.email,
-      "Subject": "Chore Reminder!",
-      "TextBody": emailBody,
-      "Tag": "Chorus"
-  }, function(error, success) {
-      if(error) {
-          console.error("Unable to send via postmark: " + error.message);
-         return;
-      }
-      console.info("Sent to postmark for delivery")
-  });
+    // Not the movie transporter!
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'chorus.reminder@gmail.com', // email id
+            pass: 'welovesugath' // password
+        }
+    });
+
+    var emailBody = 'This is a reminder to do your chore: ' + req.body.choreName + '\n\n-- Chorus';
+    var mailOptions = {
+        from: 'chorus.reminder.com>', // sender address
+        to: req.body.email, // list of receivers
+        subject: 'Chore Reminder!', // Subject line
+        text: emailBody
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+        console.log(error);
+        res.json({yo: 'error'});
+    }else{
+        console.log('Message sent: ' + info.response);
+        res.json({yo: info.response});
+    };
+});
 }
 
 
