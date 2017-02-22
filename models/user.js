@@ -99,3 +99,9 @@ module.exports.addGroup = function(userId, groupId, groupName, callback) {
   var currId = mongoose.Types.ObjectId(userId);
   User.update({"_id": currId}, {$set: {"in_group": {group_name: groupName, group_id: groupId}}}, callback);
 }
+
+// "delete" chore from user
+module.exports.deleteChore = function(userId, choreId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.update({"_id": currId}, {$pull: {chores:{"chore_id": choreId}}}, callback);
+}

@@ -46,3 +46,9 @@ module.exports.addChore = function(chore, callback) {
   Chore.create(chore, callback);
 
 }
+
+// delete chore
+module.exports.deleteChore = function(choreId, callback) {
+  var currId = mongoose.Types.ObjectId(choreId);
+  Chore.find({"_id": currId}).remove(callback);
+}

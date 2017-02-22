@@ -27,7 +27,7 @@
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="/">Home</a>
         <a id="my-group" class="mdl-navigation__link">My Group</a>
-        <a class="mdl-navigation__link" href="/edit-profile">Edit Profile</a>
+        <a id="editChores-btn" class="mdl-navigation__link">Edit Chores</a>
         <a id="logout" class="mdl-navigation__link">Sign Out</a>
       </nav>
     </div>
@@ -97,48 +97,14 @@
           </div>
         </main>
       </div>
-      <div id="fab_ctn" class="float-add-chore mdl-button--fab_flinger-container">
-        <a id="fab_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+
+        <a href="/add-chore" id="float-add-chore" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
           <i id="add-chore-icon" class="material-icons">add</i>
         </a>
-        <div class="mdl-button--fab_flinger-options">
-          <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-            <i class="material-icons">account_circle</i></button>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-              <i class="material-icons">content_copy</i></button>
-              <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-                <i class="material-icons">close</i></button>
-              </div>
-            </div>
+
           </body>
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
           <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
           <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-          <script>
-          (function () {
-              var VISIBLE_CLASS = "is-showing-options",
-                  fab_btn  = document.getElementById("fab_btn"),
-                  fab_ctn  = document.getElementById("fab_ctn"),
-                  showOpts = function(e) {
-                    var processClick = function (evt) {
-                      if (e !== evt) {
-                        fab_ctn.classList.remove(VISIBLE_CLASS);
-                        fab_ctn.IS_SHOWING = false;
-                        document.removeEventListener("click", processClick);
-                        $("#add-chore-icon").text('add');
-                        $('#fab_btn').attr("href", "/add-chore");
-                      }
-                    };
-                    if (!fab_ctn.IS_SHOWING) {
-                        e.preventDefault();
-                      fab_ctn.IS_SHOWING = true;
-                      fab_ctn.classList.add(VISIBLE_CLASS);
-                      document.addEventListener("click", processClick);
-                      $("#add-chore-icon").text('mode_edit');
-                        $('#fab_btn').attr("href", "");
-                    }
-                  };
-              fab_btn.addEventListener("click", showOpts);
-          }.call(this));
-          </script>
+
           </html>

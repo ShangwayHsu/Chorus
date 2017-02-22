@@ -81,3 +81,9 @@ module.exports.updateChoreComplete = function(groupId, choreId, completed, callb
   var currId = mongoose.Types.ObjectId(groupId);
   HousingGroup.update({"_id": currId, 'chores.chore_id': choreId}, {$set: {"chores.$.completed": completed}}, callback);
 }
+
+// "delete" chore from group
+module.exports.deleteChore = function(groupId, choreId, callback) {
+  var currId = mongoose.Types.ObjectId(groupId);
+  HousingGroup.update({"_id": currId}, {$pull: {chores:{"chore_id": choreId}}}, callback);
+}

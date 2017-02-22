@@ -122,7 +122,7 @@ app.get('/api/test', function(req, res){
         throw err;
       }
       members = members[0]
-      console.log(members.members);
+      //console.log(members.members);
 
   });
     res.json(userGroup);
@@ -135,7 +135,7 @@ app.get('/', function(req, res) {
   } else {
     res.redirect('/dashboard')
   }
-})
+});
 
 // Home page
 app.get('/dashboard', function(req, res) {
@@ -234,6 +234,15 @@ app.post('/register', function(req, res){
     }
     return res.status(200).send();
   })
+});
+
+// GET members in group
+app.get('/api/groups/members/group=:groupId', function(req, res){
+  var groupId = req.params.groupId 
+  HousingGroup.getMembers(groupId, function(err, members) {
+    if (err) {throw err;}
+    res.json(members);
+  });
 });
 
 // GET user by id
@@ -407,6 +416,35 @@ app.delete('/api/groups/group=:groupId&user=:userId', function(req, res) {
   HousingGroup.deleteMember(groupId, userId, function(err, user) {
     if (err) { throw err; }
     res.json(user);
+  });
+});
+
+// delete chore from chores
+app.delete('/api/chores/chore=:choreId', function(req, res) {
+  var choreId = req.params.choreId;
+  Chore.deleteChore(choreId, function(err, chore) {
+    if (err) {throw err;}
+    res.json(chore);
+  });
+});
+
+// delete chore from group
+app.delete('/api/groups/group=:groupId&chore=:choreId', function(req, res) {
+  var choreId = req.params.choreId;
+  var groupId = req.params.groupId;
+  HousingGroup.deleteChore(groupId, choreId, function(err, chore) {
+    if (err) {throw err;}
+    res.json(chore);
+  });
+});
+
+// delete chore from user
+app.delete('/api/users/delete-chore/user=:userId&chore=:choreId', function(req, res) {
+  var choreId = req.params.choreId;
+  var userId = req.params.userId;
+  User.deleteChore(userId, choreId, function(err, chore) {
+    if (err) {throw err;}
+    res.json(chore);
   });
 });
 

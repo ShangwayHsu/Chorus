@@ -1,4 +1,15 @@
 $(document).ready(function() {
+
+  $('#editChores-btn').click(function(e) {
+    var groupId = $('.currGroupId').text();
+    var userId = $('.currUserId').text();
+    showEditChores({
+      title: 'Edit Chores',
+      groupId: groupId,
+      userId: userId
+    });
+  })
+
   $("#create-group-btn").click(function(e) {
     var userId = $('.currUserId').text();
     var userName = $('.currUserName').text();
@@ -190,7 +201,7 @@ function showCreateGroup(options) {
   createButton.appendTo(buttonBar);
   cancelButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
-
+  componentHandler.upgradeDom();
   // remove from group
   $('#create-btn').click(function(e) {
     // get group name
@@ -272,7 +283,7 @@ function showJoinGroup(options) {
   joinButton.appendTo(buttonBar);
   cancelButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
-
+  componentHandler.upgradeDom();
   // remove from group
   $('#join-btn').click(function(e) {
     // get groupId from input
@@ -394,7 +405,9 @@ function showMyGroup(options) {
     options.onLoaded();
   }, 1);
 }
-
+//
+//  show loadgin
+//
 function showLoading() {
   // remove existing loaders
   $('.loading-container').remove();
@@ -405,14 +418,18 @@ function showLoading() {
     $('#orrsLoader').css({opacity: 1});
   }, 1);
 }
-
+//
+// hide loading
+//
 function hideLoading() {
   $('#orrsLoader').css({opacity: 0});
   setTimeout(function () {
     $('#orrsLoader').remove();
   }, 400);
 }
-
+//
+// show chores
+//
 function showChore(options) {
   options = $.extend({
     id: 'orrsDiag',
@@ -471,7 +488,7 @@ function showChore(options) {
 
         //send email
         $.post('/bruhh', emailOptions, function(data) {
-            console.log('Email sent!');
+          console.log('Email sent!');
         });
       });
     }
@@ -578,44 +595,50 @@ function showMyChores(options, groupId) {
     $.ajax({url: groupsUri,
       type: 'PUT',
       data: JSON.stringify({'completed': checked}),
-      contentType: 'application/json'});
+      contentType: 'application/json'
+    });
 
-      // PUT to users: jquery doesnt have $.put method
-      $.ajax({url: usersUri,
-        type: 'PUT',
-        data: JSON.stringify({'completed': checked}),
-        contentType: 'application/json'});
+    // PUT to users: jquery doesnt have $.put method
+    $.ajax({url: usersUri,
+      type: 'PUT',
+      data: JSON.stringify({'completed': checked}),
+      contentType: 'application/json'
+    });
 
-      });
-      $('#my-chores-done').click(function(e) {
-        window.location.href = "/";
-      });
-      dialog.click(function () {
-        window.location.href = "/";
-      });
-      $(document).bind("keyup.dialog", function (e) {
-        if (e.which == 27)
-        window.location.href = "/";
-      });
-      content.click(function (e) {
-        e.stopPropagation();
-      });
-      setTimeout(function () {
-        dialog.css({opacity: 1});
-        if (options.onLoaded)
-        options.onLoaded();
-      }, 1);
-    }
+  });
+  $('#my-chores-done').click(function(e) {
+    window.location.href = "/";
+  });
+  dialog.click(function () {
+    window.location.href = "/";
+  });
+  $(document).bind("keyup.dialog", function (e) {
+    if (e.which == 27)
+    window.location.href = "/";
+  });
+  content.click(function (e) {
+    e.stopPropagation();
+  });
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
+}
 
-    function hideDialog(dialog) {
-      $(document).unbind("keyup.dialog");
-      dialog.css({opacity: 0});
-      setTimeout(function () {
-        dialog.remove();
-      }, 400);
-    }
 
-    function showFormError(options) {
+function hideDialog(dialog) {
+  $(document).unbind("keyup.dialog");
+  dialog.css({opacity: 0});
+  setTimeout(function () {
+    dialog.remove();
+  }, 400);
+}
+
+//
+// form error
+//
+function showFormError(options) {
   options = $.extend({
     id: 'orrsDiag',
     title: null,
@@ -643,7 +666,7 @@ function showMyChores(options, groupId) {
     $('<h3>' + options.title + '</h3>').appendTo(content);
   }
 
-    $('<p>' + options.text + '</p>').appendTo(content);
+  $('<p>' + options.text + '</p>').appendTo(content);
 
   var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
 
@@ -673,63 +696,327 @@ function showMyChores(options, groupId) {
     options.onLoaded();
   }, 1);
 }
+
+//
+// form showSuccess
+//
 function showSuccess(options) {
-options = $.extend({
-id: 'orrsDiag',
-title: null,
-text: null,
-people: null,
-cancelable: true,
-contentStyle: null,
-onLoaded: false,
-hideOther: true
-}, options);
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    text: null,
+    people: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
 
-if (options.hideOther) {
-// remove existing dialogs
-$('.dialog-container').remove();
-$(document).unbind("keyup.dialog");
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+
+  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+  if (options.title != null) {
+    $('<h3>' + options.title + '</h3>').appendTo(content);
+  }
+
+  $('<p>' + options.text + '</p>').appendTo(content);
+
+  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+
+  var okButton = $('<button id="error-done" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Ok" + '</button>');
+
+  okButton.appendTo(buttonBar);
+  buttonBar.appendTo(content);
+  $("#error-done").click(function(e) {
+    window.location.href = "/";
+    hideDialog(dialog);
+  });
+  componentHandler.upgradeDom();
+  if (options.cancelable) {
+    dialog.click(function () {
+
+      hideDialog(dialog);
+    });
+    $(document).bind("keyup.dialog", function (e) {
+      if (e.which == 27)
+      hideDialog(dialog);
+    });
+    content.click(function (e) {
+      e.stopPropagation();
+    });
+  }
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
 }
 
-$('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
-var dialog = $('#' + options.id);
-var content = dialog.find('.mdl-card');
-if (options.contentStyle != null) content.css(options.contentStyle);
+//
+// edit chores
+//
+function showEditChores(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    text: null,
+    groupId: null,
+    userId: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
 
-// Putting content to modal
-if (options.title != null) {
-$('<h3>' + options.title + '</h3>').appendTo(content);
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+
+  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+  if (options.title != null) {
+    $('<h3>' + options.title + '</h3>').appendTo(content);
+  }
+
+  // get chores
+  $.get('/api/groups/group=' + options.groupId, function(group) {
+    var chores = group[0].chores;
+
+    // display list of chores
+    var choreList = `
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp chore-entry">
+    <thead>
+    <tr>
+    <th class="mdl-data-table__cell--non-numeric">Chores</th>
+    </tr>
+    </thead>
+    <tbody>`;
+
+    for (var i = 0; i < chores.length; i++) {
+      choreList += `
+      <tr class="e-chore">
+      <td id=` +  chores[i].chore_id + ` class="mdl-data-table__cell--non-numeric">` + chores[i].chore_name + `</td>
+      </tr>
+      `;
+    }
+
+    choreList += '</tbody> </table>';
+    $(choreList).appendTo(content);
+    var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+    var okButton = $('<button id="error-done" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
+
+    okButton.appendTo(buttonBar);
+    buttonBar.appendTo(content);
+    $("#error-done").click(function(e) {
+      window.location.href = "/";
+    });
+
+    $('.e-chore').click(function(e) {
+      var choreId = e.target.id;
+      showEditSingleChore({choreId: choreId, groupId: options.groupId});
+    });
+
+  });
+  componentHandler.upgradeDom();
+  if (options.cancelable) {
+    dialog.click(function () {
+                  window.location.href = "/";
+    });
+    $(document).bind("keyup.dialog", function (e) {
+      if (e.which == 27)
+          window.location.href = "/";
+    });
+    content.click(function (e) {
+      e.stopPropagation();
+    });
+  }
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
 }
 
-$('<p>' + options.text + '</p>').appendTo(content);
+//
+// edit single chore
+//
+function showEditSingleChore(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    choreId: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
 
-var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
 
-var okButton = $('<button id="error-done" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Ok" + '</button>');
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+  // get chore
+  $.get('/api/chores/chore=' + options.choreId, function(chore) {
+    chore = chore[0]
+    var choreName = chore.name;
+    var description = chore.description;
+    var assignedTo = chore.assignedTo;
 
-okButton.appendTo(buttonBar);
-buttonBar.appendTo(content);
-$("#error-done").click(function(e) {
-window.location.href = "/";
-hideDialog(dialog);
-});
-componentHandler.upgradeDom();
-if (options.cancelable) {
-dialog.click(function () {
+    // Putting content to modal
+    $('<h3>Edit</h3>').appendTo(content);
+    $('<h6>Name:</h6>').appendTo(content);
+    $(`
+      <form action="#">
+      <div class="mdl-textfield mdl-js-textfield">
+      <input class="mdl-textfield__input" type="text" id="e-name" value="` + choreName +`"></input>
+      </div>
+      </form>
+      `).appendTo(content);
 
-  hideDialog(dialog);
-});
-$(document).bind("keyup.dialog", function (e) {
-  if (e.which == 27)
-  hideDialog(dialog);
-});
-content.click(function (e) {
-  e.stopPropagation();
-});
-}
-setTimeout(function () {
-dialog.css({opacity: 1});
-if (options.onLoaded)
-options.onLoaded();
-}, 1);
-}
+      //get members
+      $.get('/api/groups/members/group=' + options.groupId, function(groupMembers) {
+        $('<h6>Assigned To:</h6>').appendTo(content);
+
+        groupMembers = groupMembers[0].members;
+
+        var myChores = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color--green-500 mdl-color-text--white "><td><h5 class="todo-table-title">Members</h5></td></tr></thead>';
+        myChores += '<tbody>';
+        var choreCount = 0;
+        for (var i = 0; i < groupMembers.length; i++) {
+
+          choreCount += 1;
+          var memberName = groupMembers[i].name;
+          var memberId = groupMembers[i].user_id;
+
+          // check if member is assigned to chore
+          var checked = "";
+          for (var j = 0; j < assignedTo.length; j++) {
+            if (memberId == assignedTo[j].user_id) {
+              checked = "checked";
+            }
+          }
+
+          myChores += '<tr>';
+          var checkboxes = '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="'+ memberId +' "> <input type="checkbox" id="' + memberId + '" class="chore-check mdl-checkbox__input new-checked"' +  checked + '> <span id="e-memberName' + memberId + '" class="mdl-checkbox__label chore-check">'+ memberName +'</span> </label>';
+          myChores +='<td class="mdl-data-table__cell--non-numeric">' + checkboxes +'</td>';
+          myChores += '</tr>';
+        }
+        $(myChores).appendTo(content);
+
+        $('<h6>Description:</h6>').appendTo(content);
+        $(`
+          <form action="#">
+          <div class="mdl-textfield mdl-js-textfield">
+          <textarea class="mdl-textfield__input" type="text" rows= "4" id="e-description">` + description + `</textarea>
+          </div>
+          </form>
+          `).appendTo(content);
+
+          // cancel save delete buttons
+          var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+          var buttonBar2 = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+          var cancelButton = $('<button id="e-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
+          var saveButton = $('<button id="e-save" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white">' + "Save Changes" + '</button>');
+          var deleteButton = $('<button id="e-delete" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-500 mdl-color-text--white">' + "Delete Chore" + '</button>');
+
+          $('<p>*Note: Saving will reset chore to completed</p>').appendTo(content);
+          saveButton.appendTo(buttonBar);
+          cancelButton.appendTo(buttonBar);
+          buttonBar.appendTo(content);
+          deleteButton.appendTo(buttonBar2);
+          $('<br>').appendTo(content);
+          buttonBar2.appendTo(content);
+
+          function deleteChore() {
+            // delete chores from group
+            $.ajax({url: '/api/groups/group=' + options.groupId + '&chore=' + options.choreId,
+            type: 'DELETE'});
+
+            // delete chores from chores
+            $.ajax({url: '/api/chores/chore=' + options.choreId,
+            type: 'DELETE'});
+
+            // delete chores from users
+            for (var x = 0; x < assignedTo.length; x++) {
+              $.ajax({url: '/api/users/delete-chore/user=' + assignedTo[x].user_id + '&chore=' + options.choreId,
+              type: 'DELETE'});
+            }
+          }
+
+          $('#e-save').click(function(e) {
+            // basically delete that chore and put a new one
+
+            //check which check boxes have been set for assignedTo
+            var newAssignedTo = [];
+            $(".new-checked").each(function(index) {
+              if($(this).is(':checked')) {
+                var currMemName = $('#e-memberName' + $(this).attr('id')).text();
+                newAssignedTo.push({user_id: $(this).attr('id'), name: currMemName});
+              }
+            })
+            var url = "/api/chores";
+            var newChoreName = $('#e-name').val();
+            var newChoreDescription = $('#e-description').val();
+
+            var data = { "name" : newChoreName,
+            "description" : newChoreDescription,
+            "assignedTo" : newAssignedTo,
+            "group_id": options.groupId };
+            $.post(url, data);
+
+            deleteChore();
+            window.location.href = "/";
+
+          });
+
+          $('#e-cancel').click(function(e) {
+            window.location.href = "/";
+          });
+
+          $('#e-delete').click(function(e) {
+            deleteChore();
+            window.location.href = "/";
+          });
+
+        });
+      });
+
+      componentHandler.upgradeDom();
+      if (options.cancelable) {
+        dialog.click(function () {
+          hideDialog(dialog);
+        });
+        $(document).bind("keyup.dialog", function (e) {
+          if (e.which == 27)
+          hideDialog(dialog);
+        });
+        content.click(function (e) {
+          e.stopPropagation();
+        });
+      }
+      setTimeout(function () {
+        dialog.css({opacity: 1});
+        if (options.onLoaded)
+        options.onLoaded();
+      }, 1);
+    }
