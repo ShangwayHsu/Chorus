@@ -101,6 +101,12 @@ $(document).ready(function() {
       window.location.href = "/dashboard";
     })
     .fail(function(err) {
+      showFormError(
+        {
+          title: "Error",
+          text: err.responseText
+        }
+      );
       console.log(err.responseText);
     });
   }
