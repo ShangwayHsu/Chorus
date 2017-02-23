@@ -1,102 +1,90 @@
 {
 	"_id": {
-		"$oid": "58a65b5a01bef16030d39f55"
+		"$oid": "58ad5cdd505f85e6fd7e0fd8"
 	},
 	"email": "shangway.hsu@gmail.com",
 	"name": "Shangway Hsu",
 	"password": "password1",
 	"username": "shangway",
-	"in_groups": [
-		{
-			"group_id": "58a66f33f54f846f792610fe",
-			"defaultGroup": true
-		}
-	],
+	"in_group": {
+		"group_name": "SD-APT",
+		"group_id": "58ad5d14505f85e6fd7e0fdb"
+	},
 	"chores": [
 		{
+			"completed": true,
 			"_id": {
-				"$oid": "58a68b399e172880c9c52a9e"
+				"$oid": "58ad6120bd064f00117aa838"
 			},
-			"group_id": "58a66f33f54f846f792610fe",
+			"group_id": "58ad5d14505f85e6fd7e0fdb",
 			"chore_name": "Take Out Trash",
-			"chore_id": "58a68b399e172880c9c52a99"
-		},
-		{
-			"_id": {
-				"$oid": "58a68c099e172880c9c52aa6"
-			},
-			"group_id": "58a66f33f54f846f792610fe",
-			"chore_name": "Recycle Boxes",
-			"chore_id": "58a68c099e172880c9c52a9f"
+			"chore_id": "58ad6120bd064f00117aa834"
 		}
 	],
 	"__v": 0
 }
 {
 	"_id": {
-		"$oid": "58a66c27f54f846f792610fb"
+		"$oid": "58ad5cef505f85e6fd7e0fd9"
 	},
-	"email": "smaduwrawe@gmail.com",
-	"name": "Sugath Madurawe",
-	"password": "password1",
-	"username": "sugath",
-	"in_groups": [
-		{
-			"group_id": "58a66f33f54f846f792610fe",
-			"defaultGroup": true
-		}
-	],
-	"chores": [
-		{
-			"_id": {
-				"$oid": "58a68b399e172880c9c52a9d"
-			},
-			"group_id": "58a66f33f54f846f792610fe",
-			"chore_name": "Take Out Trash",
-			"chore_id": "58a68b399e172880c9c52a99"
-		},
-		{
-			"_id": {
-				"$oid": "58a68c099e172880c9c52aa5"
-			},
-			"group_id": "58a66f33f54f846f792610fe",
-			"chore_name": "Recycle Boxes",
-			"chore_id": "58a68c099e172880c9c52a9f"
-		}
-	],
-	"__v": 0
-}
-{
-	"_id": {
-		"$oid": "58a66ea4f54f846f792610fd"
-	},
-	"email": "jfeng@gmail.com",
+	"email": "jefeng@ucsd.edu",
 	"name": "Jennifer Feng",
 	"password": "password1",
 	"username": "jennifer",
-	"in_groups": [
-		{
-			"group_id": "58a66f33f54f846f792610fe",
-			"defaultGroup": true
-		}
-	],
+	"in_group": {
+		"group_name": "SD-APT",
+		"group_id": "58ad5d14505f85e6fd7e0fdb"
+	},
 	"chores": [
 		{
+			"completed": false,
 			"_id": {
-				"$oid": "58a67423f54f846f79261105"
+				"$oid": "58ad6120bd064f00117aa839"
 			},
-			"chore_name": "Clean Dishes",
-			"chore_id": "58a67423f54f846f79261102",
-			"group_id": "58a66f33f54f846f792610fe"
-		},
-		{
-			"_id": {
-				"$oid": "58a68c099e172880c9c52aa4"
-			},
-			"group_id": "58a66f33f54f846f792610fe",
-			"chore_name": "Recycle Boxes",
-			"chore_id": "58a68c099e172880c9c52a9f"
+			"group_id": "58ad5d14505f85e6fd7e0fdb",
+			"chore_name": "Take Out Trash",
+			"chore_id": "58ad6120bd064f00117aa834"
 		}
 	],
 	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "58ad5d03505f85e6fd7e0fda"
+	},
+	"email": "smadurawe@gmail.com",
+	"name": "Sugath Madurawe",
+	"password": "password1",
+	"username": "sugath",
+	"in_group": {
+		"group_name": "SD-APT",
+		"group_id": "58ad5d14505f85e6fd7e0fdb"
+	},
+	"chores": [
+		{
+			"completed": false,
+			"_id": {
+				"$oid": "58af61f7905ff6001196a403"
+			},
+			"group_id": "58ad5d14505f85e6fd7e0fdb",
+			"chore_name": "Wash Dirty Dishes!",
+			"chore_id": "58af61f7905ff6001196a400"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "58af6244905ff6001196a404"
+	},
+	"email": "eondragonxyz@gmail.com",
+	"name": "Hardy Pham",
+	"password": "password1",
+	"username": "hardy",
+	"chores": [],
+	"__v": 0,
+	"in_group": {
+		"group_name": "ImaLoner",
+		"group_id": "58af6282905ff6001196a406"
+	}
 }

@@ -1,75 +1,43 @@
 {
 	"_id": {
-		"$oid": "58a67423f54f846f79261102"
-	},
-	"name": "Clean Dishes",
-	"group_id": "58a66f33f54f846f792610fe",
-	"assignedTo": [
-		{
-			"user_id": "58a66ea4f54f846f792610fd",
-			"name": "Jennifer Feng",
-			"_id": {
-				"$oid": "58a67423f54f846f79261103"
-			}
-		}
-	],
-	"description": "After cleaning the dishes remember to wipe the sink so food chunks don't clog the sink.",
-	"__v": 0
-}
-{
-	"_id": {
-		"$oid": "58a68b399e172880c9c52a99"
+		"$oid": "58ad6120bd064f00117aa834"
 	},
 	"name": "Take Out Trash",
-	"group_id": "58a66f33f54f846f792610fe",
+	"group_id": "58ad5d14505f85e6fd7e0fdb",
 	"assignedTo": [
 		{
-			"user_id": "58a66c27f54f846f792610fb",
-			"name": "Sugath Madurawe",
+			"user_id": "58ad5cdd505f85e6fd7e0fd8",
+			"name": "Shangway Hsu",
 			"_id": {
-				"$oid": "58a68b399e172880c9c52a9b"
+				"$oid": "58ad6120bd064f00117aa836"
 			}
 		},
 		{
-			"user_id": "58a65b5a01bef16030d39f55",
-			"name": "Shangway Hsu",
+			"user_id": "58ad5cef505f85e6fd7e0fd9",
+			"name": "Jennifer Feng",
 			"_id": {
-				"$oid": "58a68b399e172880c9c52a9a"
+				"$oid": "58ad6120bd064f00117aa835"
 			}
 		}
 	],
-	"description": "Remember to replace garbage bag when done!",
+	"description": "Replace bags when finished!",
 	"__v": 0
 }
 {
 	"_id": {
-		"$oid": "58a68c099e172880c9c52a9f"
+		"$oid": "58af61f7905ff6001196a400"
 	},
-	"name": "Recycle Boxes",
-	"group_id": "58a66f33f54f846f792610fe",
+	"name": "Wash Dirty Dishes!",
+	"group_id": "58ad5d14505f85e6fd7e0fdb",
 	"assignedTo": [
 		{
-			"user_id": "58a66ea4f54f846f792610fd",
-			"name": "Jennifer Feng",
-			"_id": {
-				"$oid": "58a68c099e172880c9c52aa2"
-			}
-		},
-		{
-			"user_id": "58a66c27f54f846f792610fb",
+			"user_id": "58ad5d03505f85e6fd7e0fda",
 			"name": "Sugath Madurawe",
 			"_id": {
-				"$oid": "58a68c099e172880c9c52aa1"
-			}
-		},
-		{
-			"user_id": "58a65b5a01bef16030d39f55",
-			"name": "Shangway Hsu",
-			"_id": {
-				"$oid": "58a68c099e172880c9c52aa0"
+				"$oid": "58af61f7905ff6001196a401"
 			}
 		}
 	],
-	"description": "Throw large boxes in G1 garbage collector.  Throw smaller boxes in garbage chute.",
+	"description": "Make sure to wipe the sink after you're done! :)",
 	"__v": 0
 }

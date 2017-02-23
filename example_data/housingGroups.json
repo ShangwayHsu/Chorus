@@ -1,54 +1,63 @@
 {
 	"_id": {
-		"$oid": "58a66f33f54f846f792610fe"
+		"$oid": "58ad5d14505f85e6fd7e0fdb"
 	},
 	"name": "SD-APT",
 	"chores": [
 		{
-			"completed": false,
+			"completed": true,
 			"_id": {
-				"$oid": "58a67423f54f846f79261104"
-			},
-			"chore_name": "Clean Dishes",
-			"chore_id": "58a67423f54f846f79261102"
-		},
-		{
-			"completed": false,
-			"_id": {
-				"$oid": "58a68b399e172880c9c52a9c"
+				"$oid": "58ad6120bd064f00117aa837"
 			},
 			"chore_name": "Take Out Trash",
-			"chore_id": "58a68b399e172880c9c52a99"
+			"chore_id": "58ad6120bd064f00117aa834"
 		},
 		{
 			"completed": false,
 			"_id": {
-				"$oid": "58a68c099e172880c9c52aa3"
+				"$oid": "58af61f7905ff6001196a402"
 			},
-			"chore_name": "Recycle Boxes",
-			"chore_id": "58a68c099e172880c9c52a9f"
+			"chore_name": "Wash Dirty Dishes!",
+			"chore_id": "58af61f7905ff6001196a400"
 		}
 	],
 	"members": [
 		{
-			"user_id": "58a66ea4f54f846f792610fd",
-			"name": "Jennifer Feng",
-			"_id": {
-				"$oid": "58a66f33f54f846f79261101"
-			}
-		},
-		{
-			"user_id": "58a66c27f54f846f792610fb",
-			"name": "Sugath Madurawe",
-			"_id": {
-				"$oid": "58a66f33f54f846f79261100"
-			}
-		},
-		{
-			"user_id": "58a65b5a01bef16030d39f55",
+			"user_id": "58ad5cdd505f85e6fd7e0fd8",
 			"name": "Shangway Hsu",
 			"_id": {
-				"$oid": "58a66f33f54f846f792610ff"
+				"$oid": "58ad5d14505f85e6fd7e0fdc"
+			}
+		},
+		{
+			"_id": {
+				"$oid": "58ad5d2c505f85e6fd7e0fdd"
+			},
+			"name": "Jennifer Feng",
+			"user_id": "58ad5cef505f85e6fd7e0fd9"
+		},
+		{
+			"_id": {
+				"$oid": "58ad5d35505f85e6fd7e0fde"
+			},
+			"name": "Sugath Madurawe",
+			"user_id": "58ad5d03505f85e6fd7e0fda"
+		}
+	],
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "58af6282905ff6001196a406"
+	},
+	"name": "ImaLoner",
+	"chores": [],
+	"members": [
+		{
+			"user_id": "58af6244905ff6001196a404",
+			"name": "Hardy Pham",
+			"_id": {
+				"$oid": "58af6282905ff6001196a407"
 			}
 		}
 	],
