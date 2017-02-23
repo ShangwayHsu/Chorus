@@ -173,7 +173,7 @@ app.get('/dashboard', function(req, res) {
           uncompletedChoreList.push(allChoresList[i]);
         }
       }
-      console.log(allChoresList);
+
       // render index with chore lists
       res.render('index', {
         'uncompleted-chores': uncompletedChoreList,
@@ -252,7 +252,6 @@ app.get('/api/users/user=:id', function(req, res){
     if (err) {
       throw err;
     }
-
     res.json(user);
   });
 });
@@ -387,6 +386,18 @@ app.put('/api/users/user=:userId&chore=:choreId', function(req, res) {
     res.json(user);
   });
 });
+
+// PUT new email
+app.put('/api/users/email/user=:userId&email=:email', function(req, res) {
+  var userId = req.params.userId;
+  var email = req.params.email;
+
+  User.updateEmail(userId, email, function(err, user) {
+    if (err) { throw err; }
+    res.json(user);
+  });
+});
+
 
 // delete group from user
 app.delete('/api/users/user=:userId', function(req, res) {

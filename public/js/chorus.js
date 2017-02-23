@@ -1,4 +1,12 @@
 $(document).ready(function() {
+  $('#editNotification-btn').click(function(e) {
+    var groupId = $('.currGroupId').text();
+    var userId = $('.currUserId').text();
+    showEditNotification({
+      title: 'Notifications Setting',
+      userId: userId
+    });
+  })
 
   $('#editChores-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
@@ -8,7 +16,7 @@ $(document).ready(function() {
       groupId: groupId,
       userId: userId
     });
-  })
+  });
 
   $("#create-group-btn").click(function(e) {
     var userId = $('.currUserId').text();
@@ -1008,6 +1016,89 @@ function showEditSingleChore(options) {
       });
 
       componentHandler.upgradeDom();
+      if (options.cancelable) {
+        dialog.click(function () {
+          hideDialog(dialog);
+        });
+        $(document).bind("keyup.dialog", function (e) {
+          if (e.which == 27)
+          hideDialog(dialog);
+        });
+        content.click(function (e) {
+          e.stopPropagation();
+        });
+      }
+      setTimeout(function () {
+        dialog.css({opacity: 1});
+        if (options.onLoaded)
+        options.onLoaded();
+      }, 1);
+    }
+
+
+    function showEditNotification(options) {
+      options = $.extend({
+        id: 'orrsDiag',
+        title: null,
+        text: null,
+        userId: null,
+        cancelable: true,
+        contentStyle: null,
+        onLoaded: false,
+        hideOther: true
+      }, options);
+
+      if (options.hideOther) {
+        // remove existing dialogs
+        $('.dialog-container').remove();
+        $(document).unbind("keyup.dialog");
+      }
+
+      $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+      var dialog = $('#' + options.id);
+      var content = dialog.find('.mdl-card');
+      if (options.contentStyle != null) content.css(options.contentStyle);
+
+      // Putting content to modal
+      if (options.title != null) {
+        $('<h3>' + options.title + '</h3>').appendTo(content);
+      }
+
+      $('<h6>Send Notifications To:</h6>').appendTo(content);
+
+      $.get('/api/users/user=' + options.userId, function(user) {
+        user = user[0];
+        $(`
+          <form action="#">
+          <div class="mdl-textfield mdl-js-textfield">
+          <input class="mdl-textfield__input" type="text" id="n-email" value="` + user.email +`"></input>
+          <label class="mdl-textfield__label" for="n-email">Email...</label>
+          </div>
+          </form>
+          `).appendTo(content);
+        var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+        var saveButton = $('<button id="n-save" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white">' + "Save" + '</button>');
+        var cancelButton = $('<button id="n-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
+
+        saveButton.appendTo(buttonBar);
+        cancelButton.appendTo(buttonBar);
+        buttonBar.appendTo(content);
+        componentHandler.upgradeDom();
+        $("#n-cancel").click(function(e) {
+          window.location.href = "/";
+        });
+
+        $('#n-save').click(function(e) {
+          var email = $('#n-email').val();
+          $.ajax({url: '/api/users/email/user=' + options.userId + '&email=' + email,
+          type: 'PUT'}, function(e) {
+            console.log("Email Saved");
+          });
+          window.location.href = "/";
+
+        });
+      });
+
       if (options.cancelable) {
         dialog.click(function () {
           hideDialog(dialog);

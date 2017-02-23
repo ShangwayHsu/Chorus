@@ -100,6 +100,12 @@ module.exports.addGroup = function(userId, groupId, groupName, callback) {
   User.update({"_id": currId}, {$set: {"in_group": {group_name: groupName, group_id: groupId}}}, callback);
 }
 
+// update group
+module.exports.updateEmail = function(userId, email, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.update({"_id": currId}, {$set: {"email": email}}, callback);
+}
+
 // "delete" chore from user
 module.exports.deleteChore = function(userId, choreId, callback) {
   var currId = mongoose.Types.ObjectId(userId);
