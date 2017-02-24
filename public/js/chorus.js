@@ -86,6 +86,23 @@ $(document).ready(function() {
 
   });
 
+  function showDetails(choreId) {
+console.log("erer");
+    $.get('/api/chores/chore=' + choreId, function(chore) {
+      chore = chore[0]
+      var choreName = chore.name;
+      var description = chore.description;
+      var assignedPeople = chore.assignedTo;
+      showChore({
+        title: choreName,
+        text: description,
+        people: assignedPeople
+      })
+    });
+
+  }
+
+
   $('#show-my-chores').click(function (e) {
     // Curr user id stored in hidden div
     var userId = $('.currUserId').text();

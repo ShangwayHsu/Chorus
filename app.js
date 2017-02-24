@@ -165,6 +165,7 @@ app.get('/dashboard', function(req, res) {
       var groupName = group[0].name;
       var uncompletedChoreList = [];
       var completedChoreList = [];
+      console.log(allChoresList);
 
       for (var i = 0; i < allChoresList.length; i++) {
         if (allChoresList[i].completed) {
@@ -180,7 +181,7 @@ app.get('/dashboard', function(req, res) {
         'completed-chores': completedChoreList,
         'curr-user-id': userId,
         'curr-group-id': groupId,
-        'curr-group-name': groupName
+        'curr-group-name': groupName,
       });
     });
   });
@@ -297,7 +298,7 @@ app.post('/api/chores', function(req, res){
     var groupId = chore.group_id;
 
     // add chore to group
-    HousingGroup.addChore(chore.id, chore.name, groupId, function(err, group) {
+    HousingGroup.addChore(chore.id, chore.name, groupId, assignedToList, function(err, group) {
       if (err) {throw err;}
     });
 

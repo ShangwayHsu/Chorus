@@ -60,10 +60,13 @@
                 {{#each uncompleted-chores}}
                 <li class="show-info mdl-list__item">
                   <span id={{chore_id}} class="mdl-list__item-primary-content">
-                    <i class="material-icons mdl-list__item-icon">navigate_next</i>
+                    <i class="material-icons mdl-list__item-icon"></i>
                     <a type="button" class="mdl-chip mdl-chip--contact">
-                      <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">S</span>
-                      <span id={{chore_id}} class="mdl-chip__text">{{chore_name}}</span>
+
+                      {{#short_names}}
+                      <span class="person-icon mdl-chip__contact mdl-color--teal mdl-color-text--white">{{short_name}}</span>
+                      {{/short_names}}
+                      <span id={{chore_id}} class="show-info mdl-chip__text">{{chore_name}}</span>
                     </a>
                   </span>
                 </li>
@@ -86,7 +89,9 @@
                   <span id={{chore_id}} class="mdl-list__item-primary-content">
                     <i class="material-icons mdl-list__item-icon">check_circle</i>
                     <a type="button" class="mdl-chip mdl-chip--contact">
-                      <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">J</span>
+                      {{#short_names}}
+                      <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{short_name}}</span>
+                      {{/short_names}}
                       <span id={{chore_id}} class="mdl-chip__text">{{chore_name}}</span>
                     </a>
                   </span>

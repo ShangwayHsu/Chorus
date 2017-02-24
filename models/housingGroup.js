@@ -26,7 +26,12 @@ var groupsSchema = mongoose.Schema({
     completed: {
       type: Boolean,
       default: false
-    }
+    },
+    short_names: [{
+      short_name: {
+        type: String
+      }
+    }]
   }]
 
 });
@@ -57,10 +62,16 @@ module.exports.deleteMember = function(groupId, userId, callback) {
 }
 
 // add chore to group
-module.exports.addChore = function(choreId, choreName, groupId, callback) {
+module.exports.addChore = function(choreId, choreName, groupId, members, callback) {
   var currId = mongoose.Types.ObjectId(groupId);
-  console.log(groupId);
-  var newChore = {chore_id: choreId, chore_name: choreName, completed: false};
+  var shorts = [];
+  for (var i = 0; i < members.length; i++){
+    var name = members[i].name.split(' ');
+
+    shorts.push({short_name: name[0].substring(0,1).toUpperCase() + name[1].substring(0,1).toUpperCase()});
+  }
+  console.log(shorts);
+  var newChore = {chore_id: choreId, chore_name: choreName, completed: false, short_names: shorts};
   HousingGroup.update({_id: currId}, {$push: {chores: newChore}},callback);
 }
 
