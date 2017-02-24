@@ -2,6 +2,7 @@ $(document).ready(function() {
   $('#editNotification-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
     var userId = $('.currUserId').text();
+    showLoading();
     showEditNotification({
       title: 'Notifications Setting',
       userId: userId
@@ -11,6 +12,7 @@ $(document).ready(function() {
   $('#editChores-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
     var userId = $('.currUserId').text();
+    showLoading();
     showEditChores({
       title: 'Edit Chores',
       groupId: groupId,
@@ -46,7 +48,7 @@ $(document).ready(function() {
     var userId = $('.currUserId').text();
     var groupId = $('.currGroupId').text();
     var groupName = $('.currGroupName').text();
-
+    showLoading();
     $.get('/api/groups/group=' + groupId, function(group) {
       var groupMembers = group[0].members;
       showMyGroup({
@@ -93,7 +95,7 @@ $(document).ready(function() {
     // Curr user id stored in hidden div
     var userId = $('.currUserId').text();
     var groupId = $('.currGroupId').text();
-
+    showLoading();
     $.get('/api/chores/user=' + userId + '&group=' + groupId, function(data) {
       var chores = data[0].chores;
       showMyChores({
@@ -370,7 +372,7 @@ function showMyGroup(options) {
     $('.dialog-container').remove();
     $(document).unbind("keyup.dialog");
   }
-
+  hideLoading();
   $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
   var dialog = $('#' + options.id);
   var content = dialog.find('.mdl-card');
@@ -571,7 +573,7 @@ function showMyChores(options, groupId) {
   if (options.contentStyle != null) content.css(options.contentStyle);
 
   // Putting content to modal
-
+  hideLoading();
   $('<div style:"float: right"><span type=button id="cancel" class="material-icons mdl-icon" style="float: right">clear</span></div>').appendTo(content);
   $('<h3 class="modal-title">' + "My Chores" + '</h3>').appendTo(content);
 
@@ -626,7 +628,7 @@ function showMyChores(options, groupId) {
     var userId = options.userId;
     var groupsUri = "/api/groups/group=" + groupId + "&chore=" + choreId;
     var usersUri = "/api/users/user=" + userId + "&chore=" + choreId;
-
+    showLoading();
     // PUT to groups: jquery doesnt have $.put method
     $.ajax({url: groupsUri,
       type: 'PUT',
@@ -640,6 +642,7 @@ function showMyChores(options, groupId) {
       data: JSON.stringify({'completed': checked}),
       contentType: 'application/json'
     });
+    hideLoading();
 
   });
   $('#my-chores-done').click(function(e) {
@@ -833,6 +836,7 @@ function showEditChores(options) {
 
   // get chores
   $.get('/api/groups/group=' + options.groupId, function(group) {
+    hideLoading();
     var chores = group[0].chores;
 
     // display list of chores
@@ -860,12 +864,14 @@ function showEditChores(options) {
 
     okButton.appendTo(buttonBar);
     buttonBar.appendTo(content);
+
     $("#error-done").click(function(e) {
       window.location.href = "/";
     });
 
     $('.e-chore').click(function(e) {
       var choreId = e.target.id;
+      showLoading();
       showEditSingleChore({choreId: choreId, groupId: options.groupId});
     });
 
@@ -938,6 +944,7 @@ function showEditSingleChore(options) {
 
       //get members
       $.get('/api/groups/members/group=' + options.groupId, function(groupMembers) {
+        hideLoading();
         $('<h6>Assigned To:</h6>').appendTo(content);
 
         groupMembers = groupMembers[0].members;
@@ -1008,7 +1015,7 @@ function showEditSingleChore(options) {
 
           $('#e-save').click(function(e) {
             // basically delete that chore and put a new one
-
+            showLoading();
             //check which check boxes have been set for assignedTo
             var newAssignedTo = [];
             $(".new-checked").each(function(index) {
@@ -1028,6 +1035,7 @@ function showEditSingleChore(options) {
             $.post(url, data);
 
             deleteChore();
+            hideLoading();
             window.location.href = "/";
 
           });
@@ -1100,6 +1108,7 @@ function showEditSingleChore(options) {
       $('<h6>Send Notifications To:</h6>').appendTo(content);
 
       $.get('/api/users/user=' + options.userId, function(user) {
+        hideLoading();
         user = user[0];
         $(`
           <form action="#">
