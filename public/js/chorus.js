@@ -86,21 +86,7 @@ $(document).ready(function() {
 
   });
 
-  function showDetails(choreId) {
-console.log("erer");
-    $.get('/api/chores/chore=' + choreId, function(chore) {
-      chore = chore[0]
-      var choreName = chore.name;
-      var description = chore.description;
-      var assignedPeople = chore.assignedTo;
-      showChore({
-        title: choreName,
-        text: description,
-        people: assignedPeople
-      })
-    });
 
-  }
 
 
   $('#show-my-chores').click(function (e) {
@@ -392,6 +378,7 @@ function showMyGroup(options) {
 
   // Putting content to modal
 
+  $('<div style:"float: right"><span type=button id="cancel" class="material-icons mdl-icon" style="float: right">clear</span></div>').appendTo(content);
   $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
   $("<div class='details-card mdl-shadow--2dp'><h4>" + options.groupName +"</h4><h6>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
   var detailsContent = dialog.find('.details-card');
@@ -407,7 +394,9 @@ function showMyGroup(options) {
   var leaveButton = $('<a id="leave-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--red-500 mdl-color-text--white">' + "Leave Group" + '</a>');
   leaveButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
-
+  $('#cancel').click(function(e) {
+    hideDialog(dialog);
+  });
   // remove from group
   $('#leave-btn').click(function(e) {
     //remove group from user
@@ -485,6 +474,7 @@ function showChore(options) {
   if (options.contentStyle != null) content.css(options.contentStyle);
 
   // Putting content to modal
+  $('<div style:"float: right"><span type=button id="cancel" class="material-icons mdl-icon" style="float: right">clear</span></div>').appendTo(content);
   if (options.title != null) {
     $('<h3>' + options.title + '</h3>').appendTo(content);
   }
@@ -533,6 +523,9 @@ function showChore(options) {
     }
 
   });
+  $('#cancel').click(function(e) {
+    hideDialog(dialog);
+  });
   componentHandler.upgradeDom();
   if (options.cancelable) {
     dialog.click(function () {
@@ -579,6 +572,7 @@ function showMyChores(options, groupId) {
 
   // Putting content to modal
 
+  $('<div style:"float: right"><span type=button id="cancel" class="material-icons mdl-icon" style="float: right">clear</span></div>').appendTo(content);
   $('<h3 class="modal-title">' + "My Chores" + '</h3>').appendTo(content);
 
   if (options.chores != null) {
@@ -618,7 +612,9 @@ function showMyChores(options, groupId) {
 
   doneButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
-
+  $('#cancel').click(function(e) {
+    hideDialog(dialog);
+  });
   $('#my-chores-done').click(function(e) {
     hideDialog(dialog);
   });
@@ -829,6 +825,8 @@ function showEditChores(options) {
   if (options.contentStyle != null) content.css(options.contentStyle);
 
   // Putting content to modal
+
+  $('<div style:"float: right"><span type=button id="cancel" class="material-icons mdl-icon" style="float: right">clear</span></div>').appendTo(content);
   if (options.title != null) {
     $('<h3>' + options.title + '</h3>').appendTo(content);
   }
@@ -873,6 +871,9 @@ function showEditChores(options) {
 
   });
   componentHandler.upgradeDom();
+  $('#cancel').click(function(e) {
+    hideDialog(dialog);
+  });
   if (options.cancelable) {
     dialog.click(function () {
       window.location.href = "/";
@@ -916,6 +917,8 @@ function showEditSingleChore(options) {
   var content = dialog.find('.mdl-card');
   if (options.contentStyle != null) content.css(options.contentStyle);
   // get chore
+
+  $('<div style:"float: right"><span type=button id="cancel" class="material-icons mdl-icon" style="float: right">clear</span></div>').appendTo(content);
   $.get('/api/chores/chore=' + options.choreId, function(chore) {
     chore = chore[0]
     var choreName = chore.name;
@@ -1042,6 +1045,9 @@ function showEditSingleChore(options) {
       });
 
       componentHandler.upgradeDom();
+      $('#cancel').click(function(e) {
+        hideDialog(dialog);
+      });
       if (options.cancelable) {
         dialog.click(function () {
           hideDialog(dialog);
@@ -1086,6 +1092,7 @@ function showEditSingleChore(options) {
       if (options.contentStyle != null) content.css(options.contentStyle);
 
       // Putting content to modal
+  $('<div style:"float: right"><span type=button id="cancel" class="material-icons mdl-icon" style="float: right">clear</span></div>').appendTo(content);
       if (options.title != null) {
         $('<h3>' + options.title + '</h3>').appendTo(content);
       }
@@ -1124,7 +1131,9 @@ function showEditSingleChore(options) {
 
           });
         });
-
+        $('#cancel').click(function(e) {
+          hideDialog(dialog);
+        });
         if (options.cancelable) {
           dialog.click(function () {
             hideDialog(dialog);

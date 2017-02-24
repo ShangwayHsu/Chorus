@@ -118,6 +118,15 @@
    vertical-align: middle;
  }
 
+ .person-icon {
+   font-weight: lighter;
+ }
+
+ .chore-text {
+   padding-left: 10px;
+   padding-right: 10px;
+ }
+
  .register {
    padding-bottom: 4%;
    color: #FFFFFF;
@@ -144,6 +153,12 @@
 /*
  * Dashboard page
  */
+
+ #cancel:hover {
+
+    cursor: pointer;
+
+ }
 .group-btn {
 }
 #float-add-chore {

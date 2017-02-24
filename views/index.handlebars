@@ -60,7 +60,7 @@
                 {{#each uncompleted-chores}}
                 <li class="show-info mdl-list__item">
                   <span id={{chore_id}} class="mdl-list__item-primary-content">
-                    <i class="material-icons mdl-list__item-icon"></i>
+                    <i class="material-icons mdl-list__item-icon">play_arrow</i>
                     <a type="button" class="mdl-chip mdl-chip--contact">
 
                       {{#short_names}}
@@ -90,9 +90,9 @@
                     <i class="material-icons mdl-list__item-icon">check_circle</i>
                     <a type="button" class="mdl-chip mdl-chip--contact">
                       {{#short_names}}
-                      <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{short_name}}</span>
+                      <span class=" person-icon mdl-chip__contact mdl-color--teal mdl-color-text--white">{{short_name}}</span>
                       {{/short_names}}
-                      <span id={{chore_id}} class="mdl-chip__text">{{chore_name}}</span>
+                      <span id={{chore_id}} class="chore-text mdl-chip__text">{{chore_name}}</span>
                     </a>
                   </span>
                 </li>
