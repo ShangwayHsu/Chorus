@@ -412,11 +412,11 @@ function showMyGroup(options) {
 
 
   dialog.click(function () {
-    window.location.href = "/";
+    hideDialog(dialog);
   });
   $(document).bind("keyup.dialog", function (e) {
     if (e.which == 27)
-    window.location.href = "/";
+    hideDialog(dialog);
   });
   content.click(function (e) {
     e.stopPropagation();
@@ -866,7 +866,7 @@ function showEditChores(options) {
     buttonBar.appendTo(content);
 
     $("#error-done").click(function(e) {
-      window.location.href = "/";
+      hideDialog(dialog);
     });
 
     $('.e-chore').click(function(e) {
@@ -882,11 +882,11 @@ function showEditChores(options) {
   });
   if (options.cancelable) {
     dialog.click(function () {
-      window.location.href = "/";
+      hideDialog(dialog);
     });
     $(document).bind("keyup.dialog", function (e) {
       if (e.which == 27)
-      window.location.href = "/";
+      hideDialog(dialog);
     });
     content.click(function (e) {
       e.stopPropagation();
@@ -1127,7 +1127,7 @@ function showEditSingleChore(options) {
           buttonBar.appendTo(content);
           componentHandler.upgradeDom();
           $("#n-cancel").click(function(e) {
-            window.location.href = "/";
+            hideDialog(dialog);
           });
 
           $('#n-save').click(function(e) {
