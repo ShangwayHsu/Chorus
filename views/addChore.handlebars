@@ -128,7 +128,10 @@ $("#done-add-chore").click(function (e) {
                "description" : choreDescription,
                "assignedTo" : assignedToList,
                "group_id": groupId };
-  $.post(url, data);
+  showLoading();
+  $.post(url, data, function(e) {
+    hideLoading();
+  });
 
   // redirect back to homepage
   window.location.href = "/dashboard";

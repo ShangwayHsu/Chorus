@@ -4,6 +4,7 @@
 
 //----------- Module dependencies -----------
 var express = require('express');
+var methodOverride = require('method-override');
 var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
@@ -58,7 +59,6 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({secret:"ulfj39dk02ijgu3of", resave:false, saveUninitialized:true}));
 app.use(app.router);

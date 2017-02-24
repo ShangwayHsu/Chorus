@@ -493,19 +493,28 @@ function showChore(options) {
 
   // send notification
   $('#bruhButton').click(function(e) {
+    if ($('#bruhButton').text() == "Bruhh") {
+      $('#bruhButton').removeClass('mdl-color--red-600').addClass('mdl-color--blue-400');
+      $('#bruhButton').text("Click To Confirm");
+    } else {
+      // send notification
+      showLoading()
+      for (var i = 0; i < options.people.length; i++) {
+        var currId = options.people[i].user_id;
+        $.get('/api/users/user=' + currId, function(data) {
+          var emailAddress = data[0].email;
+          var emailOptions = {choreName: options.title, email: emailAddress};
 
-    for (var i = 0; i < options.people.length; i++) {
-      var currId = options.people[i].user_id;
-      $.get('/api/users/user=' + currId, function(data) {
-        var emailAddress = data[0].email;
-        var emailOptions = {choreName: options.title, email: emailAddress};
-
-        //send email
-        $.post('/bruhh', emailOptions, function(data) {
-          console.log('Email sent!');
+          //send email
+          $.post('/bruhh', emailOptions, function(data) {
+            console.log('Email sent!');
+            hideLoading();
+            hideDialog(dialog);
+          });
         });
-      });
+      }
     }
+
   });
   componentHandler.upgradeDom();
   if (options.cancelable) {
@@ -849,11 +858,11 @@ function showEditChores(options) {
   componentHandler.upgradeDom();
   if (options.cancelable) {
     dialog.click(function () {
-                  window.location.href = "/";
+      window.location.href = "/";
     });
     $(document).bind("keyup.dialog", function (e) {
       if (e.which == 27)
-          window.location.href = "/";
+      window.location.href = "/";
     });
     content.click(function (e) {
       e.stopPropagation();
@@ -1076,44 +1085,44 @@ function showEditSingleChore(options) {
           </div>
           </form>
           `).appendTo(content);
-        var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
-        var saveButton = $('<button id="n-save" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white">' + "Save" + '</button>');
-        var cancelButton = $('<button id="n-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
+          var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+          var saveButton = $('<button id="n-save" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white">' + "Save" + '</button>');
+          var cancelButton = $('<button id="n-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
 
-        saveButton.appendTo(buttonBar);
-        cancelButton.appendTo(buttonBar);
-        buttonBar.appendTo(content);
-        componentHandler.upgradeDom();
-        $("#n-cancel").click(function(e) {
-          window.location.href = "/";
-        });
-
-        $('#n-save').click(function(e) {
-          var email = $('#n-email').val();
-          $.ajax({url: '/api/users/email/user=' + options.userId + '&email=' + email,
-          type: 'PUT'}, function(e) {
-            console.log("Email Saved");
+          saveButton.appendTo(buttonBar);
+          cancelButton.appendTo(buttonBar);
+          buttonBar.appendTo(content);
+          componentHandler.upgradeDom();
+          $("#n-cancel").click(function(e) {
+            window.location.href = "/";
           });
-          window.location.href = "/";
 
-        });
-      });
+          $('#n-save').click(function(e) {
+            var email = $('#n-email').val();
+            $.ajax({url: '/api/users/email/user=' + options.userId + '&email=' + email,
+            type: 'PUT'}, function(e) {
+              console.log("Email Saved");
+            });
+            window.location.href = "/";
 
-      if (options.cancelable) {
-        dialog.click(function () {
-          hideDialog(dialog);
+          });
         });
-        $(document).bind("keyup.dialog", function (e) {
-          if (e.which == 27)
-          hideDialog(dialog);
-        });
-        content.click(function (e) {
-          e.stopPropagation();
-        });
+
+        if (options.cancelable) {
+          dialog.click(function () {
+            hideDialog(dialog);
+          });
+          $(document).bind("keyup.dialog", function (e) {
+            if (e.which == 27)
+            hideDialog(dialog);
+          });
+          content.click(function (e) {
+            e.stopPropagation();
+          });
+        }
+        setTimeout(function () {
+          dialog.css({opacity: 1});
+          if (options.onLoaded)
+          options.onLoaded();
+        }, 1);
       }
-      setTimeout(function () {
-        dialog.css({opacity: 1});
-        if (options.onLoaded)
-        options.onLoaded();
-      }, 1);
-    }
