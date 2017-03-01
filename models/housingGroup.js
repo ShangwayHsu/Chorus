@@ -37,7 +37,11 @@ var groupsSchema = mongoose.Schema({
 });
 
 var HousingGroup = module.exports = mongoose.model('HousingGroup', groupsSchema);
-
+// reset all chores to false of curr group
+module.exports.resetChoreComplete= function(groupId, callback) {
+  var currId = mongoose.Types.ObjectId(groupId);
+  HousingGroup.update({"_id": currId, "chores.completed": true}, {$set: {"chores.$.completed": false}}, callback);
+}
 // get all groups
 module.exports.getAllGroups= function(callback) {
   HousingGroup.find(callback);

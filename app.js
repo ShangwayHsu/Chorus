@@ -14,6 +14,8 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
 var nodemailer = require('nodemailer');
+var schedule = require('node-schedule');
+
 //var router = express.Router();
 app.use(bodyParser.json());
 
@@ -78,6 +80,47 @@ app.get('/login', login.view);
 app.get('/register', register.view);
 app.get('/findGroup', findGroup.view);
 
+//----------- Weekly chore reset ------------
+
+var sundayMidnightReset = schedule.scheduleJob('* * * * * 1', function(){
+  console.log("hi");
+  function resetAllGroupChores(groupId) {
+      HousingGroup.resetChoreComplete(groupId, function(err, data) {
+        if (err) {throw err;}
+        if (data.nModified == 0) {
+          return;
+        } else {
+          resetAllGroupChores(groupId);
+        }
+      });
+  }
+  function resetAllUserChores(userId) {
+      User.resetChoreComplete(userId, function(err, data) {
+        if (err) {throw err;}
+        console.log("resetting user: " + userId);
+        if (data.nModified == 0) {
+          return;
+        } else {
+          resetAllUserChores(userId);
+        }
+      });
+  }
+  HousingGroup.getAllGroups(function(err,groups) {
+    if (err) { throw err; }
+    for (var i = 0; i < groups.length; i++){
+      var currGroup = groups[i]._id;
+      resetAllGroupChores(currGroup);
+    }
+  });
+
+  User.getAllUsers(function(err,users) {
+    if (err) { throw err; }
+    for (var i = 0; i < users.length; i++){
+      var currUser = users[i]._id;
+      resetAllUserChores(currUser);
+    }
+  });
+});
 //----------- Email route -----------
 app.post('/bruhh', sendBruhNotification);
 function sendBruhNotification(req, res) {
@@ -478,6 +521,8 @@ app.delete('/api/users/delete-chore/user=:userId&chore=:choreId', function(req, 
     res.json(chore);
   });
 });
+
+
 
 
 //----------- Serve -----------

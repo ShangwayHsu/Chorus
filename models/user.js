@@ -46,7 +46,11 @@ var userSchema = mongoose.Schema({
 });
 
 var User = module.exports = mongoose.model('User', userSchema);
-
+// reset chore completion
+module.exports.resetChoreComplete = function(userId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.update({"_id": currId, 'chores.completed': true}, {$set: {"chores.$.completed": false}}, callback);
+}
 // get user
 module.exports.getAllUsers = function(callback) {
   User.find(callback);
