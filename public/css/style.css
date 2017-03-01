@@ -315,13 +315,13 @@
 
 .dialog-container > .x2-btn {
     position: relative;
-    background-color: rgba(117,117,117,0.9);
+    background-color: rgba(224,224,224,0.9);
     display: block;
     max-width: 500px;
     min-height: 10px;
     margin: 2% auto;
-
 }
+
 
 .dialog-container > .mdl-card {
     position: relative;

@@ -388,7 +388,7 @@ function showMyGroup(options) {
 
   // Putting content to modal
 
-  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
   $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
   $("<div class='details-card mdl-shadow--2dp'><h4>" + options.groupName +"</h4><h6>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
   var detailsContent = dialog.find('.details-card');
@@ -484,7 +484,7 @@ function showChore(options) {
   if (options.contentStyle != null) content.css(options.contentStyle);
 
   // Putting content to modal
-  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
 
   // menu
   $(`   <div style="float:right; padding: 0px;margin0px;">
@@ -605,7 +605,7 @@ function showMyChores(options, groupId) {
 
   // Putting content to modal
   hideLoading();
-  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
   $('<h3 class="modal-title">' + "My Chores" + '</h3>').appendTo(content);
 
   if (options.chores != null) {
@@ -1052,7 +1052,7 @@ function showEditSingleChore(options) {
   if (options.contentStyle != null) content.css(options.contentStyle);
   // get chore
 
-  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
   $.get('/api/chores/chore=' + options.choreId, function(chore) {
     chore = chore[0]
     var choreName = chore.name;
@@ -1228,7 +1228,7 @@ function showEditSingleChore(options) {
       if (options.contentStyle != null) content.css(options.contentStyle);
 
       // Putting content to modal
-      $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
+      $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
       if (options.title != null) {
         $('<h3>' + options.title + '</h3>').appendTo(content);
       }
@@ -1319,7 +1319,7 @@ function showAddChore(options) {
 
   // Putting content to modal
 
-  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
 
   $('<h3>' + "Add New Chore" + '</h3>').appendTo(content);
 
