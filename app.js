@@ -142,6 +142,24 @@ app.get('/dashboard', function(req, res) {
   if (!req.session.user) {
     return res.redirect('/login');
   }
+  function getMonday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+    nd = new Date(d.setDate(diff));
+    day = nd.getDate();
+    month = nd.getMonth() + 1;
+    return  month + "/" + day;
+  }
+  function getSunday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? 0:7); // adjust when day is sunday
+    nd = new Date(d.setDate(diff));
+    day = nd.getDate();
+    month = nd.getMonth() + 1;
+    return  month + "/" + day;
+  }
 
   // get the current user
   var currUser = req.session.user;
@@ -165,7 +183,6 @@ app.get('/dashboard', function(req, res) {
       var groupName = group[0].name;
       var uncompletedChoreList = [];
       var completedChoreList = [];
-      console.log(allChoresList);
 
       for (var i = 0; i < allChoresList.length; i++) {
         if (allChoresList[i].completed) {
@@ -182,6 +199,8 @@ app.get('/dashboard', function(req, res) {
         'curr-user-id': userId,
         'curr-group-id': groupId,
         'curr-group-name': groupName,
+        'curr-monday': getMonday(new Date()),
+        'curr-sunday': getSunday(new Date())
       });
     });
   });
