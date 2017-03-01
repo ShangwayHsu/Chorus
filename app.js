@@ -259,7 +259,7 @@ app.get('/api/users/user=:id', function(req, res){
 
 
 // GET all chores of user
-app.get('/api/chores/user=:userId&group=:groupId', function(req, res){
+app.get('/api/users/allchores/user=:userId&group=:groupId', function(req, res){
   var userId = req.params.userId;
   var groupId = req.params.groupId;
 

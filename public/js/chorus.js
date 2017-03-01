@@ -104,7 +104,7 @@ $(document).ready(function() {
     var userId = $('.currUserId').text();
     var groupId = $('.currGroupId').text();
     showLoading();
-    $.get('/api/chores/user=' + userId + '&group=' + groupId, function(data) {
+    $.get('/api/users/allchores/user=' + userId + '&group=' + groupId, function(data) {
       var chores = data[0].chores;
       showMyChores({
         chores: chores,
@@ -653,13 +653,14 @@ function showMyChores(options, groupId) {
   });
 
   $('.chore-check').click(function(e) {
+    console.log(options.chores);
     var choreId = e.target.id;
     var checked = e.target.checked;
     var groupId = options.groupId;
     var userId = options.userId;
-    var groupsUri = "/api/groups/group=" + groupId + "&chore=" + choreId;
-    var usersUri = "/api/users/user=" + userId + "&chore=" + choreId;
+
     showLoading();
+    var groupsUri = "/api/groups/group=" + groupId + "&chore=" + choreId;
     // PUT to groups: jquery doesnt have $.put method
     $.ajax({url: groupsUri,
       type: 'PUT',
@@ -667,13 +668,25 @@ function showMyChores(options, groupId) {
       contentType: 'application/json'
     });
 
-    // PUT to users: jquery doesnt have $.put method
-    $.ajax({url: usersUri,
-      type: 'PUT',
-      data: JSON.stringify({'completed': checked}),
-      contentType: 'application/json'
+    // get all users who are assinged to this chore
+    $.get('/api/chores/chore=' + choreId, function(chore) {
+      var assignedPeople = chore[0].assignedTo;
+
+      for (var i = 0; i < assignedPeople.length; i++) {
+        var currUserId = assignedPeople[i].user_id;
+        var usersUri = "/api/users/user=" + currUserId + "&chore=" + choreId;
+
+        // PUT to users: jquery doesnt have $.put method
+        $.ajax({url: usersUri,
+          type: 'PUT',
+          data: JSON.stringify({'completed': checked}),
+          contentType: 'application/json'
+        });
+      }
+
+      hideLoading();
     });
-    hideLoading();
+
 
   });
   $('#my-chores-done').click(function(e) {
