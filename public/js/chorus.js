@@ -390,10 +390,12 @@ function showMyGroup(options) {
 
   $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
   $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
-  $("<div class='details-card mdl-shadow--2dp'><h4>" + options.groupName +"</h4><h6>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
+  $("<div class='details-card mdl-shadow--2dp'><h3 style='margin-bottom:5px;'>" + options.groupName +
+    "</h3><p style='font-size:12px;'>Give group ID to users who want to join your group</>" +
+    "<h6 style='font-weight:bold;'>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
   var detailsContent = dialog.find('.details-card');
   // members in group
-  $('<p>' + "Group Members:" + '</p>').appendTo(detailsContent);
+  $('<p style="text-align:left; padding-left: 15px; padding-bottom:0px; margin-bottom:0px;">' + "Group Members:" + '</p>').appendTo(detailsContent);
   var members = '<div class="assigned-people">';
   for (var i = 0; i < options.people.length; i++) {
     members += '<div class="assigned-person mdl-chip"><span class="mdl-chip__text">' + options.people[i].name + '</span></div>';
@@ -500,7 +502,7 @@ function showChore(options) {
 
         </ul></div>`).appendTo(content);
   if (options.title != null) {
-    $('<h3>' + options.title + '</h3>').appendTo(content);
+    $('<h3 style="padding-bottom: 5px; margin-top: 5px;">' + options.title + '</h3>').appendTo(content);
   }
   if (options.people != null) {
     $('<p>' + "Assigned To:" + '</p>').appendTo(content);
@@ -521,6 +523,7 @@ function showChore(options) {
 
   bruhButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
+  $('<h6 style="font-size:10px; text-align:center; margin-bottom:0px;">Press the Bruhh button to notify assigned group members to do this chore.</h6>').appendTo(content);
 
   // send notification
   $('#bruhButton').click(function(e) {
@@ -606,7 +609,8 @@ function showMyChores(options, groupId) {
   // Putting content to modal
   hideLoading();
   $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
-  $('<h3 class="modal-title">' + "My Chores" + '</h3>').appendTo(content);
+  $('<h3 class="modal-title" style="margin-bottom: 5px;">' + "My Chores" + '</h3>').appendTo(content);
+  $('<h6 style="text-align:center;">' + "Check off chores to mark them as complete" + '</6>').appendTo(content);
 
   if (options.chores != null) {
     var myChores = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color--green-500 mdl-color-text--white "><td><h5 class="todo-table-title">Todo</h5></td></tr></thead>';
@@ -640,15 +644,7 @@ function showMyChores(options, groupId) {
     $(myChores).appendTo(content);
   }
 
-  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
-  var doneButton = $('<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--green-500 mdl-color-text--white" id="my-chores-done">' + "Done" + '</a>');
-
-  doneButton.appendTo(buttonBar);
-  buttonBar.appendTo(content);
   $('#cancel').click(function(e) {
-    hideDialog(dialog);
-  });
-  $('#my-chores-done').click(function(e) {
     hideDialog(dialog);
   });
 
@@ -733,14 +729,8 @@ function showFormError(options) {
     hideOther: true
   }, options);
 
-  if (options.hideOther) {
-    // remove existing dialogs
-    $('.dialog-container').remove();
-    $(document).unbind("keyup.dialog");
-  }
-
-  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
-  var dialog = $('#' + options.id);
+  $('<div id="' + options.id + 'error" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id + "error");
   var content = dialog.find('.mdl-card');
   if (options.contentStyle != null) content.css(options.contentStyle);
 
@@ -1312,7 +1302,7 @@ function showAddChore(options) {
     $(document).unbind("keyup.dialog");
   }
 
-  $('<div id="' + options.id + '" class="dialog-container"><div class="long-modal mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  $('<div id="' + options.id + '" class="dialog-container"><div class="long-modal mdl-card mdl-shadow--16dp" style="padding-right: 60px; padding-left: 60px;" id="' + options.id + '_content"></div></div>').appendTo("body");
   var dialog = $('#' + options.id);
   var content = dialog.find('.mdl-card');
   if (options.contentStyle != null) content.css(options.contentStyle);
@@ -1324,7 +1314,7 @@ function showAddChore(options) {
   $('<h3>' + "Add New Chore" + '</h3>').appendTo(content);
 
   $(`
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label chore-entry">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label chore-entry" style="width: 100%;">
       <input class="mdl-textfield__input" type="text" id="chore-name"/>
       <label class="mdl-textfield__label" for="chore-name">Chore Name</label>
     </div>`).appendTo(content);
@@ -1352,7 +1342,7 @@ function showAddChore(options) {
     }
     $(membersList).appendTo(content);
   $(`
-  <div class="mdl-textfield mdl-js-textfield chore-entry">
+  <div class="mdl-textfield mdl-js-textfield chore-entry" style="width: 100%;">
     <textarea class="mdl-textfield__input" type="text" rows= "5" id="chore-description" ></textarea>
     <label class="mdl-textfield__label" for="chore-description">Description...</label>
   </div>`).appendTo(content);
@@ -1367,12 +1357,25 @@ function showAddChore(options) {
     var choreDescription = $('#chore-description').val();
     var choreName = $('#chore-name').val();
     var newAssignedTo = [];
+
+
     $(".new-checked").each(function(index) {
       if($(this).is(':checked')) {
         var currMemName = $('#e-memberName' + $(this).attr('id')).text();
         newAssignedTo.push({user_id: $(this).attr('id'), name: currMemName});
       }
     });
+      if (newAssignedTo.length == 0) {
+        showFormError({title: "Error", text: "Please assign chore to group member."});
+        return;
+      }
+      else if (choreName == "") {
+        showFormError({title: "Error", text: "Please enter chore name."});
+        return;
+      } else if (choreDescription == "") {
+        showFormError({title: "Error", text: "Please enter a description."});
+        return;
+      }
 
     var url = "/api/chores";
     var data = { "name" : choreName,
