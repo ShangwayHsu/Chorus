@@ -83,7 +83,7 @@ app.get('/findGroup', findGroup.view);
 //----------- Weekly chore reset ------------
 
 var sundayMidnightReset = schedule.scheduleJob('* * * * * 1', function(){
-  console.log("hi");
+  console.log("Resetting Chores");
   function resetAllGroupChores(groupId) {
       HousingGroup.resetChoreComplete(groupId, function(err, data) {
         if (err) {throw err;}

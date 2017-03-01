@@ -1,4 +1,12 @@
 $(document).ready(function() {
+  $('#editResetCycle-btn').click(function(e) {
+    var groupId = $('.currGroupId').text();
+
+    showResetCycle({
+      groupId: groupId
+    });
+  });
+
   $('#editNotification-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
     var userId = $('.currUserId').text();
@@ -1390,7 +1398,6 @@ function showAddChore(options) {
 
   });
 
-
   componentHandler.upgradeDom();
   });
   componentHandler.upgradeDom();
@@ -1416,3 +1423,80 @@ function showAddChore(options) {
     options.onLoaded();
   }, 1);
 }
+
+function showResetCycle(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    text: null,
+    userId: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
+
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+
+  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
+
+
+  $('<h3>Reset Cycle Settings</h3>').appendTo(content);
+  $('<p style="font-size: 12px;">The reset cycle puts all chores back to uncompleted on Sunday 12:00am.  Set whether your group prefers a weekly or biweekly setting</p>').appendTo(content);
+  $(`
+    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+      <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+      <span class="mdl-radio__label">Weekly</span>
+    </label>
+    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+      <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+      <span class="mdl-radio__label">Biweekly</span>
+    </label>
+    `).appendTo(content);
+    var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+    var saveButton = $('<button id="n-save" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white">' + "Save" + '</button>');
+    var cancelButton = $('<button id="n-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
+
+    saveButton.appendTo(buttonBar);
+    cancelButton.appendTo(buttonBar);
+    buttonBar.appendTo(content);
+    componentHandler.upgradeDom();
+
+    $('#n-save').click(function(e) {
+      hideDialog(dialog);
+    })
+    $("#n-cancel").click(function(e) {
+      hideDialog(dialog);
+    });
+
+    $('#cancel').click(function(e) {
+      hideDialog(dialog);
+    });
+    if (options.cancelable) {
+      dialog.click(function () {
+        hideDialog(dialog);
+      });
+      $(document).bind("keyup.dialog", function (e) {
+        if (e.which == 27)
+        hideDialog(dialog);
+      });
+      content.click(function (e) {
+        e.stopPropagation();
+      });
+    }
+    setTimeout(function () {
+      dialog.css({opacity: 1});
+      if (options.onLoaded)
+      options.onLoaded();
+    }, 1);
+  }
