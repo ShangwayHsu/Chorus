@@ -83,18 +83,20 @@ $(document).ready(function() {
   $('.show-info').click(function (e) {
     var choreId = e.target.id;
     var groupId = $('.currGroupId').text();
-
+    var completed = $(e.target).hasClass("choreComplete");
     $.get('/api/chores/chore=' + choreId, function(chore) {
       chore = chore[0]
       var choreName = chore.name;
       var description = chore.description;
       var assignedPeople = chore.assignedTo;
+
       showChore({
         title: choreName,
         text: description,
         people: assignedPeople,
         choreId: choreId,
-        groupId: groupId
+        groupId: groupId,
+        completed: completed
       })
     });
 
@@ -525,13 +527,15 @@ function showChore(options) {
     $('<p>' + "Description:" + '</p>').appendTo(content);
     $('<p>' + options.text + '</p>').appendTo(content);
   }
-  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+  if (!options.completed) {
+    var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+    var bruhButton = $('<button class="bruh-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-600 mdl-color-text--white" id="bruhButton">' + "Bruhh" + '</button>');
+    bruhButton.appendTo(buttonBar);
+    buttonBar.appendTo(content);
+    $('<h6 style="font-size:10px; text-align:center; margin-bottom:0px;">Press the Bruhh button to notify assigned group members to do this chore.</h6>').appendTo(content);
 
-  var bruhButton = $('<button class="bruh-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-600 mdl-color-text--white" id="bruhButton">' + "Bruhh" + '</button>');
+  }
 
-  bruhButton.appendTo(buttonBar);
-  buttonBar.appendTo(content);
-  $('<h6 style="font-size:10px; text-align:center; margin-bottom:0px;">Press the Bruhh button to notify assigned group members to do this chore.</h6>').appendTo(content);
 
   // send notification
   $('#bruhButton').click(function(e) {
@@ -540,7 +544,7 @@ function showChore(options) {
       $('#bruhButton').text("Click To Confirm");
     } else {
       // send notification
-      showLoading()
+      showLoading();
       for (var i = 0; i < options.people.length; i++) {
         var currId = options.people[i].user_id;
         $.get('/api/users/user=' + currId, function(data) {
@@ -551,7 +555,9 @@ function showChore(options) {
           $.post('/bruhh', emailOptions, function(data) {
             console.log('Email sent!');
             hideLoading();
-            hideDialog(dialog);
+            $('#bruhButton').removeClass('mdl-color--blue-400').addClass('mdl-color--green-500');
+            $('#bruhButton').text("Notification Sent!");
+            $('#bruhButton').prop("disabled", true);
           });
         });
       }

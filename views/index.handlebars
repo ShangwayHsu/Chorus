@@ -86,13 +86,13 @@
 
                 {{#each completed-chores}}
                 <li id={{chore_id}} class="show-info mdl-list__item">
-                  <div id={{chore_id}} class="show-info mdl-list__item-primary-content">
+                  <div id={{chore_id}} class="show-info choreComplete mdl-list__item-primary-content">
                     <i class="material-icons mdl-list__item-icon mdl-color-text--green-400">check_circle</i>
-                    <a id={{chore_id}} type="button" class="mdl-chip mdl-chip--contact">
+                    <a id={{chore_id}} type="button" class="mdl-chip mdl-chip--contact choreComplete">
                       {{#short_names}}
-                      <span id={{../chore_id}} class=" person-icon mdl-chip__contact mdl-color--teal mdl-color-text--white">{{short_name}}</span>
+                      <span id={{../chore_id}} class="choreComplete person-icon mdl-chip__contact mdl-color--teal mdl-color-text--white">{{short_name}}</span>
                       {{/short_names}}
-                      <span id={{chore_id}} class="chore-text mdl-chip__text">{{chore_name}}</span>
+                      <span id={{chore_id}} class="choreComplete chore-text mdl-chip__text">{{chore_name}}</span>
                     </a>
                   </div>
                 </li>
