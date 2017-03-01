@@ -92,7 +92,11 @@ $(document).ready(function() {
 
   });
 
-
+  $('#float-add-chore').click(function (e) {
+    var groupId = $('.currGroupId').text();
+    showLoading();
+    showAddChore({groupId: groupId});
+  })
 
 
   $('#show-my-chores').click(function (e) {
@@ -384,7 +388,7 @@ function showMyGroup(options) {
 
   // Putting content to modal
 
-  $('<div class="x-btn"><span type=button id="cancel" class="material-icons mdl-icon mdl-color-text--white" style="float: right;">clear</span></div>').prependTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
   $('<h3 class="modal-title">' + options.title + '</h3>').appendTo(content);
   $("<div class='details-card mdl-shadow--2dp'><h4>" + options.groupName +"</h4><h6>Group ID: " + options.groupId +"</h6></div>").appendTo(content);
   var detailsContent = dialog.find('.details-card');
@@ -480,13 +484,13 @@ function showChore(options) {
   if (options.contentStyle != null) content.css(options.contentStyle);
 
   // Putting content to modal
-  $('<div class="x-btn"><span type=button id="cancel" class="material-icons mdl-icon mdl-color-text--white" style="float: right;">clear</span></div>').prependTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
 
   // menu
   $(`   <div style="float:right; padding: 0px;margin0px;">
         <button id="demo-menu-lower-right"
         class="mdl-button mdl-js-button mdl-button--icon" style="float:right; padding: 0px;margin0px;">
-        <i class="material-icons" style="float:right;padding: 0px;margin:0px;">more_vert</i>
+        <i id="menu-btn" class="material-icons" style="float:right;padding: 0px;margin:0px;">more_vert</i>
         </button>
 
         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
@@ -543,27 +547,7 @@ function showChore(options) {
     }
 
   });
-  function deleteChoreMenu() {
 
-    $.get('/api/chores/chore=' + options.choreId, function(chore) {
-      chore = chore[0]
-
-      var assignedTo = chore.assignedTo;
-    // delete chores from group
-    $.ajax({url: '/api/groups/group=' + options.groupId + '&chore=' + options.choreId,
-    type: 'DELETE'});
-
-    // delete chores from chores
-    $.ajax({url: '/api/chores/chore=' + options.choreId,
-    type: 'DELETE'});
-
-    // delete chores from users
-    for (var x = 0; x < assignedTo.length; x++) {
-      $.ajax({url: '/api/users/delete-chore/user=' + assignedTo[x].user_id + '&chore=' + options.choreId,
-      type: 'DELETE'});
-    }
-  });
-  }
   $('#cancel').click(function(e) {
     hideDialog(dialog);
   });
@@ -572,9 +556,9 @@ function showChore(options) {
     showEditSingleChore({choreId: options.choreId, groupId: options.groupId});
   });
   $('#m-delete').click(function(e) {
-    deleteChoreMenu();
-    window.location.href = "/";
+    showConfirmDelete({choreId: options.choreId, groupId: options.groupId});
   });
+
   componentHandler.upgradeDom();
   if (options.cancelable) {
     dialog.click(function () {
@@ -621,7 +605,7 @@ function showMyChores(options, groupId) {
 
   // Putting content to modal
   hideLoading();
-  $('<div class="x-btn"><span type=button id="cancel" class="material-icons mdl-icon mdl-color-text--white" style="float: right;">clear</span></div>').prependTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
   $('<h3 class="modal-title">' + "My Chores" + '</h3>').appendTo(content);
 
   if (options.chores != null) {
@@ -762,6 +746,90 @@ function showFormError(options) {
   buttonBar.appendTo(content);
   $("#error-done").click(function(e) {
     hideDialog(dialog);
+  });
+  componentHandler.upgradeDom();
+  if (options.cancelable) {
+    dialog.click(function () {
+      hideDialog(dialog);
+    });
+    $(document).bind("keyup.dialog", function (e) {
+      if (e.which == 27)
+      hideDialog(dialog);
+    });
+    content.click(function (e) {
+      e.stopPropagation();
+    });
+  }
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
+}
+//
+// confirm delete-chore
+//
+function showConfirmDelete(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    text: null,
+    people: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
+
+  $('<div id="' + options.id + '2" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id + '2');
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+
+  $('<h5>' + "Are you sure you want to delete?" + '</h5>').appendTo(content);
+
+  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+
+  var yesButton = $('<button id="c-delete" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color--red-600 mdl-color-text--white">' + "Delete" + '</button>');
+  var noButton = $('<button id="c-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
+
+  yesButton.appendTo(buttonBar);
+  noButton.appendTo(buttonBar);
+  buttonBar.appendTo(content);
+  function yesDeleteChore(choreId, groupId) {
+
+    $.get('/api/chores/chore=' + choreId, function(chore) {
+      chore = chore[0]
+
+      var assignedTo = chore.assignedTo;
+    // delete chores from group
+    $.ajax({url: '/api/groups/group=' + groupId + '&chore=' + choreId,
+    type: 'DELETE'});
+
+    // delete chores from chores
+    $.ajax({url: '/api/chores/chore=' + choreId,
+    type: 'DELETE'});
+
+    // delete chores from users
+    for (var x = 0; x < assignedTo.length; x++) {
+      $.ajax({url: '/api/users/delete-chore/user=' + assignedTo[x].user_id + '&chore=' + choreId,
+      type: 'DELETE'});
+    }
+  });
+  }
+
+
+  $("#c-cancel").click(function(e) {
+    hideDialog(dialog);
+  });
+
+  $("#c-delete").click(function(e) {
+    yesDeleteChore(options.choreId, options.groupId);
+    hideDialog(dialog);
+    location.reload(true);
+    window.location.href = "/";
   });
   componentHandler.upgradeDom();
   if (options.cancelable) {
@@ -965,13 +1033,13 @@ function showEditSingleChore(options) {
     $('.dialog-container').remove();
     $(document).unbind("keyup.dialog");
   }
-  $('<div id="' + options.id + '" class="dialog-container"><div class="mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  $('<div id="' + options.id + '" class="dialog-container"><div class="long-modal mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
   var dialog = $('#' + options.id);
   var content = dialog.find('.mdl-card');
   if (options.contentStyle != null) content.css(options.contentStyle);
   // get chore
 
-  $('<div class="x-btn"><span type=button id="cancel" class="material-icons mdl-icon mdl-color-text--white" style="float: right;">clear</span></div>').prependTo(dialog);
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
   $.get('/api/chores/chore=' + options.choreId, function(chore) {
     chore = chore[0]
     var choreName = chore.name;
@@ -1092,8 +1160,8 @@ function showEditSingleChore(options) {
           });
 
           $('#e-delete').click(function(e) {
-            deleteChore();
-            window.location.href = "/";
+            showConfirmDelete({choreId: options.choreId, groupId: options.groupId});
+
           });
 
         });
@@ -1147,7 +1215,7 @@ function showEditSingleChore(options) {
       if (options.contentStyle != null) content.css(options.contentStyle);
 
       // Putting content to modal
-      $('<div class="x-btn"><span type=button id="cancel" class="material-icons mdl-icon mdl-color-text--white" style="float: right;">clear</span></div>').prependTo(dialog);
+      $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
       if (options.title != null) {
         $('<h3>' + options.title + '</h3>').appendTo(content);
       }
@@ -1208,3 +1276,127 @@ function showEditSingleChore(options) {
           options.onLoaded();
         }, 1);
       }
+
+//
+// add chore
+//
+function showAddChore(options) {
+  options = $.extend({
+    id: 'orrsDiag',
+    title: null,
+    text: null,
+    groupId: null,
+    userId: null,
+    cancelable: true,
+    contentStyle: null,
+    onLoaded: false,
+    hideOther: true
+  }, options);
+
+  if (options.hideOther) {
+    // remove existing dialogs
+    $('.dialog-container').remove();
+    $(document).unbind("keyup.dialog");
+  }
+
+  $('<div id="' + options.id + '" class="dialog-container"><div class="long-modal mdl-card mdl-shadow--16dp" id="' + options.id + '_content"></div></div>').appendTo("body");
+  var dialog = $('#' + options.id);
+  var content = dialog.find('.mdl-card');
+  if (options.contentStyle != null) content.css(options.contentStyle);
+
+  // Putting content to modal
+
+  $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--white">clear</i></button>').appendTo(dialog);
+
+  $('<h3>' + "Add New Chore" + '</h3>').appendTo(content);
+
+  $(`
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label chore-entry">
+      <input class="mdl-textfield__input" type="text" id="chore-name"/>
+      <label class="mdl-textfield__label" for="chore-name">Chore Name</label>
+    </div>`).appendTo(content);
+  $('<h6>' + "Assigned To:" + '</h6>').appendTo(content);
+  // get members
+  $.get('/api/groups/members/group=' + options.groupId, function(members) {
+    hideLoading();
+    groupMembers = members[0].members;
+
+    var membersList = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color--green-500 mdl-color-text--white "><td><h5 class="todo-table-title">Members</h5></td></tr></thead>';
+    membersList += '<tbody>';
+    var memberCount = 0;
+    for (var i = 0; i < groupMembers.length; i++) {
+
+      memberCount += 1;
+      var memberName = groupMembers[i].name;
+      var memberId = groupMembers[i].user_id;
+
+      var checked = "";
+
+      membersList += '<tr>';
+      var checkboxes = '<label class="" for="'+ memberId +' "> <input type="checkbox" id="' + memberId + '" class="chore-check mdl-checkbox__input new-checked"' +  checked + '> <span id="e-memberName' + memberId + '" class="mdl-checkbox__label chore-check">'+ memberName +'</span> </label>';
+      membersList +='<td class="mdl-data-table__cell--non-numeric">' + checkboxes +'</td>';
+      membersList += '</tr>';
+    }
+    $(membersList).appendTo(content);
+  $(`
+  <div class="mdl-textfield mdl-js-textfield chore-entry">
+    <textarea class="mdl-textfield__input" type="text" rows= "5" id="chore-description" ></textarea>
+    <label class="mdl-textfield__label" for="chore-description">Description...</label>
+  </div>`).appendTo(content);
+
+  var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
+  var saveButton = $('<button id="saveChore-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color--green-500 mdl-color-text--white">' + "Save" + '</button>');
+
+  saveButton.appendTo(buttonBar);
+  buttonBar.appendTo(content);
+
+  $('#saveChore-btn').click(function (e) {
+    var choreDescription = $('#chore-description').val();
+    var choreName = $('#chore-name').val();
+    var newAssignedTo = [];
+    $(".new-checked").each(function(index) {
+      if($(this).is(':checked')) {
+        var currMemName = $('#e-memberName' + $(this).attr('id')).text();
+        newAssignedTo.push({user_id: $(this).attr('id'), name: currMemName});
+      }
+    });
+
+    var url = "/api/chores";
+    var data = { "name" : choreName,
+                 "description" : choreDescription,
+                 "assignedTo" : newAssignedTo,
+                 "group_id": options.groupId };
+    showLoading();
+    $.post(url, data, function(e) {
+      hideLoading();
+      location.reload(true);
+    });
+
+  });
+
+
+  componentHandler.upgradeDom();
+  });
+  componentHandler.upgradeDom();
+
+  $('#cancel').click(function(e) {
+    hideDialog(dialog);
+  });
+  if (options.cancelable) {
+    dialog.click(function () {
+      hideDialog(dialog);
+    });
+    $(document).bind("keyup.dialog", function (e) {
+      if (e.which == 27)
+      hideDialog(dialog);
+    });
+    content.click(function (e) {
+      e.stopPropagation();
+    });
+  }
+  setTimeout(function () {
+    dialog.css({opacity: 1});
+    if (options.onLoaded)
+    options.onLoaded();
+  }, 1);
+}

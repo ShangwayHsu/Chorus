@@ -27,7 +27,6 @@
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="/">Home</a>
         <a id="my-group" class="mdl-navigation__link">My Group</a>
-        <a id="editChores-btn" class="mdl-navigation__link">Edit Chores</a>
         <a id="editNotification-btn" class="mdl-navigation__link">Edit Notifications</a>
         <a id="logout" class="mdl-navigation__link">Sign Out</a>
       </nav>
@@ -87,7 +86,7 @@
                 {{#each completed-chores}}
                 <li id={{chore_id}} class="show-info mdl-list__item">
                   <div id={{chore_id}} class="show-info mdl-list__item-primary-content">
-                    <i class="material-icons mdl-list__item-icon mdl-color-text--grey-400">check_circle</i>
+                    <i class="material-icons mdl-list__item-icon mdl-color-text--green-400">check_circle</i>
                     <a id={{chore_id}} type="button" class="mdl-chip mdl-chip--contact">
                       {{#short_names}}
                       <span id={{../chore_id}} class=" person-icon mdl-chip__contact mdl-color--teal mdl-color-text--white">{{short_name}}</span>
@@ -104,7 +103,7 @@
         </main>
       </div>
 
-        <a href="/add-chore" id="float-add-chore" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <a id="float-add-chore" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
           <i id="add-chore-icon" class="material-icons">add</i>
         </a>
 
