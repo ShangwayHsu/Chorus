@@ -96,7 +96,7 @@ $(document).ready(function() {
     var userId = $('.currUserId').text();
     var groupId = $('.currGroupId').text();
     showLoading();
-    $.get('/api/chores/user=' + userId + '&group=' + groupId, function(data) {
+    $.get('/api/users/allchores/user=' + userId + '&group=' + groupId, function(data) {
       var chores = data[0].chores;
       showMyChores({
         chores: chores,
