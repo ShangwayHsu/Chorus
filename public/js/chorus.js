@@ -182,6 +182,7 @@ $(document).ready(function() {
       showSuccess({title: "Success!", text: "You have successfully signed up!"});
 
     }).fail(function(err) {
+      showFormError({title: "Error", text: "Username already exists!"});
       console.log("Username already exists!");
     });
 
@@ -419,15 +420,70 @@ function showMyGroup(options) {
   $('#cancel').click(function(e) {
     hideDialog(dialog);
   });
+  function deleteChoreLeave(groupId, choreId, assignedTo) {
+
+    // delete chores from group
+    $.ajax({url: '/api/groups/group=' + groupId + '&chore=' + choreId,
+    type: 'DELETE'});
+
+    // delete chores from chores
+    $.ajax({url: '/api/chores/chore=' + choreId,
+    type: 'DELETE'});
+
+    // delete chores from users
+    for (var x = 0; x < assignedTo.length; x++) {
+      $.ajax({url: '/api/users/delete-chore/user=' + assignedTo[x].user_id + '&chore=' + choreId,
+      type: 'DELETE'});
+    }
+  }
   // remove from group
   $('#leave-btn').click(function(e) {
-    //remove group from user
-    $.ajax({url: '/api/users/user=' + options.userId,
-    type: 'DELETE'});
-    //remove from group
-    $.ajax({url: '/api/groups/group=' + options.groupId +'&user=' + options.userId,
-    type: 'DELETE'});
-    window.location.href = "/";
+    $.get('/api/users/user=' + options.userId, function(user) {
+      user = user[0];
+      var userChores = user.chores;
+
+      // loop through all chores and update without curr user
+      for (var i = 0; i < userChores.length; i++ ) {
+        var choreId = userChores[i].chore_id;
+
+        // get curr chore
+        $.get('/api/chores/chore=' + choreId, function(chore) {
+          chore = chore[0];
+          if (chore == null) {
+            return;
+          }
+          var newAssignedTo = [];
+          var currAssignedTo = chore.assignedTo;
+          var choreName = chore.name;
+          var choreDescription = chore.description;
+          var choreGroup = chore.group_id;
+          deleteChoreLeave(chore.group_id, chore._id, chore.assignedTo);
+          for (var j = 0; j < currAssignedTo.length; j++) {
+            var currPerson = currAssignedTo[j];
+            if (currPerson.user_id != options.userId){
+              newAssignedTo.push(currPerson);
+            }
+          }
+
+          var updatedChore = {
+            name: choreName,
+            description: choreDescription,
+            group_id: choreGroup,
+            assignedTo: newAssignedTo
+          };
+          $.post('/api/chores', updatedChore);
+
+        });
+
+      }
+      $.ajax({url: '/api/users/user=' + options.userId,
+      type: 'DELETE'});
+      //remove from group
+      $.ajax({url: '/api/groups/group=' + options.groupId +'&user=' + options.userId,
+      type: 'DELETE'});
+
+    }).done(function(){setTimeout(showSuccess({title: "Success!", text: "You have left the group."}),10000);});
+
   });
 
 
@@ -499,7 +555,7 @@ function showChore(options) {
   $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
 
   // menu
-  $(`   <div style="float:right; padding: 0px;margin0px; text-align:right;"><p style="display: inline; font-size:15px; line-height: 2.1em;">Edit</p> 
+  $(`   <div class="mdl-color-text--grey-600"style="float:right; padding: 0px;margin0px; text-align:right;"><p style="display: inline; font-size:15px; line-height: 2.1em;">Options</p>
         <button id="demo-menu-lower-right"
         class="mdl-button mdl-js-button mdl-button--icon" style="float:right; padding: 0px;margin0px;">
         <i id="menu-btn" class="material-icons" style="float:right;padding: 0px;margin:0px;">more_vert</i>
@@ -507,7 +563,7 @@ function showChore(options) {
 
         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
         for="demo-menu-lower-right">
-        <li id="m-edit" class="mdl-menu__item">Edit</li>
+        <li id="m-edit" class="mdl-menu__item">Edit Chore</li>
         <li id="m-delete" class="mdl-menu__item">Delete Chore</li>
 
         </ul></div>`).appendTo(content);

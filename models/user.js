@@ -115,3 +115,9 @@ module.exports.deleteChore = function(userId, choreId, callback) {
   var currId = mongoose.Types.ObjectId(userId);
   User.update({"_id": currId}, {$pull: {chores:{"chore_id": choreId}}}, callback);
 }
+
+// "delete" chore from user with groupId
+module.exports.deleteChoreByGroup = function(userId, groupId, callback) {
+  var currId = mongoose.Types.ObjectId(userId);
+  User.update({"_id": currId}, {$pull: {chores:{"group_id": groupId}}}, callback);
+}
