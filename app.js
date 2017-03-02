@@ -249,6 +249,77 @@ app.get('/dashboard', function(req, res) {
   });
 });
 
+// ############################################ ORIGINAL############################
+// Home page
+app.get('/dashboard2', function(req, res) {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  function getMonday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+    nd = new Date(d.setDate(diff));
+    day = nd.getDate();
+    month = nd.getMonth() + 1;
+    return  month + "/" + day;
+  }
+  function getSunday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? 0:7); // adjust when day is sunday
+    nd = new Date(d.setDate(diff));
+    day = nd.getDate();
+    month = nd.getMonth() + 1;
+    return  month + "/" + day;
+  }
+
+  // get the current user
+  var currUser = req.session.user;
+  var userId = currUser._id;
+
+  // get which group user in
+
+  User.getCurrGroup(userId, function(err, userGroup) {
+    if (err) { throw err; }
+    // get curent group id
+    var groupId = userGroup[0].in_group.group_id;
+
+    if (typeof groupId == 'undefined' || groupId == "") {
+      return res.redirect('/findGroup');
+      return;
+    }
+    HousingGroup.getGroupById(groupId, function(err, group) {
+      if (err) { throw err; }
+
+      var allChoresList = group[0].chores;
+      var groupName = group[0].name;
+      var uncompletedChoreList = [];
+      var completedChoreList = [];
+
+      for (var i = 0; i < allChoresList.length; i++) {
+        if (allChoresList[i].completed) {
+          completedChoreList.push(allChoresList[i]);
+        } else {
+          uncompletedChoreList.push(allChoresList[i]);
+        }
+      }
+
+      // render index with chore lists
+      res.render('index_original', {
+        'uncompleted-chores': uncompletedChoreList,
+        'completed-chores': completedChoreList,
+        'curr-user-id': userId,
+        'curr-group-id': groupId,
+        'curr-group-name': groupName,
+        'curr-monday': getMonday(new Date()),
+        'curr-sunday': getSunday(new Date())
+      });
+    });
+  });
+});
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 // login
 app.post('/login', function(req, res, next) {
   var username = req.body.username;
