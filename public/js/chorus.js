@@ -499,7 +499,7 @@ function showChore(options) {
   $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
 
   // menu
-  $(`   <div style="float:right; padding: 0px;margin0px;">
+  $(`   <div style="float:right; padding: 0px;margin0px; text-align:right;"><p style="display: inline; font-size:15px; line-height: 2.1em;">Edit</p> 
         <button id="demo-menu-lower-right"
         class="mdl-button mdl-js-button mdl-button--icon" style="float:right; padding: 0px;margin0px;">
         <i id="menu-btn" class="material-icons" style="float:right;padding: 0px;margin:0px;">more_vert</i>
