@@ -49,6 +49,7 @@ var switchGroups = require('./routes/switchGroups');
 var editMembers = require('./routes/editMembers');
 var editProfile = require('./routes/editProfile');
 var login = require('./routes/login');
+var login2 = require('./routes/login_bro');
 var register = require('./routes/register');
 var findGroup = require('./routes/findGroup');
 
@@ -77,6 +78,7 @@ app.get('/switch-groups', switchGroups.view);
 app.get('/edit-members', editMembers.view);
 app.get('/edit-profile', editProfile.view);
 app.get('/login', login.view);
+app.get('/login-bro', login2.view);
 app.get('/register', register.view);
 app.get('/findGroup', findGroup.view);
 

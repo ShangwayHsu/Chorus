@@ -10,6 +10,25 @@
 
  }
 
+ .login-body2 {
+   background-image: url("/images/frat.jpeg");
+   height: 100%;
+   width: 100%;
+   background-size: cover;
+   background-repeat: no-repeat;
+
+ }
+ .demo-card-event.mdl-card.bruhh {
+   width: 80%;
+   height: 85%;
+   left: 10%;
+   top: 7%;
+   background: rgba(255,255,255,0.85);
+   padding-left: 0%;
+   padding-right: 0%;
+   vertical-align: middle;
+
+ }
  .demo-card-event.mdl-card {
    width: 80%;
    height: 85%;
