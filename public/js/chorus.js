@@ -417,6 +417,7 @@ function showMyGroup(options) {
   var leaveButton = $('<a id="leave-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised mdl-color--red-500 mdl-color-text--white">' + "Leave Group" + '</a>');
   leaveButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
+  $('<p style="font-size:10px; text-align:center; padding-bottom:0px; margin-bottom;0px;">*Leaving group will remove you from chores and reset chore to uncomplete</p>').appendTo(content);
   $('#cancel').click(function(e) {
     hideDialog(dialog);
   });
