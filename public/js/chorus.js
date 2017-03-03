@@ -85,8 +85,7 @@ $(document).ready(function() {
     $.post('/logout');
     window.location.href = "/";
   });
-
-  $('.show-info').click(function (e) {
+  var showChoreInfo = function(e) {
     var choreId = e.target.id;
     var groupId = $('.currGroupId').text();
     var completed = $(e.target).hasClass("choreComplete");
@@ -106,6 +105,9 @@ $(document).ready(function() {
       })
     });
 
+  }
+  $('.show-info').click(function(e) {
+    showChoreInfo(e);
   });
 
   $('#float-add-chore').click(function (e) {
@@ -594,10 +596,10 @@ function showChore(options) {
   }
   if (!options.completed) {
     var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
-    var bruhButton = $('<button class="bruh-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-600 mdl-color-text--white" id="bruhButton">' + "Bruhh" + '</button>');
+    var bruhButton = $('<button class="bruh-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-600 mdl-color-text--white" id="bruhButton">' + "Send Notification" + '</button>');
     bruhButton.appendTo(buttonBar);
     buttonBar.appendTo(content);
-    $('<h6 style="font-size:10px; text-align:center; margin-bottom:0px;">Press the Bruhh button to notify assigned group members to do this chore.</h6>').appendTo(content);
+    $('<h6 style="font-size:10px; text-align:center; margin-bottom:0px;">Press the notification button to notify assigned group members to do this chore.</h6>').appendTo(content);
 
   }
 
