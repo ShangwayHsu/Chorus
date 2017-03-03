@@ -2,10 +2,15 @@ var okPressed = true;
 $(document).ready(function() {
   $('#editResetCycle-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
+    $.get('/api/groups/group=' + groupId, function(group) {
+      reset = group[0].reset;
 
-    showResetCycle({
-      groupId: groupId
-    });
+      showResetCycle({
+        groupId: groupId,
+        reset: reset
+      });
+    })
+
   });
 
   $('#editNotification-btn').click(function(e) {
@@ -108,7 +113,6 @@ $(document).ready(function() {
     showLoading();
     showAddChore({groupId: groupId});
   })
-
 
   $('#show-my-chores').click(function (e) {
     // Curr user id stored in hidden div
@@ -1518,16 +1522,26 @@ function showResetCycle(options) {
   // Putting content to modal
   $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
 
+  // see which option is selected
+  var weekly = '';
+  var biweekly = '';
+
+  if (options.reset == "weekly") {
+
+      weekly = "checked";
+  } else {
+    biweekly = "checked";
+  }
 
   $('<h3>Reset Cycle Settings</h3>').appendTo(content);
   $('<p style="font-size: 12px;">The reset cycle puts all chores back to uncompleted on Sunday 12:00am.  Set whether your group prefers a weekly or biweekly setting</p>').appendTo(content);
   $(`
     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-      <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+      <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" ` + weekly +`>
       <span class="mdl-radio__label">Weekly</span>
     </label>
     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-      <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="1" checked>
+      <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="1" ` + biweekly +`>
       <span class="mdl-radio__label">Biweekly</span>
     </label>
     `).appendTo(content);
@@ -1541,7 +1555,19 @@ function showResetCycle(options) {
     componentHandler.upgradeDom();
 
     $('#n-save').click(function(e) {
-      hideDialog(dialog);
+      if ($('#option-1').is(':checked')) {
+        $.post('/api/groups/reset/group=' + options.groupId + '&reset=' + 'weekly', function(data) {
+          //console.log(data);
+          hideDialog(dialog);
+        })
+      } else {
+        $.post('/api/groups/reset/group=' + options.groupId + '&reset=' + 'biweekly', function(data) {
+          //console.log(data);
+          hideDialog(dialog);
+        })
+      }
+
+
     })
     $("#n-cancel").click(function(e) {
       hideDialog(dialog);

@@ -556,6 +556,16 @@ app.post('/api/users/user=:userId&group=:groupId&groupName=:groupName', function
   });
 });
 
+// update reset cycle value
+app.post('/api/groups/reset/group=:groupId&reset=:resetValue', function(req, res) {
+  var groupId = req.params.groupId;
+  var reset = req.params.resetValue
+  HousingGroup.updateReset(groupId, reset, function(err, user) {
+    if (err) { throw err; }
+    res.json(user);
+  });
+});
+
 // delete user from group
 app.delete('/api/groups/group=:groupId&user=:userId', function(req, res) {
   var userId = req.params.userId;

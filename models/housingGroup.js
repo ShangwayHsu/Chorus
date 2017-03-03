@@ -32,7 +32,11 @@ var groupsSchema = mongoose.Schema({
         type: String
       }
     }]
-  }]
+  }],
+  reset: {
+    type: String,
+    default: '1'
+  }
 
 });
 
@@ -101,4 +105,10 @@ module.exports.updateChoreComplete = function(groupId, choreId, completed, callb
 module.exports.deleteChore = function(groupId, choreId, callback) {
   var currId = mongoose.Types.ObjectId(groupId);
   HousingGroup.update({"_id": currId}, {$pull: {chores:{"chore_id": choreId}}}, callback);
+}
+
+// update reset value
+module.exports.updateReset = function(groupId, resetVal, callback) {
+  var currId = mongoose.Types.ObjectId(groupId);
+  HousingGroup.update({"_id": currId}, {$set: {"reset": resetVal}}, callback);
 }
