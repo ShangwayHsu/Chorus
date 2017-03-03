@@ -606,7 +606,7 @@ function showChore(options) {
 
   // send notification
   $('#bruhButton').click(function(e) {
-    if ($('#bruhButton').text() == "Bruhh") {
+    if ($('#bruhButton').text() == "Send Notification") {
       $('#bruhButton').removeClass('mdl-color--red-600').addClass('mdl-color--blue-400');
       $('#bruhButton').text("Click To Confirm");
     } else {
