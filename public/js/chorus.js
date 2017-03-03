@@ -564,12 +564,12 @@ function showChore(options) {
 
   // Putting content to modal
   $('<button class="x2-btn mdl-button mdl-js-button mdl-button--fab"><i id="cancel" class="material-icons mdl-icon mdl-color-text--grey-700">clear</i></button>').appendTo(dialog);
-
+//<p style="display: inline; font-size:15px; line-height: 2.1em;">Options</p>
   // menu
-  $(`   <div class="mdl-color-text--grey-600"style="float:right; padding: 0px;margin0px; text-align:right;"><p style="display: inline; font-size:15px; line-height: 2.1em;">Options</p>
+  $(`   <div class="mdl-color-text--grey-600"style="float:right; padding: 0px;margin0px; text-align:right;">
         <button id="demo-menu-lower-right"
         class="mdl-button mdl-js-button mdl-button--icon" style="float:right; padding: 0px;margin0px;">
-        <i id="menu-btn" class="material-icons" style="float:right;padding: 0px;margin:0px;">more_vert</i>
+        <i id="menu-btn" class="material-icons" style="float:right;padding: 0px;margin:0px;">edit</i>
         </button>
 
         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
@@ -1187,7 +1187,7 @@ function showEditSingleChore(options) {
           var buttonBar2 = $('<div class="mdl-card__actions dialog-button-bar"></div>');
           var cancelButton = $('<button id="e-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
           var saveButton = $('<button id="e-save" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white">' + "Save Changes" + '</button>');
-          var deleteButton = $('<button id="e-delete" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-500 mdl-color-text--white">' + "Delete Chore" + '</button>');
+          //var deleteButton = $('<button id="e-delete" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-500 mdl-color-text--white">' + "Delete Chore" + '</button>');
 
           $('<p>*Note: Saving will reset chore to completed</p>').appendTo(content);
           saveButton.appendTo(buttonBar);
