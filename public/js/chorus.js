@@ -1,3 +1,4 @@
+var okPressed = true;
 $(document).ready(function() {
   $('#editResetCycle-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
@@ -137,6 +138,7 @@ $(document).ready(function() {
           title: "Error",
           text: err.responseText
         }
+
       );
       console.log(err.responseText);
     });
@@ -148,8 +150,9 @@ $(document).ready(function() {
 
   $('#password').keypress(function (e) {
     var key = e.which;
-    if(key == 13)  // the enter key code
+    if(key == 13 &&  okPressed)  // the enter key code
     {
+      okPressed = false;
       login();
       return false;
     }
@@ -191,8 +194,9 @@ $(document).ready(function() {
 
   $('#username').keypress(function (e) {
     var key = e.which;
-    if(key == 13)  // the enter key code
+    if(key == 13 & okPressed)  // the enter key code
     {
+      okPressed = false;
       login();
       return false;
     }
@@ -819,6 +823,7 @@ function showFormError(options) {
   okButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
   $("#error-done").click(function(e) {
+    okPressed = true;
     hideDialog(dialog);
   });
   componentHandler.upgradeDom();
