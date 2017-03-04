@@ -1208,7 +1208,7 @@ function showEditSingleChore(options) {
 
           $('#e-save').click(function(e) {
             // basically delete that chore and put a new one
-            showLoading();
+            //showLoading();
             //check which check boxes have been set for assignedTo
             var newAssignedTo = [];
             $(".new-checked").each(function(index) {
@@ -1225,11 +1225,13 @@ function showEditSingleChore(options) {
             "description" : newChoreDescription,
             "assignedTo" : newAssignedTo,
             "group_id": options.groupId };
-            $.post(url, data);
+            $.post(url, data, function(err) {
+              deleteChore();
+              //hideLoading();
+              window.location.href = "/";
+            });
 
-            deleteChore();
-            hideLoading();
-            window.location.href = "/";
+
 
           });
 
