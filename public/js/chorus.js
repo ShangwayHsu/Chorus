@@ -1184,18 +1184,11 @@ function showEditSingleChore(options) {
 
           // cancel save delete buttons
           var buttonBar = $('<div class="mdl-card__actions dialog-button-bar"></div>');
-          var buttonBar2 = $('<div class="mdl-card__actions dialog-button-bar"></div>');
-          var cancelButton = $('<button id="e-cancel" class="mdl-button mdl-js-button mdl-js-ripple-effect">' + "Cancel" + '</button>');
           var saveButton = $('<button id="e-save" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--green-500 mdl-color-text--white">' + "Save Changes" + '</button>');
-          //var deleteButton = $('<button id="e-delete" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red-500 mdl-color-text--white">' + "Delete Chore" + '</button>');
 
           $('<p>*Note: Saving will reset chore to completed</p>').appendTo(content);
           saveButton.appendTo(buttonBar);
-          cancelButton.appendTo(buttonBar);
           buttonBar.appendTo(content);
-          deleteButton.appendTo(buttonBar2);
-          $('<br>').appendTo(content);
-          buttonBar2.appendTo(content);
 
           function deleteChore() {
             // delete chores from group
