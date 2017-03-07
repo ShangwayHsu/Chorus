@@ -45,8 +45,6 @@ mongoose.connect(dbURI);
 
 //----------- View routes -----------
 var addChore = require('./routes/addChore');
-var switchGroups = require('./routes/switchGroups');
-var editMembers = require('./routes/editMembers');
 var editProfile = require('./routes/editProfile');
 var login = require('./routes/login');
 var login2 = require('./routes/login_bro');
@@ -74,8 +72,6 @@ if ('development' == app.get('env')) {
 
 //----------- Add routes here -----------
 app.get('/add-chore', addChore.view);
-app.get('/switch-groups', switchGroups.view);
-app.get('/edit-members', editMembers.view);
 app.get('/edit-profile', editProfile.view);
 app.get('/login', login.view);
 app.get('/login-bro', login2.view);
