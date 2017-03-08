@@ -636,11 +636,15 @@ function showChore(options) {
     hideDialog(dialog);
   });
   $('#m-edit').click(function(e) {
-    ga('send', 'event', 'edit-in-details', 'click');
+
     showEditSingleChore({choreId: options.choreId, groupId: options.groupId});
   });
   $('#m-delete').click(function(e) {
     showConfirmDelete({choreId: options.choreId, groupId: options.groupId});
+  });
+
+  $('#menu-btn').click(function(e) {
+    ga('send', 'event', 'edit-in-details', 'click');
   });
 
   componentHandler.upgradeDom();
