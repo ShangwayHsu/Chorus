@@ -47,7 +47,7 @@ mongoose.connect(dbURI);
 var addChore = require('./routes/addChore');
 var editProfile = require('./routes/editProfile');
 var login = require('./routes/login');
-var login2 = require('./routes/login_bro');
+var login2 = require('./routes/login2');
 var register = require('./routes/register');
 var findGroup = require('./routes/findGroup');
 
@@ -74,7 +74,7 @@ if ('development' == app.get('env')) {
 app.get('/add-chore', addChore.view);
 app.get('/edit-profile', editProfile.view);
 app.get('/login', login.view);
-app.get('/login-bro', login2.view);
+app.get('/login2', login2.view);
 app.get('/register', register.view);
 app.get('/findGroup', findGroup.view);
 
