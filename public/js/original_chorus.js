@@ -12,6 +12,7 @@ $(document).ready(function() {
   $('#editChores-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
     var userId = $('.currUserId').text();
+    ga('send', 'event', 'Edit Chore', 'click')
     showLoading();
     showEditChores({
       title: 'Edit Chores',
@@ -69,7 +70,7 @@ $(document).ready(function() {
 
   $("#logout").click(function(e) {
     $.post('/logout');
-    window.location.href = "/dashboard2";
+    window.location.href = "/login2";
   });
 
   $('.show-info').click(function (e) {
