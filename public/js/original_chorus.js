@@ -64,12 +64,12 @@ $(document).ready(function() {
 
   $("#logout-group").click(function(e) {
     $.post('/logout');
-    window.location.href = "/";
+    window.location.href = "/dashboard2";
   });
 
   $("#logout").click(function(e) {
     $.post('/logout');
-    window.location.href = "/";
+    window.location.href = "/dashboard2";
   });
 
   $('.show-info').click(function (e) {
@@ -111,7 +111,7 @@ $(document).ready(function() {
     var password = $('#password').val();
     $.post('/login', {username: username, password: password}, function(data, err) {
       console.log(data);
-      window.location.href = "/dashboard";
+      window.location.href = "/dashboard2";
     })
     .fail(function(err) {
       showFormError(
@@ -238,7 +238,7 @@ function showCreateGroup(options) {
       $.post(uri, function(data) {
         console.log("Added group to user");
         // go to dashboard
-        window.location.href = "/";
+        window.location.href = "/dashboard2";
       });
 
     });
@@ -324,7 +324,7 @@ function showJoinGroup(options) {
       type: 'POST'});
 
       // go to dashboard
-      window.location.href = "/";
+      window.location.href = "/dashboard2";
     }).fail(function() {console.log("Invalid Group ID");});
 
   });
@@ -407,7 +407,7 @@ function showMyGroup(options) {
     //remove from group
     $.ajax({url: '/api/groups/group=' + options.groupId +'&user=' + options.userId,
     type: 'DELETE'});
-    window.location.href = "/";
+    window.location.href = "/dashboard2";
   });
 
 
@@ -646,14 +646,14 @@ function showMyChores(options, groupId) {
 
   });
   $('#my-chores-done').click(function(e) {
-    window.location.href = "/";
+    window.location.href = "/dashboard2";
   });
   dialog.click(function () {
-    window.location.href = "/";
+    window.location.href = "/dashboard2";
   });
   $(document).bind("keyup.dialog", function (e) {
     if (e.which == 27)
-    window.location.href = "/";
+    window.location.href = "/dashboard2";
   });
   content.click(function (e) {
     e.stopPropagation();
@@ -776,7 +776,7 @@ function showSuccess(options) {
   okButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
   $("#error-done").click(function(e) {
-    window.location.href = "/";
+    window.location.href = "/dashboard2";
     hideDialog(dialog);
   });
   componentHandler.upgradeDom();
@@ -1036,17 +1036,17 @@ function showEditSingleChore(options) {
 
             deleteChore();
             hideLoading();
-            window.location.href = "/";
+            window.location.href = "/dashboard2";
 
           });
 
           $('#e-cancel').click(function(e) {
-            window.location.href = "/";
+            window.location.href = "/dashboard2";
           });
 
           $('#e-delete').click(function(e) {
             deleteChore();
-            window.location.href = "/";
+            window.location.href = "/dashboard2";
           });
 
         });
@@ -1136,7 +1136,7 @@ function showEditSingleChore(options) {
             type: 'PUT'}, function(e) {
               console.log("Email Saved");
             });
-            window.location.href = "/";
+            window.location.href = "/dashboard2";
 
           });
         });
