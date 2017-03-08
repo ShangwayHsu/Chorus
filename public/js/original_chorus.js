@@ -12,7 +12,7 @@ $(document).ready(function() {
   $('#editChores-btn').click(function(e) {
     var groupId = $('.currGroupId').text();
     var userId = $('.currUserId').text();
-    ga('send', 'event', 'edit', 'click')
+    ga('send', 'event', 'edit', 'click');
     showLoading();
     showEditChores({
       title: 'Edit Chores',
