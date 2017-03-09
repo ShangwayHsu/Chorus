@@ -109,7 +109,32 @@ button:focus {
 /*
  * Dashboard page
  */
+.body {
+  font-family: 'Roboto', sans-serif;
+}
 
+.h2 {
+  font-family: 'Roboto', sans-serif;
+}
+
+.h3 {
+  font-family: 'Roboto', sans-serif;
+}
+.h4 {
+  font-family: 'Roboto', sans-serif;
+}
+.h5 {
+  font-family: 'Roboto', sans-serif;
+}
+.h6 {
+  font-family: 'Roboto', sans-serif;
+}
+.p {
+  font-family: 'Roboto', sans-serif;
+}
+.chorus-menu-title {
+  font-family: 'Lobster', cursive;
+}
   .person-icon {
     font-weight: 100;
   }
