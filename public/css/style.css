@@ -1,4 +1,7 @@
 
+
+
+
 /*
  * Login page
  */
@@ -35,7 +38,7 @@
   font-size: 17px;
   font-family: 'Roboto', sans-serif;
   color: #212121;
-  font-weight: lighter;
+  font-weight: regular;
 
 }
 input:focus,
@@ -45,15 +48,15 @@ button:focus {
     outline: none;
 }
 .intro-block {
-  padding-top: 10%;
+  padding-top: 12%;
 }
 
 .login-block {
-  padding-top: 18%;
+  padding-top: 19%;
 }
 
 .entry-box {
-  width: 60%;
+  width: 70%;
   height: 42px;
   margin: 10px;
   border-radius: 10px;
@@ -109,7 +112,9 @@ button:focus {
 /*
  * Dashboard page
  */
-
+ .chorus-menu-title {
+   font-family: 'Lobster', cursive;
+ }
   .person-icon {
     font-weight: 100;
   }
@@ -233,6 +238,15 @@ button:focus {
 
 .chore-check {
   padding-left: 20px;
+}
+
+.login-box {
+  background-color:rgba(255,255,255,0.4);
+  border-radius:20px;
+  width:80%;
+  padding:0px;
+  margin: auto;
+  margin-top:0px;
 }
 
 /*
