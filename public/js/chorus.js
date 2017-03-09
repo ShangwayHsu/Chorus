@@ -107,7 +107,6 @@ $(document).ready(function() {
 
   }
   $('.show-info').click(function(e) {
-    console.log("pressed a chore");
     showChoreInfo(e);
   });
 
