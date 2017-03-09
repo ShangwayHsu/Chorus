@@ -2,6 +2,8 @@
 <html>
 <head>
 
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
@@ -10,45 +12,28 @@
 </head>
 <body class="login-body">
 
-  <!-- Login card -->
-  <div class="demo-card-event mdl-card mdl-shadow--2dp">
-    <div class ="everything_else">
-      <div class="mdl-card__title">
-        <h1 class="title-text chorus-login">Chorus</h1>
-      </div>
+  <!-- Login area -->
+  <div class="mdl-grid vert">
+    <div class="mdl-cell mdl-cell--6-col intro-block" style="background-color:rgba(0,0,0,0)">
+      <h1 class="intro-text">Chorus <sup>♫</sup></h1>
+      <h4 class="intro-sub-text">complete chores in harmony</h4>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col login-block" style="background-color:rgba(0,0,0,0)">
 
-      <div class="login-text">Login</div>
-      <!-- user name text field -->
-      <div class="login-input" action="#">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <label class="mdl-textfield__label" for="username">Username</label>
-          <input class="mdl-textfield__input" type="text" id="username">
-        </div>
-      </div>
+      <input id="username" class="entry-box" type="text" name="username" placeholder="Username"><br>
+      <input id="password" class="entry-box" type="password" name="password" placeholder="Password"><br>
+      <button id="login-btn" class="login-btn"> Log in </button>
+      <p class="signup-text">Not a member? <a href="/register" class="signup-text"><u>Sign Up!</u><a><p>
 
-      <!-- password text field -->
-      <div class="login-input" action="#">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <label class="mdl-textfield__label" for="password">Password</label>
-          <input class="mdl-textfield__input" type="password" id="password">
-        </div>
-      </div>
-      <div class= "login">
-        <!-- Log-in button -->
-        <button id="login-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
-          Log in
-        </button>
-      </div>
-      <div class= "register">
-        <!-- Log-in button -->
-        <a href="/register" class="mdl-button mdl-js-button mdl-button--accent">
-          Register Now
-        </a>
-      </div>
+    </div>
+    <div class="mdl-cell mdl-cell--2-col">
     </div>
   </div>
+
 </body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+
 </html>
