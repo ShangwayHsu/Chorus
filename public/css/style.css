@@ -118,6 +118,9 @@ button:focus {
 /*
  * Dashboard page
  */
+ .mdl-card.chore-box {
+   border-radius: 20px;
+ }
  header.nav-bar {
    background-color: var(--nav-bar-bg);
  }
@@ -220,7 +223,7 @@ button:focus {
 }
 
 .home-title {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Lobster', sans-serif;
   font-weight: regular;
   color: #455A64;
 }
