@@ -1,25 +1,4 @@
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  font-family: 'Roboto', sans-serif;
-}
-a,
-button,
-span,
-div,
-h3,
-h4,
-h5,
-h6,
-p {
-  font-family: 'Roboto', sans-serif;
-  font-weight: regular;
-}
+
 
 
 
@@ -143,7 +122,6 @@ button:focus {
   .chore-text {
     padding-left: 10px;
     padding-right: 10px;
-    font-weight: 300;
   }
 
 
