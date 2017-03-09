@@ -1,4 +1,14 @@
-
+:root {
+  --nav-bar-bg: #AD5C5C;
+  --dash-body-bg: #fffff7;
+  --mychores-btn-bg: #FFCA28;
+  --complete-table-bg: #78909C;
+  --incomplete-table-bg: #EF5350;
+  --add-chore-btn-bg: #CD5C5C;
+}
+* {
+  font-family: 'Lato', sans-serif;
+}
 
 /*
  * Login page
@@ -37,7 +47,6 @@
   font-family: 'Roboto', sans-serif;
   color: #212121;
   font-weight: regular;
-
 }
 input:focus,
 select:focus,
@@ -66,7 +75,6 @@ button:focus {
   background-color: white;
   font-family: 'Roboto', sans-serif;
   font-weight: lighter;
-
 }
 
 .login-btn {
@@ -75,13 +83,12 @@ button:focus {
   font-family: 'Lobster', cursive;
   font-size: 25px;
   color: white;
-  background-color: #534741;
+  background-color: #CD5C5C;
   padding: 0px;
   border-radius: 8px;
-  border-color: #534741;
+  border-color: #CD5C5C;
   border-style: solid;
   margin: 10px;
-
 }
 
 .find-group-text {
@@ -101,6 +108,7 @@ button:focus {
     font-family: 'Lobster', cursive;
     padding-left: 20px;
 }
+
 .logout-btn-fg {
   padding-bottom: 20px;
 }
@@ -110,18 +118,27 @@ button:focus {
 /*
  * Dashboard page
  */
+ header.nav-bar {
+   background-color: var(--nav-bar-bg);
+ }
+ .mdl-layout__header {
+   background-color: #594f2d;
+ }
  .chorus-menu-title {
    font-family: 'Lobster', cursive;
  }
+ .mdl-layout__content {
+   background: var(--dash-body-bg);
+ }
   .person-icon {
-    font-weight: 100;
+    font-weight: 300;
   }
 
   .chore-text {
     padding-left: 10px;
     padding-right: 10px;
+    font-weight: 400;
   }
-
 
  #cancel:hover {
 
@@ -131,6 +148,7 @@ button:focus {
 .group-btn {
 }
 #float-add-chore {
+      background-color: var(--add-chore-btn-bg);
       position: fixed;
       display: block;
       right: 25px;
@@ -138,7 +156,7 @@ button:focus {
       z-index: 900;
 }
 .incomplete {
-  background: #EF5350;
+  background: var(--incomplete-table-bg);
   color: white;
 }
 
@@ -148,13 +166,12 @@ button:focus {
 }
 
 .complete {
-  background: #2196F3;
+  background: var(--complete-table-bg);
   color: white;
 }
-.mdl-layout__content {
-  background: #EEEEEE;
-}
+
 .my-chores-btn {
+  background-color: #FFCA28;
   padding: 20px;
   width: 300px;
   margin:0,auto;
@@ -203,7 +220,8 @@ button:focus {
 }
 
 .home-title {
-
+  font-family: 'Lato', sans-serif;
+  font-weight: regular;
   color: #455A64;
 }
 .assign-to {
