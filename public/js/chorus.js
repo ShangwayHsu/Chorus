@@ -645,7 +645,7 @@ function showChore(options) {
 
   $('#menu-btn').click(function(e) {
     //console.log("details click event!");
-    ga('send', 'event', 'edit-in-details', 'click');
+    ga('send', 'event', 'edit', 'click');
   });
 
   componentHandler.upgradeDom();
