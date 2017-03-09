@@ -45,15 +45,15 @@ button:focus {
     outline: none;
 }
 .intro-block {
-  padding-top: 10%;
+  padding-top: 12%;
 }
 
 .login-block {
-  padding-top: 18%;
+  padding-top: 19%;
 }
 
 .entry-box {
-  width: 60%;
+  width: 70%;
   height: 42px;
   margin: 10px;
   border-radius: 10px;
