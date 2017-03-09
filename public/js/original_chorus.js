@@ -70,7 +70,7 @@ $(document).ready(function() {
 
   $("#logout").click(function(e) {
     $.post('/logout');
-    window.location.href = "/login2";
+    window.location.href = "/login";
   });
 
   $('.show-info').click(function (e) {

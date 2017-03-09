@@ -83,7 +83,7 @@ $(document).ready(function() {
 
   $("#logout").click(function(e) {
     $.post('/logout');
-    window.location.href = "/";
+    window.location.href = "/login";
   });
   var showChoreInfo = function(e) {
     var choreId = e.target.id;
