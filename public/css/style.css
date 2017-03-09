@@ -1,26 +1,23 @@
-.body {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   font-family: 'Roboto', sans-serif;
+}
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: 'Roboto', sans-serif;
+  font-weight: lighter;
 }
 
-.h2 {
-  font-family: 'Roboto', sans-serif;
-}
 
-.h3 {
-  font-family: 'Roboto', sans-serif;
-}
-.h4 {
-  font-family: 'Roboto', sans-serif;
-}
-.h5 {
-  font-family: 'Roboto', sans-serif;
-}
-.h6 {
-  font-family: 'Roboto', sans-serif;
-}
-.p {
-  font-family: 'Roboto', sans-serif;
-}
 
 /*
  * Login page
