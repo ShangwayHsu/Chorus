@@ -1,180 +1,124 @@
+
 /*
  * Login page
  */
 
- .intro-login {
-   background-color: rgba(0,0,0,0);
- }
- .login-body {
-   background-image: url("/images/chorus_background.png");
-   height: 100%;
-   width: 100%;
-   background-size: cover;
-   background-repeat: no-repeat;
+.login-body {
+  background-image: url("/images/chorus_background.png");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+  background-color: #534741;
+}
 
- }
+.vert {
+  width: 100%;
+  height: 100%;
+}
 
- .login-body2 {
+.intro-text {
+  font-family: 'Lobster', cursive;
+  color: white;
+  margin: 0px;
+  font-size: 80px;
+}
 
-   background-image: url("/images/frat.jpeg");
-   height: 100%;
-   width: 100%;
-   background-size: cover;
-   background-repeat: no-repeat;
-   padding: 30px;
+.intro-sub-text {
+  font-family: 'Lobster', cursive;
+  margin: 0px;
+  color: white;
+  font-size: 38px;
+}
+.signup-text {
+  font-size: 17px;
+  font-family: 'Roboto', sans-serif;
+  color: #212121;
+  font-weight: lighter;
 
- }
- .demo-card-event.mdl-card.bruhh {
-   width: 80%;
-   height: 85%;
-   top: 7%;
-   padding-left: 0%;
-   padding-right: 0%;
-   vertical-align: middle;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+.intro-block {
+  padding-top: 10%;
+}
 
- }
- .demo-card-event.mdl-card {
-   width: 80%;
-   height: 85%;
-   left: 10%;
-   top: 7%;
-   background: rgba(255,255,255,0.88);
-   padding-left: 0%;
-   padding-right: 0%;
-   vertical-align: middle;
+.login-block {
+  padding-top: 18%;
+}
 
- }
- .demo-card-event > .mdl-card__actions {
-   border-color: rgba(255, 255, 255, 0.2);
- }
- .demo-card-event > .mdl-card__title {
-   align-items: flex-start;
- }
- .login-text {
-  font-family: "helvetica";
-   text-align: center;
-   margin: 0, auto;
-   color: #4682b4;
-   font-size: 60px;
-   padding-bottom: 50px;
+.entry-box {
+  width: 60%;
+  height: 42px;
+  margin: 10px;
+  border-radius: 10px;
+  border-color: white;
+  border-style: solid;
+  padding: 5px;
+  padding-left: 12px;
+  font-size: 18px;
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: lighter;
 
- }
- .register-text {
-  font-family: "helvetica";
-   text-align: center;
-   margin: 0, auto;
-   color: #4682b4;
-   font-size: 60px;
-   padding-bottom: 20px;
-   padding-top: 0px;
+}
 
- }
- .chorus-login2 {
-   font-family: "helvetica";
-   padding-left: 5%;
-   color: #4682b4;
-   font-size: 35px;
- }
- .chorus-login {
-   font-family: 'Lobster', cursive;
-   font-weight: 1.3;
-   padding-top: 0%;
-   padding-left: 5%;
-   padding-right: 0%;
-   padding-bottom: 5%;
-   color: #4682b4;
-   font-size: 35px;
- }
+.login-btn {
+  width: 65%;
+  height: 55px;
+  font-family: 'Lobster', cursive;
+  font-size: 25px;
+  color: white;
+  background-color: #534741;
+  padding: 0px;
+  border-radius: 8px;
+  border-color: #534741;
+  border-style: solid;
+  margin: 10px;
 
- .find-group-text {
-   padding: 5px;
-   color: #4682b4;
-   font-size: 60px;
-   line-height: 60px;
-   font-family: "helvetica";
-   padding-bottom: 5%;
- }
+}
 
- .or-text {
-   color: #4682b4;
- }
+.find-group-text {
+  padding-top: 8%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 50px;
+  padding-bottom:50px;
+}
 
- .demo-card-event > .everything_else > .mdl-card__title > .mdl-card__title-text {
-   font-family: 'Lobster', cursive;
+.find-group-block {
+  height: 75%;
+  margin-left: 20px;
+  margin-top: 50px;
+}
 
-   color: #4682b4;
-   font-size: 70px;
-   padding-left: 25%;
-   padding-top: 0%;
-   padding-bottom: 0%;
-   align-items: center;
-   justify-content: center;
- }
- .demo-card-event > .mdl-card__title > h4 {
-   padding-left: 0%;
-   padding-top: 2%;
-   padding-bottom: 0px;
- }
+.chorus-text-fg {
+    font-family: 'Lobster', cursive;
+    padding-left: 20px;
+}
+.logout-btn-fg {
+  padding-bottom: 20px;
+}
 
- .demo-card-event > .mdl-card__actions {
-   display: flex;
-   box-sizing:border-box;
-   align-items: center;
-   padding-right: 100%;
- }
- .demo-card-event > .mdl-card__actions > .material-icons {
-   padding-right: 0%;
-   padding-left: 0%;
- }
- .demo-card-event > .mdl-card__title,
- .demo-card-event > .mdl-card__actions,
- .demo-card-event > .mdl-card__actions > .mdl-button {
-   padding-bottom: 1%;
-   color: #4682b4;
- }
 
- .demo-card-event > .everything_else {
-   padding-left: 0%;
-   padding-right: 0%;
-   text-align: center;
-   vertical-align: middle;
- }
-
- .person-icon {
-   font-weight: 100;
- }
-
- .chore-text {
-   padding-left: 10px;
-   padding-right: 10px;
- }
-
- .register {
-   padding-bottom: 4%;
-   color: #FFFFFF;
- }
-
- .login-input {
-   padding:20px;
-   padding-top: 0px;
-   padding-bottom: 0px;
-   margin:0, auto;
- }
-
- .login {
-   padding-bottom: 1%;
-   color: #FFFFFF;
- }
-
- .no-padding {
-   padding-left: 35%;
-   padding-right: 0%;
-   margin:0, auto;
- }
 
 /*
  * Dashboard page
  */
+
+  .person-icon {
+    font-weight: 100;
+  }
+
+  .chore-text {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
 
  #cancel:hover {
 

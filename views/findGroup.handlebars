@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <script src="/js/chorus.js" type"text/javascript"></script>
   <title> Chorus-Groups </title>
 </head>
-<body class="login-body">
+<body class="login-body mdl-grid fg-body">
   <div  class="currUserId" style="display: none;">{{curr-user-id}}</div>
   <div  class="currUserName" style="display: none;">{{curr-user-name}}</div>
   <!-- Login card -->
-  <div class="demo-card-event mdl-card mdl-shadow--2dp">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col find-group-block" style="background-color:rgba(256,256,256, 0.8); border-radius: 10px; margin-top:5%; margin-left:5%; margin-right:5%;">
     <div class ="everything_else">
       <div class="mdl-card__title">
-        <h1 class="title-text chorus-login">Chorus</h1>
+        <h1 class="chorus-text-fg">Chorus</h1>
       </div>
 
       <div class="find-group-text">Find Group</div>
@@ -37,7 +39,7 @@
       <br>
       <div class= "login">
         <!-- Log-in button -->
-        <button id="logout-group" class="mdl-button mdl-js-button mdl-button--raised">
+        <button id="logout-group" class="logout-btn-fg mdl-button mdl-js-button mdl-button--raised">
           Log Out
         </button>
       </div>
