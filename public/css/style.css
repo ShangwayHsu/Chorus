@@ -1,11 +1,15 @@
 :root {
-  --nav-bar-bg: #AD5C5C;
-  --dash-body-bg: #fffff7;
-  --mychores-btn-bg: #FFCA28;
+
+
+  --nav-bar-bg: #546E7A;
+  --dash-body-bg: #FFFFF7;
+  --mychores-btn-bg: #664444;
   --complete-table-bg: #78909C;
-  --incomplete-table-bg: #EF5350;
-  --add-chore-btn-bg: #CD5C5C;
+  --incomplete-table-bg: #DAA520;
+  --add-chore-btn-bg: #66CCCC;
+
 }
+
 * {
   font-family: 'Lato', sans-serif;
 }
