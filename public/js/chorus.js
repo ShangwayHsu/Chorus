@@ -694,7 +694,7 @@ function showMyChores(options, groupId) {
   $('<h6 style="text-align:center;">' + "Check off chores to mark them as complete" + '</6>').appendTo(content);
 
   if (options.chores != null) {
-    var myChores = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color--green-500 mdl-color-text--white "><td><h5 class="todo-table-title">Todo</h5></td></tr></thead>';
+    var myChores = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="checklist-table mdl-color-text--white "><td><h5 class="todo-table-title">Todo</h5></td></tr></thead>';
     myChores += '<tbody>';
     var choreCount = 0;
     for (var i = 0; i < options.chores.length; i++) {
@@ -1149,7 +1149,7 @@ function showEditSingleChore(options) {
 
         groupMembers = groupMembers[0].members;
 
-        var myChores = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color--green-500 mdl-color-text--white "><td><h5 class="todo-table-title">Members</h5></td></tr></thead>';
+        var myChores = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color-text--white checklist-table"><td><h5 class="todo-table-title">Members</h5></td></tr></thead>';
         myChores += '<tbody>';
         var choreCount = 0;
         for (var i = 0; i < groupMembers.length; i++) {
@@ -1401,7 +1401,7 @@ function showAddChore(options) {
     hideLoading();
     groupMembers = members[0].members;
 
-    var membersList = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="mdl-color--green-500 mdl-color-text--white "><td><h5 class="todo-table-title">Members</h5></td></tr></thead>';
+    var membersList = '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp chore-entry"><thead><tr class="checklist-table mdl-color-text--white "><td><h5 class="todo-table-title">Members</h5></td></tr></thead>';
     membersList += '<tbody>';
     var memberCount = 0;
     for (var i = 0; i < groupMembers.length; i++) {
