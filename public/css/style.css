@@ -131,7 +131,7 @@ button:focus {
    background-color: #DAA520;
  }
  .mdl-card.chore-box {
-   border-radius: 20px;
+   border-radius: 25px;
  }
  header.nav-bar {
    background-color: var(--nav-bar-bg);
@@ -155,11 +155,11 @@ button:focus {
     font-weight: 400;
   }
 
- #cancel:hover {
+#cancel:hover {
 
-    cursor: pointer;
+  cursor: pointer;
 
- }
+}
 .group-btn {
 }
 #float-add-chore {
@@ -343,6 +343,7 @@ button:focus {
     margin-bottom: 1%;
     z-index: 99999;
     padding: 10px 10px 30px 30px;
+    border-radius: 25px;
 
 }
 
