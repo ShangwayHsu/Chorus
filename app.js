@@ -80,7 +80,7 @@ app.get('/findGroup', findGroup.view);
 
 //----------- Weekly chore reset ------------
 
-var sundayMidnightReset = schedule.scheduleJob('0 0 0 * * 1', function(){
+/*var sundayMidnightReset = schedule.scheduleJob('0 0 0 * * 1', function(){
   function resetAllGroupChores(groupId) {
       HousingGroup.resetChoreComplete(groupId, function(err, data) {
         if (err) {throw err;}
@@ -120,6 +120,7 @@ var sundayMidnightReset = schedule.scheduleJob('0 0 0 * * 1', function(){
     }
   });
 });
+*/
 //----------- Email route -----------
 app.post('/bruhh', sendBruhNotification);
 function sendBruhNotification(req, res) {
