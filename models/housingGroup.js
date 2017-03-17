@@ -76,7 +76,12 @@ module.exports.addChore = function(choreId, choreName, groupId, members, callbac
   for (var i = 0; i < members.length; i++){
     var name = members[i].name.split(' ');
 
-    shorts.push({short_name: name[0].substring(0,1).toUpperCase() + name[1].substring(0,1).toUpperCase()});
+    var short = name[0].substring(0,1).toUpperCase();
+    if (name.length == 2) {
+      short += name[1].substring(0,1).toUpperCase();
+    }
+
+    shorts.push({short_name: short});
   }
   console.log(shorts);
   var newChore = {chore_id: choreId, chore_name: choreName, completed: false, short_names: shorts};
