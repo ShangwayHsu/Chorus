@@ -913,7 +913,6 @@ function showConfirmDelete(options) {
   $("#c-delete").click(function(e) {
     yesDeleteChore(options.choreId, options.groupId);
     hideDialog(dialog);
-    location.reload(true);
     window.location.href = "/";
   });
   componentHandler.upgradeDom();
