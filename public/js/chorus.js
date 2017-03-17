@@ -884,7 +884,7 @@ function showConfirmDelete(options) {
   noButton.appendTo(buttonBar);
   buttonBar.appendTo(content);
   function yesDeleteChore(choreId, groupId) {
-
+    showLoading();
     $.get('/api/chores/chore=' + choreId, function(chore) {
       chore = chore[0]
 
@@ -903,7 +903,7 @@ function showConfirmDelete(options) {
       type: 'DELETE'});
     }
   }).done(function( data ) {
-    window.location.href = "/";
+    setTimeout(function(){ hideLoading(); window.location.href = "/"; }, 1200);
 
   });
   }
