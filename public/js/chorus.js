@@ -354,7 +354,7 @@ function showJoinGroup(options) {
 
       // go to dashboard
       window.location.href = "/";
-    }).fail(function() {console.log("Invalid Group ID");});
+    }).fail(function() { showFormError({title: "Error", text: "Invalid Group Id"})});
 
   });
 
