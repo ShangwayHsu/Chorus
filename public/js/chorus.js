@@ -902,6 +902,9 @@ function showConfirmDelete(options) {
       $.ajax({url: '/api/users/delete-chore/user=' + assignedTo[x].user_id + '&chore=' + choreId,
       type: 'DELETE'});
     }
+  }).done(function( data ) {
+    window.location.href = "/";
+
   });
   }
 
