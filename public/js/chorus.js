@@ -903,7 +903,7 @@ function showConfirmDelete(options) {
       type: 'DELETE'});
     }
   }).done(function( data ) {
-    setTimeout(function(){ hideLoading(); window.location.href = "/"; }, 1200);
+    setTimeout(function(){ hideLoading(); window.location.href = "/"; }, 1000);
 
   });
   }
